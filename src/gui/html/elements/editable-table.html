@@ -1,22 +1,23 @@
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../../../bower_components/iron-icons/iron-icons.html">
+
+<link rel="import" href="../../../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../../../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../../../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../../../bower_components/core-icons/core-icons.html">
-<link rel="import" href="../../../../bower_components/core-tooltip/core-tooltip.html">
+<link rel="import" href="../../../../bower_components/paper-tooltip/paper-tooltip.html">
 
 <link rel="import" href="loot-dropdown-menu.html">
-<link rel="import" href="loot-validated-input.html">
 
 <template id="fileRow">
     <tr>
-        <td><loot-validated-input error="A filename is required." class="name" required></loot-validated-input></td>
+        <td><paper-input error="A filename is required." class="name" required></paper-input></td>
         <td><paper-input class="display"></paper-input></td>
         <td><paper-input class="condition"></paper-input></td>
         <td>
-            <core-tooltip label="Delete Row" noarrow position="left">
+            <paper-tooltip label="Delete Row" noarrow position="left">
                 <paper-icon-button class="delete" icon="delete"></paper-icon-button>
-            </core-tooltip>
+            </paper-tooltip>
         </td>
     </tr>
 </template>
@@ -29,7 +30,7 @@
                 <paper-item value="error" noink>Error</paper-item>
             </loot-dropdown-menu>
         </td>
-        <td><loot-validated-input error="A content string is required." class="content" required></loot-validated-input></td>
+        <td><paper-input error="A content string is required." class="content" required></paper-input></td>
         <td><paper-input class="condition"></paper-input></td>
         <td>
             <loot-dropdown-menu class="language" halign="right">
@@ -37,9 +38,9 @@
             </loot-dropdown-menu>
         </td>
         <td>
-            <core-tooltip label="Delete Row" noarrow position="left">
+            <paper-tooltip label="Delete Row" noarrow position="left">
                 <paper-icon-button class="delete" icon="delete"></paper-icon-button>
-            </core-tooltip>
+            </paper-tooltip>
         </td>
     </tr>
 </template>
@@ -51,67 +52,67 @@
                 <paper-item value="remove" noink>Remove</paper-item>
             </loot-dropdown-menu>
         </td>
-        <td><loot-validated-input error="A name is required." class="name" required></loot-validated-input></td>
+        <td><paper-input error="A name is required." class="name" required></paper-input></td>
         <td><paper-input class="condition"></paper-input></td>
         <td>
-            <core-tooltip label="Delete Row" noarrow position="left">
+            <paper-tooltip label="Delete Row" noarrow position="left">
                 <paper-icon-button class="delete" icon="delete"></paper-icon-button>
-            </core-tooltip>
+            </paper-tooltip>
         </td>
     </tr>
 </template>
 <template id="dirtyInfoRow">
     <tr>
-        <td><loot-validated-input error="A CRC is required." class="crc" maxlength="8" minlength="8" pattern="[0-9A-Fa-f]{8}" required></loot-validated-input></td>
-        <td><loot-validated-input error="Values must be integers." class="itm" type="number" min="0" step="1" value="0"></loot-validated-input></td>
-        <td><loot-validated-input error="Values must be integers." class="udr" type="number" min="0" step="1" value="0"></loot-validated-input></td>
-        <td><loot-validated-input error="Values must be integers." class="nav" type="number" min="0" step="1" value="0"></loot-validated-input></td>
-        <td><loot-validated-input error="A utility name is required." class="util" required></loot-validated-input></td>
+        <td><paper-input error="A CRC is required." class="crc" maxlength="8" minlength="8" pattern="[0-9A-Fa-f]{8}" required></paper-input></td>
+        <td><paper-input error="Values must be integers." class="itm" type="number" min="0" step="1" value="0"></paper-input></td>
+        <td><paper-input error="Values must be integers." class="udr" type="number" min="0" step="1" value="0"></paper-input></td>
+        <td><paper-input error="Values must be integers." class="nav" type="number" min="0" step="1" value="0"></paper-input></td>
+        <td><paper-input error="A utility name is required." class="util" required></paper-input></td>
         <td>
-            <core-tooltip label="Delete Row" noarrow position="left">
+            <paper-tooltip label="Delete Row" noarrow position="left">
                 <paper-icon-button class="delete" icon="delete"></paper-icon-button>
-            </core-tooltip>
+            </paper-tooltip>
         </td>
     </tr>
 </template>
 <template id="locationRow">
     <tr>
-        <td><loot-validated-input error="A link is required." class="link" required></loot-validated-input></td>
+        <td><paper-input error="A link is required." class="link" required></paper-input></td>
         <td><paper-input class="name"></paper-input></td>
         <td>
-            <core-tooltip label="Delete Row" noarrow position="left">
+            <paper-tooltip label="Delete Row" noarrow position="left">
                 <paper-icon-button class="delete" icon="delete"></paper-icon-button>
-            </core-tooltip>
+            </paper-tooltip>
         </td>
     </tr>
 </template>
 <template id="gameRow">
     <tr>
-        <td><loot-validated-input error="A name is required." class="name" required></loot-validated-input></td>
+        <td><paper-input error="A name is required." class="name" required></paper-input></td>
         <td>
             <loot-dropdown-menu class="type">
                 <!-- Game <option> elements go here. -->
             </loot-dropdown-menu>
         </td>
-        <td><loot-validated-input error="A folder is required." class="folder" required></loot-validated-input></td>
+        <td><paper-input error="A folder is required." class="folder" required></paper-input></td>
         <td><paper-input class="master"></paper-input></td>
         <td><paper-input class="repo"></paper-input></td>
         <td><paper-input class="branch"></paper-input></td>
         <td><paper-input class="path"></paper-input></td>
         <td><paper-input class="registry"></paper-input></td>
         <td>
-            <core-tooltip label="Delete Row" noarrow position="left">
+            <paper-tooltip label="Delete Row" noarrow position="left">
                 <paper-icon-button class="delete" icon="delete"></paper-icon-button>
-            </core-tooltip>
+            </paper-tooltip>
         </td>
     </tr>
 </template>
 <template id="newRow">
     <tr>
         <td>
-            <core-tooltip label="Add New Row" noarrow position="right">
+            <paper-tooltip label="Add New Row" noarrow position="right">
                 <paper-icon-button icon="add"></paper-icon-button>
-            </core-tooltip>
+            </paper-tooltip>
         </td>
         <td></td>
     </tr>
@@ -180,7 +181,7 @@ html /deep/ table[is=editable-table] paper-icon-button[icon=add]:hover {
                     if (trash.length > 0 && (!writableOnly || !trash[0].disabled)) {
                         var rowData = {};
 
-                        var inputs = rows[i].querySelectorAll('paper-input, loot-validated-input, loot-dropdown-menu');
+                        var inputs = rows[i].querySelectorAll('paper-input, paper-input, loot-dropdown-menu');
                         for (var j = 0; j < inputs.length; ++j) {
                             rowData[inputs[j].className] = inputs[j].value;
                         }
@@ -208,7 +209,7 @@ html /deep/ table[is=editable-table] paper-icon-button[icon=add]:hover {
                     trash.disabled = readOnly;
                 }
 
-                var inputs = row.querySelectorAll('paper-input, loot-validated-input, loot-dropdown-menu');
+                var inputs = row.querySelectorAll('paper-input, paper-input, loot-dropdown-menu');
                 for (var i = 0; i < inputs.length; ++i) {
                     if (classMask) {
                         for (var j = 0; j < classMask.length; ++j) {

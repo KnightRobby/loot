@@ -18,32 +18,29 @@
     <link rel="import" href="elements/loot-plugin-card.html">
     <link rel="import" href="elements/loot-search.html">
 
-    <link rel="import" href="../../../bower_components/core-toolbar/core-toolbar.html">
-    <link rel="import" href="../../../bower_components/core-icon/core-icon.html">
-    <link rel="import" href="../../../bower_components/core-icons/core-icons.html">
-    <link rel="import" href="../../../bower_components/core-tooltip/core-tooltip.html">
-    <link rel="import" href="../../../bower_components/core-drawer-panel/core-drawer-panel.html">
-    <link rel="import" href="../../../bower_components/core-pages/core-pages.html">
-    <link rel="import" href="../../../bower_components/core-list/core-list.html">
-    <link rel="import" href="../../../bower_components/core-label/core-label.html">
+    <link rel="import" href="../../../bower_components/iron-icon/iron-icon.html">
+    <link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
+    <link rel="import" href="../../../bower_components/iron-list/iron-list.html">
+    <link rel="import" href="../../../bower_components/iron-pages/iron-pages.html">
 
-    <link rel="import" href="../../../bower_components/paper-menu-button/paper-menu-button.html">
-    <link rel="import" href="../../../bower_components/paper-item/paper-item.html">
-    <link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
     <link rel="import" href="../../../bower_components/paper-button/paper-button.html">
-    <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
-    <link rel="import" href="../../../bower_components/paper-tabs/paper-tabs.html">
     <link rel="import" href="../../../bower_components/paper-checkbox/paper-checkbox.html">
     <link rel="import" href="../../../bower_components/paper-dialog/paper-dialog.html">
-    <link rel="import" href="../../../bower_components/paper-dialog/paper-dialog-transition.html">
-    <link rel="import" href="../../../bower_components/paper-dropdown/paper-dropdown.html">
+    <link rel="import" href="../../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
+    <link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+    <link rel="import" href="../../../bower_components/paper-item/paper-item.html">
+    <link rel="import" href="../../../bower_components/paper-menu-button/paper-menu-button.html">
     <link rel="import" href="../../../bower_components/paper-progress/paper-progress.html">
+    <link rel="import" href="../../../bower_components/paper-tabs/paper-tabs.html">
     <link rel="import" href="../../../bower_components/paper-toast/paper-toast.html">
     <link rel="import" href="../../../bower_components/paper-toggle-button/paper-toggle-button.html">
+    <link rel="import" href="../../../bower_components/paper-toolbar/paper-toolbar.html">
+    <link rel="import" href="../../../bower_components/paper-tooltip/paper-tooltip.html">
 </head>
 <!-- oncontextmenu attribute disables the right-click menu. -->
 <body oncontextmenu="return false" unresolved fullbleed vertical layout >
-    <core-drawer-panel id="container" drawerWidth="33%">
+    <paper-drawer-panel id="container" drawerWidth="33%">
         <div drawer vertical layout>
             <div layout horizontal end>
                 <paper-tabs id="sidebarTabs" selected="cardsNav" valueattr="data-id" flex>
@@ -51,15 +48,15 @@
                     <paper-tab data-id="filters">Filters</paper-tab>
                 </paper-tabs>
             </div>
-            <core-pages selected="cardsNav" valueattr="id" flex>
-                <core-list  id="cardsNav" class="tab-content" flex>
+            <iron-pages selected="cardsNav" valueattr="id" flex>
+                <iron-list  id="cardsNav" class="tab-content" flex>
                     <template>
                         <loot-plugin-item data-id="{{model.id}}" data="{{model}}" data-index="{{index}}">
                             {{model.name}}
                         </loot-plugin-item>
                     </template>
                     <!-- Generated <loot-plugin-item> elements go here. -->
-                </core-list>
+                </iron-list>
                 <div id="filters" class="tab-content" layout vertical flex>
                     <paper-checkbox id="hideVersionNumbers" data-class="version" label="Hide version numbers"></paper-checkbox>
                     <paper-checkbox id="hideCRCs" data-class="crc" label="Hide CRCs"></paper-checkbox>
@@ -69,9 +66,9 @@
                     <paper-checkbox id="hideAllPluginMessages" label="Hide all plugin messages"></paper-checkbox>
                     <paper-checkbox id="hideInactivePlugins" label="Hide inactive plugins"></paper-checkbox>
                     <paper-checkbox id="hideMessagelessPlugins" label="Hide messageless plugins"></paper-checkbox>
-                    <core-tooltip label="Press Enter or click outside the input to set the filter." position="bottom" noarrow>
+                    <paper-tooltip label="Press Enter or click outside the input to set the filter." position="bottom" noarrow>
                         <paper-input id="contentFilter" label="Filter content"></paper-input>
-                    </core-tooltip>
+                    </paper-tootip>
                     <div flex></div>
                     <div class="divider"></div>
                     <div center horizontal layout>
@@ -83,80 +80,80 @@
                         <div><span id="hiddenMessageNo">0</span> / <span id="filterTotalMessageNo">0</span></div>
                     </div>
                 </div>
-            </core-pages>
+            </iron-pages>
         </div>
         <div main layout vertical>
-            <core-toolbar id="mainToolbar">
+            <paper-toolbar id="mainToolbar">
                 <paper-icon-button icon="menu" id="drawerToggle" core-drawer-toggle></paper-icon-button>
-                <core-tooltip label="Jump To General Information" noarrow>
+                <paper-tooltip label="Jump To General Information" noarrow>
                     <paper-icon-button id="jumpToGeneralInfo" icon="home"></paper-icon-button>
-                </core-tooltip>
+                </paper-tootip>
                 <loot-dropdown-menu id="gameMenu" class="title dark">
                     <!-- Generated game <li> elements go here. -->
                 </loot-dropdown-menu>
                 <span flex></span>
-                <core-tooltip label="Sort Plugins" noarrow>
+                <paper-tooltip label="Sort Plugins" noarrow>
                     <paper-icon-button id="sortButton" icon="sort"></paper-icon-button>
-                </core-tooltip>
-                <core-tooltip label="Update Masterlist" noarrow>
+                </paper-tootip>
+                <paper-tooltip label="Update Masterlist" noarrow>
                     <paper-icon-button id="updateMasterlistButton" icon="file-download"></paper-icon-button>
-                </core-tooltip>
+                </paper-tootip>
                 <paper-button id="applySortButton" class="hidden">Apply</paper-button>
                 <paper-button id="cancelSortButton" class="hidden">Cancel</paper-button>
-                <core-tooltip label="Search Cards" noarrow>
+                <paper-tooltip label="Search Cards" noarrow>
                     <paper-icon-button id="showSearch" icon="search"></paper-icon-button>
-                </core-tooltip>
+                </paper-tootip>
                 <paper-menu-button>
                     <paper-icon-button icon="more-vert"></paper-icon-button>
                     <paper-dropdown class="dropdown" halign="right">
-                        <core-menu class="menu">
+                        <paper-menu class="menu">
                             <paper-item id="redatePluginsButton" noink>
-                                <core-icon icon="today"></core-icon>
+                                <iron-icon icon="today"></iron-icon>
                                 <span>Redate Plugins</span>
                             </paper-item>
                             <paper-item id="wipeUserlistButton" noink>
-                                <core-icon icon="delete"></core-icon>
+                                <iron-icon icon="delete"></iron-icon>
                                 <span>Clear All User Metadata</span>
                             </paper-item>
                             <paper-item id="copyLoadOrderButton" noink>
-                                <core-icon icon="receipt"></core-icon>
+                                <iron-icon icon="receipt"></iron-icon>
                                 <span>Copy Load Order</span>
                             </paper-item>
                             <paper-item id="copyContentButton" noink>
-                                <core-icon icon="content-copy"></core-icon>
+                                <iron-icon icon="content-copy"></iron-icon>
                                 <span>Copy Content</span>
                             </paper-item>
                             <paper-item id="refreshContentButton" noink>
-                                <core-icon icon="refresh"></core-icon>
+                                <iron-icon icon="refresh"></iron-icon>
                                 <span>Refresh Content</span>
                             </paper-item>
                             <div class="divider"></div>
                             <paper-item id="settingsButton" noink>
-                                <core-icon icon="settings"></core-icon>
+                                <iron-icon icon="settings"></iron-icon>
                                 <span>Settings</span>
                             </paper-item>
                             <div class="divider"></div>
                             <paper-item id="helpButton" noink>
-                                <core-icon icon="book"></core-icon>
+                                <iron-icon icon="book"></iron-icon>
                                 <span>View Documentation</span>
                             </paper-item>
                             <paper-item id="openLogButton" noink>
-                                <core-icon icon="folder"></core-icon>
+                                <iron-icon icon="folder"></iron-icon>
                                 <span>Open Debug Log Location</span>
                             </paper-item>
                             <paper-item id="aboutButton" noink>
-                                <core-icon icon="help"></core-icon>
+                                <iron-icon icon="help"></iron-icon>
                                 <span>About</span>
                             </paper-item>
                             <div class="divider"></div>
                             <paper-item id="quitButton" noink>
-                                <core-icon icon="close"></core-icon>
+                                <iron-icon icon="close"></iron-icon>
                                 <span>Quit</span>
                             </paper-item>
-                        </core-menu>
+                        </paper-menu>
                     </paper-dropdown>
                 </paper-menu-button>
-            </core-toolbar>
+            </paper-toolbar>
             <loot-search id="searchBar" searchTarget="pluginCardList"></loot-search>
             <div id="main" flex layout vertical>
                 <section id="summary">
@@ -209,7 +206,7 @@
                         <!-- Generated message <li> elements go here. -->
                     </ul>
                 </section>
-                <core-list id="pluginCardList" flex>
+                <iron-list id="pluginCardList" flex>
                     <template>
                         <loot-plugin-card data="{{model}}" id="{{model.id}}" data-active="{{model.isActive}}" data-empty="{{model.isEmpty}}" data-bsa="{{model.loadsBSA}}" data-master="{{model.isMaster}}">
                             <h1>{{model.name}}</h1>
@@ -221,10 +218,10 @@
                         </loot-plugin-card>
                     </template>
                     <!-- Generated <loot-plugin-card> elements go here. -->
-                </core-list>
+                </iron-list>
             </div>
         </div>
-    </core-drawer-panel>
+    </paper-drawer-panel>
     <paper-toast id="toast"></paper-toast>
     <loot-dialog id="progressDialog">
         <paper-progress indeterminate></paper-progress>
@@ -257,23 +254,23 @@
                 </loot-dropdown-menu>
             </div>
             <div center horizontal layout>
-                <core-tooltip label="Language changes will be applied after LOOT is restarted." noarrow>
+                <paper-tooltip label="Language changes will be applied after LOOT is restarted." noarrow>
                     Language
-                </core-tooltip>
+                </paper-tootip>
                 <loot-dropdown-menu id="languageSelect">
                     <!-- Language <option> elements go here. -->
                 </loot-dropdown-menu>
             </div>
-            <core-tooltip label="The output is logged to the LOOTDebugLog.txt file." noarrow>
-                <core-label center horizontal layout>
+            <paper-tooltip label="The output is logged to the LOOTDebugLog.txt file." noarrow>
+                <div center horizontal layout>
                     <div>Enable debug logging</div>
                     <paper-toggle-button id="enableDebugLogging" for></paper-toggle-button>
-                </core-label>
-            </core-tooltip>
-            <core-label center horizontal layout>
+                </div>
+            </paper-tootip>
+            <div center horizontal layout>
                 <div>Update masterlist before sorting</div>
                 <paper-toggle-button id="updateMasterlist" for></paper-toggle-button>
-            </core-label>
+            </div>
         </div>
         <table is="editable-table" id="gameTable" data-template="gameRow">
             <thead>
@@ -300,7 +297,7 @@
     <loot-dialog id="firstRun" heading="First-Time Tips">
         <p>This appears to be the first time you have run LOOT v<span id="firstTimeLootVersion"></span>. Here are some tips to help you get started with the interface.</p>
         <ul>
-            <li>Click <core-icon icon="more-vert"></core-icon> buttons to open menus.</li>
+            <li>Click <iron-icon icon="more-vert"></iron-icon> buttons to open menus.</li>
             <li>As well as messages, LOOT displays plugin <span class="version">version numbers</span>, <span class="crc">CRCs</span> and Bash Tag suggestions for <span class="tag add">addition</span> and <span class="tag remove">removal</span>.</li>
             <li>CRCs are only displayed after plugins have been loaded, either by conflict filtering, or by sorting.</li>
             <li>Double-click a plugin in the sidebar to quickly open its metadata editor. Multiple metadata editors can be opened at once.</li>

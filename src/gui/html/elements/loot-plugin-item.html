@@ -1,8 +1,10 @@
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../../../bower_components/iron-icons/iron-icons.html">
+
 <link rel="import" href="../../../../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../../../../bower_components/core-tooltip/core-tooltip.html">
-<link rel="import" href="../../../../bower_components/core-icon/core-icon.html">
-<link rel="import" href="../../../../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../../../../bower_components/paper-tooltip/paper-tooltip.html">
 
 <polymer-element name="loot-plugin-item" attributes="priorityText data">
     <template>
@@ -118,20 +120,20 @@
             <div id="text" flex>
                 <div id="primary"><content></content></div>
                 <div id="secondary" layout horizontal center>
-                    <core-tooltip label="Global Priority" noarrow position="right">
-                        <core-icon icon="star"></core-icon>
-                    </core-tooltip>
+                    <paper-tooltip label="Global Priority" noarrow position="right">
+                        <iron-icon icon="star"></iron-icon>
+                    </paper-tooltip>
                     <div id="priority"></div>
                 </div>
             </div>
-            <core-tooltip id="iconTooltip" noarrow position="left">
+            <paper-tooltip id="iconTooltip" noarrow position="left">
                 <div tip id="hasUserEditsTooltip">Has User Metadata</div>
                 <div tip id="editorIsOpenTooltip">Editor Is Open</div>
                 <div id="flipper">
-                    <core-icon id="hasUserEdits" icon="account-circle"></core-icon>
-                    <core-icon id="editorIsOpen" icon="create"></core-icon>
+                    <iron-icon id="hasUserEdits" icon="account-circle"></iron-icon>
+                    <iron-icon id="editorIsOpen" icon="create"></iron-icon>
                 </div>
-            </core-tooltip>
+            </paper-tooltip>
         </paper-item>
     </template>
     <script>

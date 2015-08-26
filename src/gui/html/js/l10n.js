@@ -147,7 +147,7 @@
             } else {
                 fileRow = document.querySelector('#fileRow').content;
             }
-            fileRow.querySelector('loot-validated-input').setAttribute('error', l10n.translate("A filename is required.").fetch());
+            fileRow.querySelector('paper-input').setAttribute('error', l10n.translate("A filename is required.").fetch());
             fileRow.querySelector('core-tooltip').setAttribute('label', l10n.translate("Delete Row").fetch());
 
             /* Message row template */
@@ -160,7 +160,7 @@
             messageRow.querySelector('.type').children[0].textContent = l10n.translate("Note").fetch();
             messageRow.querySelector('.type').children[1].textContent = l10n.translate("Warning").fetch();
             messageRow.querySelector('.type').children[2].textContent = l10n.translate("Error").fetch();
-            messageRow.querySelector('loot-validated-input').setAttribute('error', l10n.translate("A content string is required.").fetch());
+            messageRow.querySelector('paper-input').setAttribute('error', l10n.translate("A content string is required.").fetch());
             messageRow.querySelector('core-tooltip').setAttribute('label', l10n.translate("Delete Row").fetch());
 
             /* Tag row template */
@@ -172,7 +172,7 @@
             }
             tagRow.querySelector('.type').children[0].textContent = l10n.translate("Add").fetch();
             tagRow.querySelector('.type').children[1].textContent = l10n.translate("Remove").fetch();
-            tagRow.querySelector('loot-validated-input').setAttribute('error', l10n.translate("A name is required.").fetch());
+            tagRow.querySelector('paper-input').setAttribute('error', l10n.translate("A name is required.").fetch());
             tagRow.querySelector('core-tooltip').setAttribute('label', l10n.translate("Delete Row").fetch());
 
             /* Dirty Info row template */
@@ -182,11 +182,11 @@
             } else {
                 dirtyInfoRow = document.querySelector('#dirtyInfoRow').content;
             }
-            dirtyInfoRow.querySelector('loot-validated-input.crc').setAttribute('error', l10n.translate("A CRC is required.").fetch());
-            dirtyInfoRow.querySelector('loot-validated-input.itm').setAttribute('error', l10n.translate("Values must be integers.").fetch());
-            dirtyInfoRow.querySelector('loot-validated-input.udr').setAttribute('error', l10n.translate("Values must be integers.").fetch());
-            dirtyInfoRow.querySelector('loot-validated-input.nav').setAttribute('error', l10n.translate("Values must be integers.").fetch());
-            dirtyInfoRow.querySelector('loot-validated-input.util').setAttribute('error', l10n.translate("A utility name is required.").fetch());
+            dirtyInfoRow.querySelector('paper-input.crc').setAttribute('error', l10n.translate("A CRC is required.").fetch());
+            dirtyInfoRow.querySelector('paper-input.itm').setAttribute('error', l10n.translate("Values must be integers.").fetch());
+            dirtyInfoRow.querySelector('paper-input.udr').setAttribute('error', l10n.translate("Values must be integers.").fetch());
+            dirtyInfoRow.querySelector('paper-input.nav').setAttribute('error', l10n.translate("Values must be integers.").fetch());
+            dirtyInfoRow.querySelector('paper-input.util').setAttribute('error', l10n.translate("A utility name is required.").fetch());
             dirtyInfoRow.querySelector('core-tooltip').setAttribute('label', l10n.translate("Delete Row").fetch());
 
             /* Location row template */
@@ -196,7 +196,7 @@
             } else {
                 locationRow = document.querySelector('#locationRow').content;
             }
-            locationRow.querySelector('loot-validated-input').setAttribute('error', l10n.translate("A link is required.").fetch());
+            locationRow.querySelector('paper-input').setAttribute('error', l10n.translate("A link is required.").fetch());
             locationRow.querySelector('core-tooltip').setAttribute('label', l10n.translate("Delete Row").fetch());
 
             /* Game row template */
@@ -206,8 +206,8 @@
             } else {
                 gameRow = document.querySelector('#gameRow').content;
             }
-            gameRow.querySelector('loot-validated-input.name').setAttribute('error', l10n.translate("A name is required.").fetch());
-            gameRow.querySelector('loot-validated-input.folder').setAttribute('error', l10n.translate("A folder is required.").fetch());
+            gameRow.querySelector('paper-input.name').setAttribute('error', l10n.translate("A name is required.").fetch());
+            gameRow.querySelector('paper-input.folder').setAttribute('error', l10n.translate("A folder is required.").fetch());
             gameRow.querySelector('core-tooltip').setAttribute('label', l10n.translate("Delete Row").fetch());
 
             /* New row template */

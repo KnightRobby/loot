@@ -1,7 +1,8 @@
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../../bower_components/core-toolbar/core-toolbar.html">
-<link rel="import" href="../../../../bower_components/core-tooltip/core-tooltip.html">
+
 <link rel="import" href="../../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../../../bower_components/paper-tooltip/paper-tooltip.html">
 
 <!--
 searchTarget is the ID of the core-list element to search the elements of.
@@ -33,7 +34,7 @@ searchTarget is the ID of the core-list element to search the elements of.
             display: none;
         }
         </style>
-        <core-toolbar>
+        <paper-toolbar>
             <paper-input id="search" label="Search cards" flex></paper-input>
             <div id="count" class="caption hidden">
                 {{currentResult + 1}}/{{numResults}}
@@ -41,7 +42,7 @@ searchTarget is the ID of the core-list element to search the elements of.
             <paper-icon-button id="prev" icon="expand-less" disabled></paper-icon-button>
             <paper-icon-button id="next" icon="expand-more" disabled></paper-icon-button>
             <paper-icon-button id="close" icon="close"></paper-icon-button>
-        </core-toolbar>
+        </paper-toolbar>
     </template>
     <script>
     Polymer({

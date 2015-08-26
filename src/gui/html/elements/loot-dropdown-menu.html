@@ -8,9 +8,9 @@ it a <select>-like API. This means:
 -->
 
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../../bower_components/paper-dropdown/paper-dropdown.html">
+
 <link rel="import" href="../../../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
-<link rel="import" href="../../../../bower_components/core-menu/core-menu.html">
+<link rel="import" href="../../../../bower_components/paper-menu/paper-menu.html">
 
 <polymer-element name="loot-dropdown-menu" attributes="disabled halign value">
     <template>
@@ -49,11 +49,9 @@ it a <select>-like API. This means:
         }
         </style>
         <paper-dropdown-menu disabled?="{{disabled}}">
-            <paper-dropdown class="dropdown" halign="{{halign}}">
-                <core-menu id="menu" class="menu" valueattr="value" selected="{{value}}">
-                    <content></content>
-                </core-menu>
-            </paper-dropdown>
+            <paper-menu id="menu" class="menu" valueattr="value" selected="{{value}}">
+                <content></content>
+            </paper-menu>
         </paper-dropdown-menu>
     </template>
     <script>

@@ -7,18 +7,17 @@ loot-editor-close
 -->
 
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../../bower_components/core-toolbar/core-toolbar.html">
-<link rel="import" href="../../../../bower_components/core-tooltip/core-tooltip.html">
-<link rel="import" href="../../../../bower_components/core-icon/core-icon.html">
-<link rel="import" href="../../../../bower_components/core-icons/core-icons.html">
-<link rel="import" href="../../../../bower_components/core-selector/core-selector.html">
-<link rel="import" href="../../../../bower_components/core-label/core-label.html">
+
+<link rel="import" href="../../../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../../../bower_components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../../../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../../../bower_components/paper-input/paper-input-decorator.html">
-<link rel="import" href="../../../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../../../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../../../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../../../bower_components/paper-tooltip/paper-tooltip.html">
 
 <link rel="import" href="editable-table.html">
 
@@ -82,11 +81,11 @@ loot-editor-close
         #main > div > div:first-child {
             margin-right: 16px;
         }
-        #main paper-input-decorator {
+        #main paper-input {
             position: relative;
             top: -2px;
         }
-        core-selector > *:not(.core-selected) {
+        iron-pages > *:not(.core-selected) {
             display: none;
         }
 
@@ -104,7 +103,7 @@ loot-editor-close
         core-tooltip > core-icon {
             vertical-align: inherit !important;
         }
-        core-selector > * {
+        iron-pages > * {
             border: 4px solid #CFD4E9;
             border-top: none;
             background: white;
@@ -114,35 +113,35 @@ loot-editor-close
             padding: 16px;
             overflow: hidden;
         }
-        core-selector > div > table[is=editable-table] th {
+        iron-pages > div > table[is=editable-table] th {
             padding-top: 8px;
             padding-bottom: 8px;
         }
         </style>
-        <core-toolbar class="medium-tall">
-            <core-tooltip id="activeTick" label="Active Plugin" noarrow>
-                <core-icon icon="check"></core-icon>
-            </core-tooltip>
+        <paper-toolbar class="medium-tall">
+            <paper-tooltip id="activeTick" label="Active Plugin" noarrow>
+                <iron-icon icon="check"></iron-icon>
+            </paper-tooltip>
             <div flex>
                 <h1>{{data.name}}</h1>
                 <span id="version">{{data.version}}</span>
                 <span id="crc">{{data.computed.crc}}</span>
             </div>
-            <core-tooltip id="isMaster" label="Master File" noarrow>
-                <core-icon icon="loot-custom-icons:crown"></core-icon>
-            </core-tooltip>
-            <core-tooltip id="emptyPlugin" label="Empty Plugin" noarrow>
-                <core-icon icon="visibility-off"></core-icon>
-            </core-tooltip>
-            <core-tooltip id="loadsBSA" label="Loads BSA" noarrow>
-                <core-icon icon="attachment"></core-icon>
-            </core-tooltip>
-            <core-tooltip label="Apply" noarrow>
+            <paper-tooltip id="isMaster" label="Master File" noarrow>
+                <iron-icon icon="loot-custom-icons:crown"></iron-icon>
+            </paper-tooltip>
+            <paper-tooltip id="emptyPlugin" label="Empty Plugin" noarrow>
+                <iron-icon icon="visibility-off"></iron-icon>
+            </paper-tooltip>
+            <paper-tooltip id="loadsBSA" label="Loads BSA" noarrow>
+                <iron-icon icon="attachment"></iron-icon>
+            </paper-tooltip>
+            <paper-tooltip label="Apply" noarrow>
                 <paper-icon-button id="accept" icon="check"></paper-icon-button>
-            </core-tooltip>
-            <core-tooltip label="Cancel" noarrow>
+            </paper-tooltip>
+            <paper-tooltip label="Cancel" noarrow>
                 <paper-icon-button id="cancel" icon="close"</paper-icon-button>
-            </core-tooltip>
+            </paper-tooltip>
             <paper-tabs id="tableTabs" class="bottom fit" selected="main" valueattr="data-for" scrollable>
                 <paper-tab data-for="main">Main</paper-tab>
                 <paper-tab data-for="loadAfter">Load After</paper-tab>
@@ -153,24 +152,22 @@ loot-editor-close
                 <paper-tab data-for="dirty">Dirty Info</paper-tab>
                 <paper-tab data-for="locations">Locations</paper-tab>
             </paper-tabs>
-        </core-toolbar>
-        <core-selector selected="main" valueattr="id">
+        </paper-toolbar>
+        <iron-pages selected="main" valueattr="id">
             <div id="main">
-                <core-label center horizontal layout>
+                <div center horizontal layout>
                     <div flex>Enable Edits</div>
                     <paper-toggle-button id="enableEdits" for></paper-toggle-button>
-                </core-label>
-                <core-tooltip label="Compare against all other plugins, not just conflicting plugins." noarrow center horizontal layout>
-                    <core-label center horizontal layout flex>
+                </div>
+                <paper-tooltip label="Compare against all other plugins, not just conflicting plugins." noarrow center horizontal layout>
+                    <div center horizontal layout flex>
                         <div flex>Global Priority</div>
                         <paper-toggle-button id="globalPriority" for></paper-toggle-button>
-                    </core-label>
-                </core-tooltip>
+                    </div>
+                </paper-tooltip>
                 <div horizontal layout center>
                     <div>Priority Value</div>
-                    <paper-input-decorator>
-                        <input id="priorityValue" is="core-input" type="number" max="999999" min="-999999" step="1" preventInvalidInput>
-                    </paper-input-decorator>
+                    <paper-input id="priorityValue" is="core-input" type="number" max="999999" min="-999999" step="1" preventInvalidInput></paper-input>
                 </div>
             </div>
             <div id="loadAfter">
@@ -243,7 +240,7 @@ loot-editor-close
                     </tbody>
                 </table>
             </div>
-        </core-selector>
+        </iron-pages>
     </template>
     <script>
     Polymer({
@@ -369,7 +366,7 @@ loot-editor-close
         onHideEditor: function(evt) {
             /* First validate table inputs. */
             var isValid = true;
-            var inputs = evt.target.parentElement.parentElement.parentNode.querySelectorAll('loot-validated-input');
+            var inputs = evt.target.parentElement.parentElement.parentNode.querySelectorAll('paper-input');
             for (var i = 0; i < inputs.length; ++i) {
                 if (!inputs[i].checkValidity()) {
                     isValid = false;
