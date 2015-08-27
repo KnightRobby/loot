@@ -16,6 +16,17 @@ function mkdir(dir) {
     }
 }
 
+function buildFile(src_path, dest_path) {
+    var html = child_process.execFileSync('vulcanize.cmd', [
+        '--inline-scripts',
+        '--inline-css',
+        '--strip-comments',
+        src_path
+    ]);
+
+    fs.writeFile(dest_path, html);
+}
+
 function buildUI() {
     if (helpers.isMultiArch(root_path)) {
         var output_path = path.join(root_path, 'build', '32', 'Release', 'resources', 'ui');
@@ -27,15 +38,10 @@ function buildUI() {
     mkdir(output_path);
 
     // Vulcanize.
-    child_process.execFileSync('vulcanize.cmd', [
-        '--inline',
-        '--strip',
-        '--config',
-        path.join(root_path, 'scripts', 'vulcanize.config.json'),
-        '-o',
-        path.join(output_path, 'index.html'),
-        path.join(root_path, 'src', 'gui', 'html', 'index.html')
-    ]);
+    buildFile(
+        path.join(root_path, 'src', 'gui', 'html', 'index.html'),
+        path.join(output_path, 'index.html')
+    )
 }
 
 if (process.argv.length < 3) {
