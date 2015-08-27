@@ -24,7 +24,7 @@ function buildFile(src_path, dest_path) {
         src_path
     ]);
 
-    fs.writeFile(dest_path, html);
+    fs.writeFileSync(dest_path, html);
 }
 
 function buildUI() {
@@ -54,10 +54,45 @@ function buildUI() {
 
 }
 
-if (process.argv.length < 3) {
-    var root_path = '.';
-} else {
-    var root_path = process.argv[2];
+function buildTests() {
+    var src_path = path.join(root_path, 'src', 'tests', 'gui', 'html');
+    var dest_path = path.join(root_path, 'build', 'Release', 'html_tests');
+
+    // Makes sure output directory exists first.
+    mkdir(path.join(dest_path, 'elements'));
+
+    var tests = [
+        {
+            source: path.join('elements', 'test_loot-custom-icons.html'),
+            dest: path.join('elements', 'test_loot-custom-icons.html')
+        },
+    ];
+
+    tests.forEach(function(test){
+        buildFile(
+            path.join(src_path, test.source),
+            path.join(dest_path, test.dest)
+        );
+    });
 }
 
-buildUI();
+// Initialise from command line parameters.
+if (process.argv.length > 3) {
+    var root_path = process.argv[2];
+    var build_type = process.argv[3];
+} else if (process.argv.length > 2) {
+    var root_path = process.argv[2];
+    var build_type = 'ui';
+} else {
+    var root_path = '.';
+    var build_type = 'ui';
+}
+
+// Run the appropriate build(s).
+if (build_type == 'ui' || build_type == 'all') {
+    buildUI();
+}
+
+if (build_type == 'tests' || build_type == 'all') {
+    buildTests();
+}
