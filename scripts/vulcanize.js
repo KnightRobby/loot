@@ -41,7 +41,17 @@ function buildUI() {
     buildFile(
         path.join(root_path, 'src', 'gui', 'html', 'index.html'),
         path.join(output_path, 'index.html')
-    )
+    );
+
+    // Need to add theme CSS loader tag here because Vulcanize doesn't seem to
+    // exclude it properly if it's in the source file.
+    var html = fs.readFileSync(
+        path.join(output_path, 'index.html'),
+        {encoding: 'utf8'}
+    );
+    html.replace('</title>', '<link rel="stylesheet" href="css/theme.css" />');
+    fs.writeFileSync(path.join(output_path, 'index.html'), html);
+
 }
 
 if (process.argv.length < 3) {
