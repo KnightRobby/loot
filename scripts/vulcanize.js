@@ -70,6 +70,10 @@ function buildTests() {
             source: path.join('elements', 'test_loot-dropdown-menu.html'),
             dest: path.join('elements', 'test_loot-dropdown-menu.html')
         },
+        {
+            source: path.join('elements', 'test_editable-table.html'),
+            dest: path.join('elements', 'test_editable-table.html')
+        },
     ];
 
     tests.forEach(function(test){
