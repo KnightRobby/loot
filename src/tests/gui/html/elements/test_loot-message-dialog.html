@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <title>test_loot-message-dialog.html</title>
+
+    <script>
+    window.Polymer = window.Polymer || {};
+    window.Polymer.dom = 'shadow';
+    </script>
+    <link rel="import" href="../../../../../bower_components/polymer/polymer.html">
+
+    <link rel="import" href="../../../../../bower_components/paper-button/paper-button.html">
+
+    <link rel="import" href="../../../../gui/html/elements/loot-message-dialog.html">
+</head>
+
+<body>
+    <paper-button id="showMessageBox">Show Message Box</paper-button>
+    <paper-button id="showMessageDialog">Show Message Dialog</paper-button>
+
+    <script>
+    document.getElementById('showMessageBox').addEventListener('click', function(evt){
+        var dialog = document.createElement('loot-message-dialog');
+        dialog.setButtonText('OK');
+        dialog.showModal('Message Box', 'This is a message box.');
+        document.body.appendChild(dialog);
+    }, false);
+
+    document.getElementById('showMessageDialog').addEventListener('click', function(evt){
+        var dialog = document.createElement('loot-message-dialog');
+        dialog.setButtonText('OK', 'Cancel');
+        dialog.showModal('Message Dialog', 'This is a message dialog.', function(result){
+            alert(result);
+        });
+        document.body.appendChild(dialog);
+    }, false);
+    </script>
+</body>

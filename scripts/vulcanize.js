@@ -74,6 +74,10 @@ function buildTests() {
             source: path.join('elements', 'test_editable-table.html'),
             dest: path.join('elements', 'test_editable-table.html')
         },
+        {
+            source: path.join('elements', 'test_loot-message-dialog.html'),
+            dest: path.join('elements', 'test_loot-message-dialog.html')
+        },
     ];
 
     tests.forEach(function(test){

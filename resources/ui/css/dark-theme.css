@@ -59,7 +59,7 @@ html /deep/ paper-toggle-button::shadow [checked] .toggle-ink {
 
 /* Dark dropdown menus. */
 html /deep/ paper-dropdown::shadow #background,
-loot-dialog,
+paper-dialog,
 loot-message-dialog,
 div[drawer],
 #summary,
@@ -69,7 +69,7 @@ html /deep/ loot-plugin-editor::shadow core-selector > * {
 }
 
 /* Dark dialogs. */
-loot-dialog,
+paper-dialog,
 loot-message-dialog {
     color: white !important;
 }

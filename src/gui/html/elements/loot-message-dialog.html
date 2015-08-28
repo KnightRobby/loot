@@ -1,6 +1,6 @@
 <!--
-<loot-message-dialog> is an extension of <loot-dialog> that provides a
-simpler interface for supplying a dialog consisting of a:
+<loot-message-dialog> provides a simple interface for supplying a dialog
+consisting of a:
 
 * title
 * message
@@ -15,20 +15,34 @@ was pressed.
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../../bower_components/paper-dialog/paper-dialog.html">
 
-<link rel="import" href="loot-dialog.html">
+<link rel="import" href="../../../../bower_components/neon-animation/animations/fade-in-animation.html">
+<link rel="import" href="../../../../bower_components/neon-animation/animations/fade-out-animation.html">
 
-<polymer-element name="loot-message-dialog" extends="loot-dialog">
+<dom-module id="loot-message-dialog">
     <template>
-    <style>
-    :host {
-        max-width: 50%;
-    }
-    </style>
-    <shadow></shadow>
+        <style>
+        paper-dialog {
+            margin: 24px 40px;
+              max-width: 50%;
+
+            --paper-dialog-title: {
+                font-weight: 500;
+                font-size: 1.429rem;
+            };
+        }
+        </style>
+        <paper-dialog id="dialog"
+                      entry-animation="fade-in-animation"
+                      exit-animation="fade-out-animation"
+                      modal>
+            <content></content>
+        </paper-dialog>
     </template>
     <script>
     Polymer({
+        is: 'loot-message-dialog',
         closeCallback: undefined,
 
         setButtonText: function(accept, cancel) {
@@ -42,52 +56,59 @@ was pressed.
             }
         },
 
-        onButtonClick: function(evt) {
-            if (evt.target.parentElement.closeCallback) {
-                evt.target.parentElement.closeCallback(evt.target.classList.contains('accept'));
+        onClose: function(evt) {
+            if (evt.target.parentNode.host.closeCallback) {
+                evt.target.parentNode.host.closeCallback(evt.target.closingReason.confirmed == true);
             }
-            evt.target.parentElement.addEventListener('core-overlay-close-completed', function(evt){
-                evt.target.parentElement.removeChild(evt.target);
-            }, false);
+            evt.target.parentNode.host.parentElement.removeChild(evt.target.parentNode.host);
         },
 
         showModal: function(title, text, closeCallback) {
-            this.heading = title;
-            this.querySelector('.message').textContent = text;
+            this.getElementsByClassName('heading')[0].textContent = title;
+            this.getElementsByClassName('message')[0].textContent = text;
 
             this.closeCallback = closeCallback;
-            this.super();
+            this.$.dialog.open();
+        },
+
+        close: function() {
+            this.$.dialog.close();
         },
 
         created: function() {
+            var h2 = document.createElement('h2');
+            h2.className = 'heading';
+            this.appendChild(h2);
+
             var p = document.createElement('p');
             p.className = 'message';
             this.appendChild(p);
 
+            var buttons = document.createElement('div');
+            buttons.className = 'buttons';
+            this.appendChild(buttons);
+
             var accept = document.createElement('paper-button');
             accept.className = 'accept';
-            accept.setAttribute('affirmative', true);
+            accept.setAttribute('dialog-confirm', true);
             accept.setAttribute('autofocus', true);
             accept.textContent = 'Apply';
-            this.appendChild(accept);
+            buttons.appendChild(accept);
 
             var cancel = document.createElement('paper-button');
             cancel.className = 'cancel';
-            cancel.setAttribute('dismissive', true);
+            cancel.setAttribute('dialog-dismiss', true);
             cancel.textContent = 'Cancel';
-            this.appendChild(cancel);
+            buttons.appendChild(cancel);
         },
 
         attached: function() {
-            this.getElementsByClassName('accept')[0].addEventListener('click', this.onButtonClick, false);
-            this.getElementsByClassName('cancel')[0].addEventListener('click', this.onButtonClick, false);
+            this.$.dialog.addEventListener('iron-overlay-closed', this.onClose, false);
         },
 
         detached: function() {
-            this.getElementsByClassName('accept')[0].removeEventListener('click', this.onButtonClick, false);
-            this.getElementsByClassName('cancel')[0].removeEventListener('click', this.onButtonClick, false);
+            this.$.dialog.removeEventListener('iron-overlay-closed', this.onClose, false);
         },
-
     });
     </script>
-</polymer-element>
+</dom-module>

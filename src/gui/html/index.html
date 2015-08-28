@@ -14,7 +14,6 @@
     <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
     <link rel="import" href="elements/editable-table.html">
-    <link rel="import" href="elements/loot-dialog.html">
     <link rel="import" href="elements/loot-dropdown-menu.html">
     <link rel="import" href="elements/loot-message-dialog.html">
     <link rel="import" href="elements/loot-plugin-item.html">
@@ -25,6 +24,9 @@
     <link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
     <link rel="import" href="../../../bower_components/iron-list/iron-list.html">
     <link rel="import" href="../../../bower_components/iron-pages/iron-pages.html">
+
+    <link rel="import" href="../../../../bower_components/neon-animation/animations/fade-in-animation.html">
+    <link rel="import" href="../../../../bower_components/neon-animation/animations/fade-out-animation.html">
 
     <link rel="import" href="../../../bower_components/paper-button/paper-button.html">
     <link rel="import" href="../../../bower_components/paper-checkbox/paper-checkbox.html">
@@ -226,12 +228,19 @@
         </div>
     </paper-drawer-panel>
     <paper-toast id="toast"></paper-toast>
-    <loot-dialog id="progressDialog">
+    <paper-dialog id="progressDialog"
+                  modal
+                  entry-animation="fade-in-animation"
+                  exit-animation="fade-out-animation">
         <paper-progress indeterminate></paper-progress>
         <p>Calculating the last digit of &pi;...</p>
-    </loot-dialog>
+    </paper-dialog>
 
-    <loot-dialog id="about" heading="About LOOT">
+    <paper-dialog id="about"
+                  modal
+                  entry-animation="fade-in-animation"
+                  exit-animation="fade-out-animation">
+        <h2>About LOOT</h2>
         <p>Version <span id="LOOTVersion"></span> (build <span id="LOOTBuild"></span>)</p>
         <p>Load order optimisation for Oblivion, Skyrim, Fallout 3 and Fallout: New Vegas.</p>
         <p><a href="http://loot.github.io">http://loot.github.io</a></p>
@@ -245,9 +254,13 @@
             You should have received a copy of the GNU General Public License along with LOOT. If not, see &lt;http://www.gnu.org/licenses/&gt;.
         </blockquote>
         <paper-button affirmative autofocus>OK</paper-button>
-    </loot-dialog>
+    </paper-dialog>
 
-    <loot-dialog id="settingsDialog" heading="Settings" closeSelector="">
+    <paper-dialog id="settingsDialog"
+                  modal
+                  entry-animation="fade-in-animation"
+                  exit-animation="fade-out-animation">
+        <h2>Settings</h2>
         <div layout horizontal center wrap>
             <div center horizontal layout>
                 <div>Default Game</div>
@@ -295,9 +308,13 @@
         </table>
         <paper-button class="accept" affirmative autofocus>Apply</paper-button>
         <paper-button class="cancel" dismissive>Cancel</paper-button>
-    </loot-dialog>
+    </paper-dialog>
 
-    <loot-dialog id="firstRun" heading="First-Time Tips">
+    <paper-dialog id="firstRun"
+                  modal
+                  entry-animation="fade-in-animation"
+                  exit-animation="fade-out-animation">
+        <h2>First-Time Tips</h2>
         <p>This appears to be the first time you have run LOOT v<span id="firstTimeLootVersion"></span>. Here are some tips to help you get started with the interface.</p>
         <ul>
             <li>Click <iron-icon icon="more-vert"></iron-icon> buttons to open menus.</li>
@@ -311,7 +328,7 @@
 
         <p>LOOT is free, but if you want to show your appreciation with some money, donations may be made to WrinklyNinja (LOOT's creator and main developer) using <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HDR3YBGGYCLBG">PayPal</a>, <a href="https://wrinklyninja.github.io/bitcoin/">Bitcoin</a> or <a href="https://flattr.com/submit/auto?user_id=OliverHamlet&url=https://wrinklyninja.github.io&title=LOOT">Flattr</a>.</p>
         <paper-button affirmative autofocus>OK</paper-button>
-    </loot-dialog>
+    </paper-dialog>
     <script src="../../../bower_components/marked/lib/marked.js"></script>
     <script src="../../../bower_components/Jed/jed.js"></script>
     <script src="../../../bower_components/jed-gettext-parser/jedGettextParser.js"></script>
