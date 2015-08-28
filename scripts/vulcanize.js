@@ -66,6 +66,10 @@ function buildTests() {
             source: path.join('elements', 'test_loot-custom-icons.html'),
             dest: path.join('elements', 'test_loot-custom-icons.html')
         },
+        {
+            source: path.join('elements', 'test_loot-dropdown-menu.html'),
+            dest: path.join('elements', 'test_loot-dropdown-menu.html')
+        },
     ];
 
     tests.forEach(function(test){
