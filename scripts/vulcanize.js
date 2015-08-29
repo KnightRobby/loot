@@ -82,6 +82,10 @@ function buildTests() {
             source: path.join('elements', 'test_loot-plugin-item.html'),
             dest: path.join('elements', 'test_loot-plugin-item.html')
         },
+        {
+            source: path.join('elements', 'test_loot-search-toolbar.html'),
+            dest: path.join('elements', 'test_loot-search-toolbar.html')
+        },
     ];
 
     tests.forEach(function(test){

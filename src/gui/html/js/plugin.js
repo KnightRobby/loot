@@ -138,6 +138,31 @@ function Plugin(obj) {
         return uiMessages;
     }
 
+    Plugin.prototype.isVisible = function(needle) {
+        var versionHidden = document.getElementById('hideVersionNumbers').checked;
+        var crcHidden = document.getElementById('hideCRCs').checked;
+        var bashTagHidden = document.getElementById('hideBashTags').checked;
+
+        if (this.name.toLowerCase().indexOf(needle) != -1
+            || !versionHidden && this.version.toLowerCase().indexOf(needle) != -1
+            || !crcHidden && this.getCrcString().toLowerCase().indexOf(needle) != -1) {
+            return true;
+        }
+        if (!bashTagHidden) {
+            var tags = this.getTagStrings();
+            if (tags.added.toLowerCase().indexOf(needle) != -1 || tags.removed.toLowerCase().indexOf(needle) != -1) {
+            return true;
+            }
+        }
+        for (var i = 0; i < this.computed.messages.length; ++i) {
+            if (this.computed.messages[i].textContent.toLowerCase().indexOf(needle) != -1) {
+            return true;
+            }
+        }
+
+        return false;
+    }
+
     Plugin.prototype.observer = function(changes) {
         changes.forEach(function(change) {
             if (change.name == 'tags') {

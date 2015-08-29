@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <title>test_loot-search-toolbar.html</title>
+
+    <script>
+    window.Polymer = window.Polymer || {};
+    window.Polymer.dom = 'shadow';
+    </script>
+    <link rel="import" href="../../../../../bower_components/polymer/polymer.html">
+
+    <link rel="import" href="../../../../../bower_components/iron-icon/iron-icon.html">
+    <link rel="import" href="../../../../../bower_components/iron-list/iron-list.html">
+
+    <link rel="import" href="../../../../gui/html/elements/loot-search-toolbar.html">
+
+    <script src="../../../../gui/html/js/plugin.js"></script>
+    <script>
+    var plugins = [
+        new Plugin({
+            name: 'Skyrim.esm',
+            modPriority: -999999,
+            crc: 0,
+            version: ''
+        }),
+        new Plugin({
+            name: 'Hearthfires.esm',
+            modPriority: -999999,
+            crc: 0,
+            version: ''
+        }),
+        new Plugin({
+            name: 'Dawnguard.esm',
+            modPriority: -999998,
+            crc: 0,
+            version: ''
+        }),
+        new Plugin({
+            name: 'Dragonborn.esm',
+            modPriority: -999997,
+            crc: 0,
+            version: ''
+        }),
+    ];
+    </script>
+</head>
+
+<body>
+    <loot-search-toolbar id="searchBar"></loot-search-toolbar>
+
+    <label>
+        <input type="checkbox" id="hideVersionNumbers">
+        Hide Version Numbers
+    </label>
+
+    <label>
+        <input type="checkbox" id="hideCRCs">
+        Hide CRCs
+    </label>
+
+    <label>
+        <input type="checkbox" id="hideBashTags">
+        Hide Bash Tags
+    </label>
+
+    <iron-list id="pluginList" style="height: 500px;">
+        <template>
+            <div style="height: 300px;">[[item.name]]</div>
+        </template>
+    </iron-list>
+
+    <script>
+    function onSearchBegin(evt) {
+        plugins.forEach(function(plugin) {
+            plugin.isSearchResult = false;
+        });
+
+        if (!evt.detail.needle) {
+            return;
+        }
+
+        // Don't push to the target's results property directly, as the
+        // change observer doesn't work correctly unless special Polymer APIs
+        // are used, which I don't want to get into.
+        var results = [];
+        plugins.forEach(function(plugin, index) {
+            if (plugin.isVisible(evt.detail.needle)) {
+                results.push(index);
+                plugin.isSearchResult = true;
+            }
+        });
+
+        evt.target.results = results;
+    }
+    function onSearchChangeSelection(evt) {
+        document.getElementById('pluginList').scrollToIndex(evt.detail.selection);
+    }
+    function onSearchEnd(evt) {
+        plugins.forEach(function(plugin) {
+            plugin.isSearchResult = false;
+        });
+    }
+
+    document.getElementById('searchBar').addEventListener('loot-search-begin', onSearchBegin, false);
+    document.getElementById('searchBar').addEventListener('loot-search-change-selection', onSearchChangeSelection, false);
+    document.getElementById('searchBar').addEventListener('loot-search-end', onSearchEnd, false);
+    document.getElementById('pluginList').items = plugins;
+    </script>
+</body>

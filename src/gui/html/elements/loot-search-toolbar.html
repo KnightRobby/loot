@@ -1,0 +1,185 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<link rel="import" href="../../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../../../bower_components/paper-tooltip/paper-tooltip.html">
+
+<!-- events
+
+loot-search-begin: Fired when a search begins.
+loot-search-change-selection: Fired when the selected result changes.
+loot-search-end: Fired when the close button is clicked.
+
+-->
+<dom-module id="loot-search-toolbar">
+    <template>
+        <style>
+        paper-toolbar {
+            --paper-toolbar-background: #3F51B5;
+            --paper-toolbar-color: white;
+            height: 56px;
+        }
+        paper-input {
+            @apply(--layout-horizontal);
+            @apply(--layout-flex);
+            --paper-input-container: {
+                @apply(--layout-flex);
+            };
+            --paper-input-container-input-color: rgba(255, 255, 255, 0.3);
+            --paper-input-container-label: {
+                color: var(--paper-input-container-input-color);
+            }
+            --paper-input-container-underline: {
+                background-color: rgba(0, 0, 0, 0.12);
+            };
+            --paper-input-container-underline-focus: {
+                background-color: #64B5F6;
+            };
+        }
+        #count {
+            font-weight: 400;
+            font-size: 0.857rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        </style>
+        <paper-toolbar>
+            <paper-input id="search" label="Search cards" no-label-float></paper-input>
+            <div id="count">
+                <span>[[_computeResultNum(_currentResult)]]</span>
+                /
+                <span><!-- number of results --></span>
+            </div>
+            <paper-icon-button id="prev" icon="expand-less" disabled></paper-icon-button>
+            <paper-icon-button id="next" icon="expand-more" disabled></paper-icon-button>
+            <paper-icon-button id="close" icon="close"></paper-icon-button>
+        </paper-toolbar>
+    </template>
+    <script>
+    Polymer({
+        is: 'loot-search-toolbar',
+        properties: {
+            _currentResult: {
+                type: Number,
+                value: -1,
+                observer: '_currentResultChanged'
+            },
+            results: {
+                type: Array,
+                value: function() { return []; },
+                observer: '_resultsChanged'
+            }
+        },
+
+        _currentResultChanged: function(newValue, oldValue) {
+            if (this.results && this.results.length > 0) {
+                if (this.results.length == 1) {
+                    this.$.prev.disabled = true;
+                    this.$.next.disabled = true;
+                } else if (newValue == 0) {
+                    this.$.prev.disabled = true;
+                    this.$.next.disabled = false;
+                } else if (newValue == this.results.length - 1) {
+                    this.$.prev.disabled = false;
+                    this.$.next.disabled = true;
+                } else {
+                    this.$.prev.disabled = false;
+                    this.$.next.disabled = false;
+                }
+            }
+            if (newValue > -1) {
+                this.dispatchEvent(new CustomEvent('loot-search-change-selection', {
+                    detail: {
+                        selection: this.results[newValue]
+                    }
+                }));
+            }
+        },
+
+        _resultsChanged: function(newValue, oldValue) {
+            this.$.count.lastElementChild.textContent = newValue.length;
+            if (newValue.length > 0) {
+                this._currentResult = 0;
+            }
+        },
+
+        attached: function() {
+            this.$.search.addEventListener('input', this._onSearch, false);
+            this.$.search.addEventListener('keyup', this._onEnter, false);
+            this.$.prev.addEventListener('click', this._onPrev, false);
+            this.$.next.addEventListener('click', this._onNext, false);
+            this.$.close.addEventListener('click', this._onClose, false);
+        },
+
+        detached: function() {
+            this.$.search.removeEventListener('input', this._onSearch, false);
+            this.$.search.removeEventListener('keyup', this._onEnter, false);
+            this.$.prev.removeEventListener('click', this._onPrev, false);
+            this.$.next.removeEventListener('click', this._onNext, false);
+            this.$.close.removeEventListener('change', this._onClose, false);
+        },
+
+        _onEnter: function(evt) {
+            var host = evt.target.parentElement.parentNode.host;
+            if (evt.keyCode != 13 || host.results.length == 0) {
+                return;
+            }
+            if (host._currentResult == host.results.length - 1) {
+                host._currentResult = 0;
+            } else {
+                ++host._currentResult;
+            }
+        },
+
+        focusInput: function() {
+            this.$.search.focus();
+        },
+
+        _resetResults: function() {
+            this.results = [];
+            this._currentResult = -1;
+            this.$.prev.setAttribute('disabled', '');
+            this.$.next.setAttribute('disabled', '');
+        },
+
+        search: function() {
+            this.$.search.dispatchEvent(new Event('input'));
+        },
+
+        _onSearch: function(evt) {
+            var needle = evt.target.value.toLowerCase();
+
+            evt.target.parentElement.parentNode.host._resetResults();
+
+            evt.target.dispatchEvent(new CustomEvent('loot-search-begin', {
+                detail: {
+                    needle: needle
+                }
+            }));
+        },
+
+        _onPrev: function(evt) {
+            --evt.target.parentElement.parentNode.host._currentResult;
+        },
+
+        _onNext: function(evt) {
+            ++evt.target.parentElement.parentNode.host._currentResult;
+        },
+
+        _onClose: function(evt) {
+            var host = evt.target.parentElement.parentNode.host;
+            host._resetResults();
+            host.$.search.value = '';
+            host.$.count.classList.toggle('hidden', true);
+            evt.target.dispatchEvent(new CustomEvent('loot-search-end'));
+        },
+
+        _computeResultNum: function(currentResult) {
+            return currentResult + 1;
+        },
+    });
+    </script>
+</dom-module>
