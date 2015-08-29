@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <title>test_loot-plugin-item.html</title>
+
+    <script>
+    window.Polymer = window.Polymer || {};
+    window.Polymer.dom = 'shadow';
+    </script>
+    <link rel="import" href="../../../../../bower_components/polymer/polymer.html">
+
+    <link rel="import" href="../../../../../bower_components/iron-icon/iron-icon.html">
+
+    <link rel="import" href="../../../../gui/html/elements/loot-plugin-item.html">
+</head>
+
+<body>
+    <loot-plugin-item mod-priority="10"
+                      is-global-priority
+                      is-editor-open
+                      has-user-edits>
+        Skyrim.esm
+    </loot-plugin-item>
+</body>
