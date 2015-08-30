@@ -8,9 +8,11 @@ loot-editor-close
 
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../../../bower_components/iron-pages/iron-pages.html">
+
 <link rel="import" href="../../../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../../../bower_components/paper-input/paper-input.html">
@@ -20,13 +22,15 @@ loot-editor-close
 <link rel="import" href="../../../../bower_components/paper-tooltip/paper-tooltip.html">
 
 <link rel="import" href="editable-table.html">
+<link rel="import" href="loot-custom-icons.html">
 
-<polymer-element name="loot-plugin-editor" attributes="data">
+<dom-module id="loot-plugin-editor">
     <template>
         <style>
         /* Material Design for non-button icons. */
-        core-tooltip > core-icon {
+        iron-icon {
             color: rgba(0, 0, 0, 0.54);
+            padding: 8px;
         }
 
         /* Icon styling. */
@@ -38,7 +42,7 @@ loot-editor-close
         :host-context(loot-plugin-card[data-master=false]) #isMaster {
             display: none;
         }
-        #activeTick > core-icon {
+        #activeTick {
             color: green;
         }
         #accept {
@@ -49,12 +53,12 @@ loot-editor-close
         }
 
         /* Content styling. */
-        h1, #version, #crc {
+        ::content h1, #version, #crc {
             display: inline-block;
             font-weight: 400;
             font-size: 1rem;
         }
-        h1 {
+        ::content h1 {
             margin: 0;
             font-size: 1.143rem;
         }
@@ -72,36 +76,27 @@ loot-editor-close
         }
 
         /* Editor input styling. */
-        #main > * {
+        #main > div {
             height: 48px;
+            @apply(--layout-horizontal);
+            @apply(--layout-center);
         }
-        #main > paper-checkbox, #main > core-tooltip {
+        #main > paper-checkbox, #main > paper-tooltip {
             line-height: 48px;
         }
         #main > div > div:first-child {
             margin-right: 16px;
+            @apply(--layout-flex);
         }
-        #main paper-input {
-            position: relative;
-            top: -2px;
-        }
-        iron-pages > *:not(.core-selected) {
+        iron-pages > *:not(.iron-selected) {
             display: none;
         }
 
         /* Misc Styling. */
-        core-toolbar.medium-tall {
+        paper-toolbar.medium-tall {
             background: #CFD4E9;
+            color: rgba(0, 0, 0, 0.87);
             height: 104px;
-        }
-        core-toolbar > div {
-            position: relative;
-            top: -4px;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        core-tooltip > core-icon {
-            vertical-align: inherit !important;
         }
         iron-pages > * {
             border: 4px solid #CFD4E9;
@@ -117,32 +112,46 @@ loot-editor-close
             padding-top: 8px;
             padding-bottom: 8px;
         }
+        #title {
+            @apply(--layout-flex);
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        #tableTabs {
+            --paper-tabs-selection-bar-color: #64B5F6;
+        }
+        paper-tab {
+            --paper-tab-ink: #64B5F6;
+        }
+        paper-toggle-button {
+            --paper-toggle-button-checked-bar-color: #3F51B5;
+            --paper-toggle-button-checked-button-color: #3F51B5;
+            --paper-toggle-button-checked-ink-color: #3F51B5;
+        }
         </style>
         <paper-toolbar class="medium-tall">
-            <paper-tooltip id="activeTick" label="Active Plugin" noarrow>
-                <iron-icon icon="check"></iron-icon>
-            </paper-tooltip>
-            <div flex>
-                <h1>{{data.name}}</h1>
-                <span id="version">{{data.version}}</span>
-                <span id="crc">{{data.computed.crc}}</span>
+            <iron-icon id="activeTick" icon="check"></iron-icon>
+            <paper-tooltip for="activeTick">Active Plugin</paper-tooltip>
+            <div id="title">
+                <content select="h1"></content>
+                <span id="version">
+                    <content select=".version"></content>
+                </span>
+                <span id="crc">
+                    <content select=".crc"></content>
+                </span>
             </div>
-            <paper-tooltip id="isMaster" label="Master File" noarrow>
-                <iron-icon icon="loot-custom-icons:crown"></iron-icon>
-            </paper-tooltip>
-            <paper-tooltip id="emptyPlugin" label="Empty Plugin" noarrow>
-                <iron-icon icon="visibility-off"></iron-icon>
-            </paper-tooltip>
-            <paper-tooltip id="loadsBSA" label="Loads BSA" noarrow>
-                <iron-icon icon="attachment"></iron-icon>
-            </paper-tooltip>
-            <paper-tooltip label="Apply" noarrow>
-                <paper-icon-button id="accept" icon="check"></paper-icon-button>
-            </paper-tooltip>
-            <paper-tooltip label="Cancel" noarrow>
-                <paper-icon-button id="cancel" icon="close"</paper-icon-button>
-            </paper-tooltip>
-            <paper-tabs id="tableTabs" class="bottom fit" selected="main" valueattr="data-for" scrollable>
+            <iron-icon id="isMaster" icon="loot-custom-icons:crown"></iron-icon>
+            <paper-tooltip for="isMaster">Master File</paper-tooltip>
+            <iron-icon id="emptyPlugin" icon="visibility-off"></iron-icon>
+            <paper-tooltip for="emptyPlugin">Empty Plugin</paper-tooltip>
+            <iron-icon id="loadsBSA" icon="attachment"></iron-icon>
+            <paper-tooltip for="loadsBSA">Loads BSA</paper-tooltip>
+            <paper-icon-button id="accept" icon="check"></paper-icon-button>
+            <paper-tooltip for="accept">Apply</paper-tooltip>
+            <paper-icon-button id="cancel" icon="close"></paper-icon-button>
+            <paper-tooltip for="cancel">Cancel</paper-tooltip>
+            <paper-tabs id="tableTabs" class="bottom fit" selected="{{selected}}" attr-for-selected="data-for" scrollable>
                 <paper-tab data-for="main">Main</paper-tab>
                 <paper-tab data-for="loadAfter">Load After</paper-tab>
                 <paper-tab data-for="req">Requirements</paper-tab>
@@ -153,21 +162,20 @@ loot-editor-close
                 <paper-tab data-for="locations">Locations</paper-tab>
             </paper-tabs>
         </paper-toolbar>
-        <iron-pages selected="main" valueattr="id">
+        <iron-pages selected="{{selected}}" attr-for-selected="id">
             <div id="main">
-                <div center horizontal layout>
-                    <div flex>Enable Edits</div>
-                    <paper-toggle-button id="enableEdits" for></paper-toggle-button>
+                <div>
+                    <div>Enable Edits</div>
+                    <paper-toggle-button id="enableEdits"></paper-toggle-button>
                 </div>
-                <paper-tooltip label="Compare against all other plugins, not just conflicting plugins." noarrow center horizontal layout>
-                    <div center horizontal layout flex>
-                        <div flex>Global Priority</div>
-                        <paper-toggle-button id="globalPriority" for></paper-toggle-button>
-                    </div>
-                </paper-tooltip>
-                <div horizontal layout center>
+                <div>
+                    <div>Global Priority</div>
+                    <paper-toggle-button id="globalPriority"></paper-toggle-button>
+                    <paper-tooltip for="globalPriority">Compare against all other plugins, not just conflicting plugins.</paper-tooltip>
+                </div>
+                <div>
                     <div>Priority Value</div>
-                    <paper-input id="priorityValue" is="core-input" type="number" max="999999" min="-999999" step="1" preventInvalidInput></paper-input>
+                    <paper-input id="priorityValue" type="number" max="999999" min="-999999" step="1" prevent-invalid-input no-label-float></paper-input>
                 </div>
             </div>
             <div id="loadAfter">
@@ -244,61 +252,22 @@ loot-editor-close
     </template>
     <script>
     Polymer({
-        data: undefined,
-
-        observe: {
-            'data.isGlobalPriority': 'onPriorityChange',
-            'data.modPriority': 'onPriorityChange',
-            'data.userlist': 'onDataCacheChange',
+        is: 'loot-plugin-editor',
+        properties: {
+            selected: {
+                type: String,
+                value: 'main'
+            }
         },
 
         attached: function() {
-            this.shadowRoot.getElementById('tableTabs').addEventListener('core-select', this.onTabSelect, false);
-
-            this.shadowRoot.getElementById('accept').addEventListener('click', this.onHideEditor, false);
-            this.shadowRoot.getElementById('cancel').addEventListener('click', this.onHideEditor, false);
-
-            /* Need to set the table tab height explicitly, so set it to the tallest table. */
+            this.$.accept.addEventListener('click', this._onHideEditor, false);
+            this.$.cancel.addEventListener('click', this._onHideEditor, false);
         },
 
         detached: function() {
-            this.shadowRoot.getElementById('tableTabs').removeEventListener('core-select', this.onTabSelect, false);
-
-            this.shadowRoot.getElementById('accept').removeEventListener('click', this.onHideEditor, false);
-            this.shadowRoot.getElementById('cancel').removeEventListener('click', this.onHideEditor, false);
-        },
-
-        onTabSelect: function(evt) {
-            if (evt.detail.isSelected) {
-                evt.target.parentElement.nextElementSibling.selected = evt.target.selected;
-            }
-        },
-
-        dataChanged: function(oldValue, newValue) {
-            /* Record the current editor data if the editor is open. */
-            if (oldValue && this.data.isEditorOpen) {
-                oldValue.editor = this.readFromEditor(oldValue);
-            }
-
-            if (newValue) {
-                /* Set the new editor data. */
-                this.setEditorData(newValue);
-            }
-        },
-
-        onPriorityChange: function(oldValue, newValue) {
-            /* Handle priority change due to masterlist update. */
-            if (this.data) {
-                /* Set the new editor data. */
-                this.setEditorData(this.data);
-            }
-        },
-
-        onDataCacheChange: function(oldValue, newValue) {
-            if (this.data) {
-                /* Set the new editor data. */
-                this.setEditorData(this.data);
-            }
+            this.$.accept.removeEventListener('click', this._onHideEditor, false);
+            this.$.cancel.removeEventListener('click', this._onHideEditor, false);
         },
 
         readFromEditor: function(oldData) {
@@ -315,15 +284,15 @@ loot-editor-close
             /* If either of the priority values have been changed, the
                base priority value they're derived from will have
                changed, so record both. */
-            if (this.shadowRoot.getElementById('globalPriority').checked != oldData.isGlobalPriority
-                || this.shadowRoot.getElementById('priorityValue').value != oldData.modPriority) {
-                plugin.isGlobalPriority = this.shadowRoot.getElementById('globalPriority').checked;
-                plugin.modPriority = this.shadowRoot.getElementById('priorityValue').value;
+            if (this.$.globalPriority.checked != oldData.isGlobalPriority
+                || this.$.priorityValue.value != oldData.modPriority) {
+                plugin.isGlobalPriority = this.$.globalPriority.checked;
+                plugin.modPriority = this.$.priorityValue.value;
                 /* Also mark the priority as being explicitly set in the userlist. */
                 plugin.userlist.hasExplicitPriority = true;
             }
 
-            plugin.userlist.enabled = this.shadowRoot.getElementById('enableEdits').checked;
+            plugin.userlist.enabled = this.$.enableEdits.checked;
 
             var tables = this.shadowRoot.querySelectorAll('table');
             for (var j = 0; j < tables.length; ++j) {
@@ -340,7 +309,7 @@ loot-editor-close
                             arr[index].content = [{
                                 str: value.content,
                                 lang: value.language
-                            }]
+                            }];
                             delete arr[index].language;
                         });
                         plugin.userlist.msg = rowsData;
@@ -363,12 +332,12 @@ loot-editor-close
             return plugin;
         },
 
-        onHideEditor: function(evt) {
+        _onHideEditor: function(evt) {
             /* First validate table inputs. */
             var isValid = true;
-            var inputs = evt.target.parentElement.parentElement.parentNode.querySelectorAll('paper-input');
+            var inputs = evt.target.parentElement.parentNode.querySelectorAll('paper-input');
             for (var i = 0; i < inputs.length; ++i) {
-                if (!inputs[i].checkValidity()) {
+                if (!inputs[i].validate()) {
                     isValid = false;
                 }
             }
@@ -376,8 +345,7 @@ loot-editor-close
             if (isValid || evt.target.id != 'accept') {
                 /* Fire the close event, saying whether or not to save data. */
                 evt.target.dispatchEvent(new CustomEvent('loot-editor-close', {
-                    bubbles: true,
-                    detail: (evt.target.id == 'accept'),
+                    detail: evt.target.id == 'accept'
                 }));
             }
         },
@@ -400,17 +368,17 @@ loot-editor-close
                     isGlobalPriority: newData.isGlobalPriority,
                     modPriority: newData.modPriority,
                     userlist: newData.userlist
-                }
+                };
             }
 
             /* Fill in the editor input values. */
             if (tempData.userlist && !tempData.userlist.enabled) {
-                this.shadowRoot.getElementById('enableEdits').checked = false;
+                this.$.enableEdits.checked = false;
             } else {
-                this.shadowRoot.getElementById('enableEdits').checked = true;
+                this.$.enableEdits.checked = true;
             }
-            this.shadowRoot.getElementById('globalPriority').checked = tempData.isGlobalPriority;
-            this.shadowRoot.getElementById('priorityValue').value = tempData.modPriority;
+            this.$.globalPriority.checked = tempData.isGlobalPriority;
+            this.$.priorityValue.value = tempData.modPriority;
 
             /* Clear then fill in editor table data. Masterlist-originated
                rows should have their contents made read-only. */
@@ -471,7 +439,6 @@ loot-editor-close
                             };
                             var row = tables[j].addRow(messageData);
                             tables[j].setReadOnly(row);
-
                         });
                     }
                     if (tempData.userlist && tempData.userlist.msg) {
@@ -534,17 +501,6 @@ loot-editor-close
                 }
             }
         },
-
-        updatePolymerElements: function() {
-            /* Set tooltip positions. */
-            var tooltips = this.shadowRoot.querySelectorAll('core-tooltip');
-            for (var i = 0; i < tooltips.length; ++i) {
-                tooltips[i].setPosition();
-            }
-
-            /* Also make sure right arrow is visible if the tabs are scrollable. */
-            this.shadowRoot.getElementById('tableTabs').resizeHandler();
-        },
     });
     </script>
-</polymer-element>
+</dom-module>

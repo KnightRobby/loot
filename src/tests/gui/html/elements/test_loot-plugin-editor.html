@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <title>test_loot-plugin-editor.html</title>
+
+    <script>
+    window.Polymer = window.Polymer || {};
+    window.Polymer.dom = 'shadow';
+    </script>
+    <link rel="import" href="../../../../../bower_components/polymer/polymer.html">
+
+    <link rel="import" href="../../../../gui/html/elements/loot-plugin-editor.html">
+
+    <script src="../../../../gui/html/js/plugin.js"></script>
+</head>
+
+<body>
+    <loot-plugin-editor id="editor">
+        <h1>Skyrim</h1>
+        <span class="version">1.9</span>
+        <span class="crc">ABCDEF01</span>
+    </loot-plugin-editor>
+
+    <script>
+    var plugin = new Plugin({
+        name: 'Skyrim.esm',
+        modPriority: -999999,
+        crc: 0,
+        version: ''
+    });
+    document.getElementById('editor').setEditorData(plugin);
+    </script>
+</body>
