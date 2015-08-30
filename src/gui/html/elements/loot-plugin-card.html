@@ -13,13 +13,13 @@ loot-clear-metadata
 
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../../../bower_components/iron-icons/iron-icons.html">
 
-<link rel="import" href="../../../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../../../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../../../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../../../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../../../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../../../bower_components/paper-toolbar/paper-toolbar.html">
@@ -28,23 +28,14 @@ loot-clear-metadata
 <link rel="import" href="loot-plugin-editor.html">
 <link rel="import" href="loot-custom-icons.html">
 
-
-<polymer-element name="loot-plugin-card" attributes="data">
+<dom-module id="loot-plugin-card">
     <template>
         <style>
-        /* Material Design for non-button icons. */
-        core-tooltip > core-icon {
-            color: rgba(0, 0, 0, 0.54);
-        }
-
         /* Host and front/editor styling. */
         #wrapper {
             display: block;
-            background:white;
+            background: white;
             margin: 0 8px 8px 8px;
-            position: relative;
-            border-radius: 2px;
-            box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
             position: relative;
             transition: 0.6s;
             transform-style: preserve-3d;
@@ -52,17 +43,8 @@ loot-clear-metadata
         :host(.highlight) #wrapper {
             outline: 4px solid #64B5F6;
         }
-        :host([data-active=false]) #activeTick {
-            visibility: hidden;
-        }
-        :host([data-bsa=false]) #loadsBSA,
-        :host([data-empty=false]) #emptyPlugin,
-        :host([data-master=false]) #isMaster,
-        :host(:not([data-edits])) #hasUserEdits {
-            display: none;
-        }
-        :host(.search-result) #front,
-        :host(.search-result) #editor {
+        :host([is-search-result]) #front,
+        :host([is-search-result]) #editor {
             box-shadow: inset 4px 0 #3F51B5;
         }
         #front {
@@ -90,8 +72,15 @@ loot-clear-metadata
         }
 
         /* Icon styling. */
-        #activeTick > core-icon {
+        iron-icon {
+            color: rgba(0, 0, 0, 0.54);
+            padding: 8px;
+        }
+        #activeTick {
             color: green;
+        }
+        :host(:not([is-active])) #activeTick {
+            visibility: hidden;
         }
 
         /* Content styling. */
@@ -117,8 +106,6 @@ loot-clear-metadata
             font-weight: 400;
             font-size: 1rem;
         }
-        .hidden,
-        content::content > .hidden,
         :host-context(#main[data-hide-crc]) content::content > .crc,
         :host-context(#main[data-hide-tag]) content::content > .tag,
         :host-context(#main[data-hide-version]) content::content > .version {
@@ -126,82 +113,71 @@ loot-clear-metadata
         }
 
         /* Misc Styling. */
-        core-toolbar {
-            background: inherit;
+        paper-toolbar {
+            --paper-toolbar-color: rgba(0, 0, 0, 0.87);
+            --paper-toolbar-background: inherit;
             height: 56px;
         }
-        core-toolbar > div {
-            position: relative;
-            top: -4px;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        core-tooltip > core-icon {
-            vertical-align: inherit !important;
+        paper-toolbar::shadow #topBar {
+            height: 56px;
         }
         #content {
             overflow: hidden;
         }
+        #title {
+            @apply(--layout-flex);
+            overflow: hidden;
+            white-space: nowrap;
+        }
         #conflictsLabel {
-            font-size: 1rem;
-            font-weight: 500;
-            padding: 0 16px;
-            height: 48px;
-            line-height: 48px;
+            white-space: nowrap;
+        }
+        #conflictsLabel,
+        #editMetadata,
+        #copyMetadata,
+        #clearMetadata {
             cursor: pointer;
         }
-        #conflictsLabel > core-icon {
-            margin-right: 32px;
-            color: rgba(0, 0, 0, 0.54);
-        }
-        #conflictsLabel [for] {
-            margin-left: 32px;
-        }
         </style>
-        <div id="wrapper">
+        <paper-material id="wrapper" elevation="1">
             <section id="front">
                 <paper-toolbar>
-                    <paper-tooltip id="activeTick" label="Active Plugin" noarrow>
-                        <iron-icon icon="check"></iron-icon>
-                    </paper-tooltip>
-                    <div flex>
+                    <iron-icon id="activeTick" icon="check"></iron-icon>
+                    <paper-tooltip for="activeTick">Active Plugin</paper-tooltip>
+                    <div id="title">
                         <content select="h1"></content>
                         <content select=".version"></content>
                         <content select=".crc"></content>
                     </div>
-                    <paper-tooltip id="isMaster" label="Master File" noarrow>
-                        <iron-icon icon="loot-custom-icons:crown"></iron-icon>
-                    </paper-tooltip>
-                    <paper-tooltip id="emptyPlugin" label="Empty Plugin" noarrow>
-                        <iron-icon icon="visibility-off"></iron-icon>
-                    </paper-tooltip>
-                    <paper-tooltip id="loadsBSA" label="Loads BSA" noarrow>
-                        <iron-icon icon="attachment"></iron-icon>
-                    </paper-tooltip>
-                    <paper-tooltip id="hasUserEdits" label="Has User Metadata" noarrow>
-                        <iron-icon icon="account-circle"></iron-icon>
-                    </paper-tooltip>
-                    <paper-menu-button opened="{{data.isMenuOpen}}">
-                        <paper-icon-button icon="more-vert"></paper-icon-button>
-                        <paper-menu class="menu">
-                            <div id="conflictsLabel" center horizontal layout>
-                                <iron-icon icon="filter-list"></iron-icon>
-                                <div flex>Show Only Conflicts</div>
-                                <paper-toggle-button id="showOnlyConflicts" checked="{{data.isConflictFilterChecked}}" for></paper-toggle-button>
-                            </div>
-                            <paper-item id="editMetadata" noink>
-                                <iron-icon icon="create"></iron-icon>
+                    <iron-icon id="isMaster" icon="loot-custom-icons:crown" hidden$="[[!isMaster]]"></iron-icon>
+                    <paper-tooltip for="isMaster">Master File</paper-tooltip>
+                    <iron-icon id="emptyPlugin" icon="visibility-off" hidden$="[[!isEmpty]]"></iron-icon>
+                    <paper-tooltip for="emptyPlugin">Empty Plugin</paper-tooltip>
+                    <iron-icon id="loadsBSA" icon="attachment" hidden$="[[!hasBsa]]"></iron-icon>
+                    <paper-tooltip for="loadsBSA">Loads BSA</paper-tooltip>
+                    <iron-icon id="hasUserEdits" icon="account-circle" hidden$="[[!hasUserEdits]]"></iron-icon>
+                    <paper-tooltip for="hasUserEdits">Has User Metadata</paper-tooltip>
+                    <paper-menu-button id="menu" opened="{{data.isMenuOpen}}" horizontal-align="right">
+                        <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
+                        <div class="dropdown-content">
+                            <paper-icon-item id="conflictsLabel">
+                                <iron-icon icon="filter-list" item-icon></iron-icon>
+                                <div>Show Only Conflicts</div>
+                                <paper-toggle-button id="showOnlyConflicts" checked="{{data.isConflictFilterChecked}}"></paper-toggle-button>
+                            </paper-icon-item>
+                            <paper-icon-item id="editMetadata">
+                                <iron-icon icon="create" item-icon></iron-icon>
                                 Edit Metadata
-                            </paper-item>
-                            <paper-item id="copyMetadata" noink>
-                                <iron-icon icon="content-copy"></iron-icon>
+                            </paper-icon-item>
+                            <paper-icon-item id="copyMetadata">
+                                <iron-icon icon="content-copy" item-icon></iron-icon>
                                 Copy Metadata
-                            </paper-item>
-                            <paper-item id="clearMetadata" noink>
-                                <iron-icon icon="delete"></iron-icon>
+                            </paper-icon-item>
+                            <paper-icon-item id="clearMetadata">
+                                <iron-icon icon="delete" item-icon></iron-icon>
                                 Clear User Metadata
-                            </paper-item>
-                        </paper-menu>
+                            </paper-icon-item>
+                        </div>
                     </paper-menu-button>
                 </paper-toolbar>
                 <div id="content">
@@ -210,42 +186,92 @@ loot-clear-metadata
                     <content></content>
                 </div>
             </section>
-            <loot-plugin-editor id="editor"></loot-plugin-editor>
-        </div>
+            <loot-plugin-editor id="editor">
+                <h1>[[data.name]]</h1>
+                <span class="version">[[data.version]]</span>
+                <span class="crc">[[data.computed.crc]]</span>
+            </loot-plugin-editor>
+        </paper-material>
     </template>
     <script>
+    //TODO(polyup): Need to add an observer of data.tags, calling onTagsChange.
+    //Note that the semantics for observing properties and arrays has changed.
+    //TODO(polyup): Need to add an observer of data.computed.messages, calling onMessagesChange.
+    //Note that the semantics for observing properties and arrays has changed.
+    //TODO(polyup): Need to add an observer of data.isSearchResult, calling onSearchResultChange.
+    //Note that the semantics for observing properties and arrays has changed.
     Polymer({
-        data: undefined,
-
-        observe: {
-            'data.tags': 'onTagsChange',
-            'data.computed.messages': 'onMessagesChange',
-            'data.userlist': 'onUserlistChange',
-            'data.isSearchResult' : 'onSearchResultChange',
-            'data.isMenuOpen': 'onMenuToggle'
+        is: 'loot-plugin-card',
+        properties: {
+            data: {
+                notify: true,
+                observer: '_dataChanged'
+            },
+            isActive: {
+                type: Boolean,
+                value: false,
+                reflectToAttribute: true,
+            },
+            isMaster: {
+                type: Boolean,
+                value: false,
+                reflectToAttribute: true,
+            },
+            isEmpty: {
+                type: Boolean,
+                value: false,
+                reflectToAttribute: true,
+            },
+            hasBsa: {
+                type: Boolean,
+                value: false,
+                reflectToAttribute: true,
+            },
+            hasUserEdits: {
+                type: Boolean,
+                value: false,
+                reflectToAttribute: true,
+            },
+            isSearchResult: {
+                type: Boolean,
+                value: false,
+                reflectToAttribute: true,
+            }
         },
 
         attached: function() {
-            this.shadowRoot.getElementById('showOnlyConflicts').addEventListener('change', this.onShowOnlyConflicts, false);
-            this.shadowRoot.getElementById('editMetadata').addEventListener('click', this.onShowEditor, false);
-            this.shadowRoot.getElementById('copyMetadata').addEventListener('click', this.onCopyMetadata, false);
-            this.shadowRoot.getElementById('clearMetadata').addEventListener('click', this.onClearMetadata, false);
+            this.$.conflictsLabel.addEventListener('click', this._onConflictsLabelClick, false);
+            this.$.showOnlyConflicts.addEventListener('iron-change', this._onShowOnlyConflicts, false);
+            this.$.editMetadata.addEventListener('click', this._onShowEditor, false);
+            this.$.copyMetadata.addEventListener('click', this._onCopyMetadata, false);
+            this.$.clearMetadata.addEventListener('click', this._onClearMetadata, false);
 
-            this.addEventListener('transitionend', this.onFlipEnd, false);
+            this.addEventListener('paper-dropdown-open', this._onMenuToggle, false);
+
+            this.addEventListener('transitionend', this._onFlipEnd, false);
         },
 
         detached: function() {
-            this.shadowRoot.getElementById('showOnlyConflicts').removeEventListener('change', this.onShowOnlyConflicts, false);
-            this.shadowRoot.getElementById('editMetadata').removeEventListener('click', this.onShowEditor, false);
-            this.shadowRoot.getElementById('copyMetadata').removeEventListener('click', this.onCopyMetadata, false);
-            this.shadowRoot.getElementById('clearMetadata').addEventListener('click', this.onClearMetadata, false);
+            this.$.conflictsLabel.removeEventListener('click', this._onConflictsLabelClick, false);
+            this.$.showOnlyConflicts.removeEventListener('iron-change', this._onShowOnlyConflicts, false);
+            this.$.editMetadata.removeEventListener('click', this._onShowEditor, false);
+            this.$.copyMetadata.removeEventListener('click', this._onCopyMetadata, false);
+            this.$.clearMetadata.removeEventListener('click', this._onClearMetadata, false);
+
+            this.removeEventListener('paper-dropdown-open', this._onMenuToggle, false);
+
+            this.removeEventListener('transitionend', this._onFlipEnd, false);
         },
 
-        dataChanged: function(oldValue, newValue) {
+        _dataChanged: function(newValue, oldValue) {
             if (newValue) {
                 if (newValue.isEditorOpen) {
+                    /* Record existing data. */
+                    if (oldValue) {
+                        oldValue.editor = this.readFromEditor(oldValue);
+                    }
                     /* Share the data with the editor. */
-                    this.shadowRoot.getElementById('editor').data = newValue;
+                    this.$.editor.setEditorData(newValue);
                 }
 
                 /* Set the card flip state. */
@@ -256,66 +282,16 @@ loot-clear-metadata
                     this.classList.toggle('flip');
                 }
 
-                /* Also initialise the non-simple-string data. */
-                this.onTagsChange();
-                this.onMessagesChange();
-                this.onUserlistChange();
-
                 /* Also set highlight if the conflict filter is active. */
                 this.classList.toggle('highlight', newValue.isConflictFilterChecked);
-
-                /* Set highlight if the plugin is a search result. */
-                this.onSearchResultChange(undefined, newValue.isSearchResult);
-
-                /* Update tooltip positions. */
-                var tooltips = this.shadowRoot.querySelectorAll('core-tooltip');
-                for (var i = 0; i < tooltips.length; ++i) {
-                    tooltips[i].setPosition();
-                }
             }
         },
 
-        onTagsChange: function(oldValue, newValue) {
-            if (this.data) {
-                this.getElementsByClassName('tag add')[0].classList.toggle('hidden', this.data.computed.tags.added.length == 0);
-                this.getElementsByClassName('tag remove')[0].classList.toggle('hidden', this.data.computed.tags.removed.length == 0);
-            }
-        },
-
-        onMessagesChange: function(oldValue, newValue) {
-            if (this.data) {
-                /* First clear any existing messages. */
-                var messageUL = this.getElementsByTagName('ul')[0];
-                while(messageUL.firstElementChild) {
-                    messageUL.removeChild(messageUL.firstElementChild);
-                }
-                /* Now add new messages. */
-                this.data.computed.messages.forEach(function(message){
-                    messageUL.appendChild(message);
-                });
-                messageUL.classList.toggle('hidden', this.data.computed.messages.length == 0);
-            }
-        },
-
-        onUserlistChange: function(oldValue, newValue) {
-            /* The enabled key will always be set on application of edits, even
-            if there were none to apply, so long for more than just that key. */
-            if (this.data && this.data.userlist && Object.keys(this.data.userlist).length > 1) {
-                this.setAttribute('data-edits', 'true');
+        _onMenuToggle: function(evt) {
+            if (evt.type == 'paper-dropdown-open') {
+                evt.currentTarget.style.marginBottom = '190px';
             } else {
-                this.removeAttribute('data-edits');
-            }
-        },
-
-        onSearchResultChange: function(oldValue, newValue) {
-            this.classList.toggle('search-result', newValue);
-        },
-
-        onMenuToggle: function(oldValue, newValue) {
-            if (newValue) {
-                this.style.marginBottom = '190px';
-            } else {
-                this.style.marginBottom = '0';
+                evt.currentTarget.style.marginBottom = '0';
             }
         },
 
@@ -323,24 +299,12 @@ loot-clear-metadata
             return this.getElementsByTagName('h1')[0].textContent;
         },
 
-        onFlipEnd: function(evt) {
+        _onFlipEnd: function(evt) {
             /* Remove fastflip class if present. */
             this.classList.remove('fastflip');
-
-            /* Re-calculate tooltip positions, since the flip animation tends to mess with them. */
-            this.shadowRoot.getElementById('activeTick').setPosition();
-            this.shadowRoot.getElementById('emptyPlugin').setPosition();
-            this.shadowRoot.getElementById('hasUserEdits').setPosition();
-            this.shadowRoot.getElementById('loadsBSA').setPosition();
-
-            /* Also re-calculate editor tooltip positions. */
-            this.shadowRoot.getElementById('editor').updatePolymerElements();
-
-            /* Remove the edit mode toggle if present. */
-            document.getElementById('cardsNav').removeAttribute('data-editModeToggle');
         },
 
-        onShowEditor: function(evt) {
+        _onShowEditor: function(evt) {
             var card;
             if (this.tagName == 'LOOT-PLUGIN-CARD') {
                 card = this;
@@ -350,41 +314,49 @@ loot-clear-metadata
 
             /* If the editor hasn't already been opened, its data is not yet set, so do that now. */
             if (!card.data.isEditorOpen && !card.data.editor) {
-                card.shadowRoot.getElementById('editor').data = card.data;
-                card.shadowRoot.getElementById('editor').setEditorData(card.data);
+                card.$.editor.setEditorData(card.data);
             }
 
             card.data.isEditorOpen = true;
 
             /* Fire an open event, so that the UI can enter edit mode. */
-            card.dispatchEvent(new CustomEvent('loot-editor-open', {
-                bubbles: true,
-            }));
+            card.dispatchEvent(new CustomEvent('loot-editor-open'));
+            card.$.menu.close();
         },
 
         readFromEditor: function(oldData) {
-            return this.shadowRoot.getElementById('editor').readFromEditor(oldData);
+            return this.$.editor.readFromEditor(oldData);
         },
 
-        onShowOnlyConflicts: function(evt) {
-            getMenuItemCard(this).data.isMenuOpen = false;
+        _onConflictsLabelClick: function(evt) {
+            /* Toggle the toggle state if the user didn't. */
+            if (evt.target.id != 'showOnlyConflicts') {
+                var toggle = evt.currentTarget.querySelector('#showOnlyConflicts');
+                /* Don't toggle state if the click event fires when dragging the
+                   toggle button and the mouse has ended up outside of the
+                   toggle button element. */
+                if (!toggle.pressed) {
+                    toggle.checked = !toggle.checked;
+                }
+            }
+        },
+
+        _onShowOnlyConflicts: function(evt) {
             evt.target.dispatchEvent(new CustomEvent('loot-filter-conflicts', {
-                bubbles: true,
-                detail: evt.target.checked,
+                detail: evt.currentTarget.checked
             }));
+            evt.currentTarget.parentElement.parentElement.parentElement.close();
         },
 
-        onCopyMetadata: function(evt) {
-            evt.target.dispatchEvent(new CustomEvent('loot-copy-metadata', {
-                bubbles: true,
-            }));
+        _onCopyMetadata: function(evt) {
+            evt.target.dispatchEvent(new CustomEvent('loot-copy-metadata'));
+            evt.currentTarget.parentElement.parentElement.close();
         },
 
-        onClearMetadata: function(evt) {
-            evt.target.dispatchEvent(new CustomEvent('loot-clear-metadata', {
-                bubbles: true,
-            }));
-        },
+        _onClearMetadata: function(evt) {
+            evt.target.dispatchEvent(new CustomEvent('loot-clear-metadata'));
+            evt.currentTarget.parentElement.parentElement.close();
+        }
     });
 
     function getMenuItemCard(element) {
@@ -394,4 +366,4 @@ loot-clear-metadata
         return element.parentNode.host;
     }
     </script>
-</polymer-element>
+</dom-module>

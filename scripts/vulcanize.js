@@ -79,6 +79,10 @@ function buildTests() {
             dest: path.join('elements', 'test_loot-message-dialog.html')
         },
         {
+            source: path.join('elements', 'test_loot-plugin-card.html'),
+            dest: path.join('elements', 'test_loot-plugin-card.html')
+        },
+        {
             source: path.join('elements', 'test_loot-plugin-editor.html'),
             dest: path.join('elements', 'test_loot-plugin-editor.html')
         },

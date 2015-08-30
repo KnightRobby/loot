@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <title>test_loot-plugin-card.html</title>
+
+    <script>
+    window.Polymer = window.Polymer || {};
+    window.Polymer.dom = 'shadow';
+    </script>
+    <link rel="import" href="../../../../../bower_components/polymer/polymer.html">
+
+    <link rel="import" href="../../../../../bower_components/iron-list/iron-list.html">
+    <link rel="import" href="../../../../../bower_components/marked-element/marked-element.html">
+
+    <link rel="import" href="../../../../gui/html/elements/loot-plugin-card.html">
+
+    <script src="../../../../gui/html/js/plugin.js"></script>
+</head>
+
+<body>
+    <iron-list id="pluginList" as="plugin" style="height: 500px;">
+        <template>
+            <loot-plugin-card id="[[plugin.id]]" data="{{plugin}}" is-active$="[[plugin.isActive]]"
+                                              is-empty$="[[plugin.isEmpty]]"
+                                              has-bsa$="[[plugin.loadsBSA]]"
+                                              has-user-edits$="[[plugin.hasUserEdits]]"
+                                              is-master$="[[plugin.isMaster]]"
+                                              is-search-result$="[[plugin.isSearchResult]]">
+                <h1>[[plugin.name]]</h1>
+                <span class="version">[[plugin.version]]</span>
+                <span class="crc">[[plugin.computed.crc]]</span>
+                <span class="tag add" hidden$="[[!plugin.computed.tags.added.length]]">[[plugin.computed.tags.added]]</span>
+                <span class="tag remove" hidden$="[[!plugin.computed.tags.removed.length]]">[[plugin.computed.tags.removed]]</span>
+                <ul hidden$="[[!plugin.messages.length]]">
+                    <template is="dom-repeat" items="{{plugin.messages}}">
+                        <li class="[[item.type]]"><marked-element markdown="[[item.content]]"></marked-element></li>
+                    </template>
+                </ul>
+            </loot-plugin-card>
+        </template>
+    </iron-list>
+
+
+    <script>
+    function onEditorToggle(evt) {
+        /* Now show editor. */
+        evt.target.classList.toggle('flip');
+    }
+
+    var plugins = [
+        new Plugin({
+            name: 'Skyrim.esm',
+            modPriority: -999999,
+            crc: 0,
+            version: '',
+            messages: [
+                {
+                    type: 'say',
+                    content: [
+                        {
+                            str: 'This is a test message.'
+                        }
+                    ]
+                }
+            ]
+        })
+    ];
+
+    document.body.addEventListener('loot-editor-open', onEditorToggle, false);
+    document.body.addEventListener('loot-editor-close', onEditorToggle, false);
+
+    document.getElementById('pluginList').items = plugins;
+    </script>
+</body>

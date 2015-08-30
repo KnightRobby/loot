@@ -37,7 +37,16 @@ function Plugin(obj) {
 
     this.modPriority = obj.modPriority;
     this.isGlobalPriority = obj.isGlobalPriority;
-    this.messages = obj.messages;
+    this.messages = (function(){
+        var messages = [];
+        obj.messages.forEach(function(message){
+            messages.push({
+                type: message.type,
+                content: message.content[0].str
+            });
+        });
+        return messages;
+    })();
     this.tags = obj.tags;
     this.isDirty = obj.isDirty;
 
@@ -121,23 +130,6 @@ function Plugin(obj) {
         }
     }
 
-    Plugin.prototype.getUIMessages = function() {
-        var uiMessages = [];
-        /* Now add the new messages. */
-        if (this.messages && this.messages.length != 0) {
-            filters.applyMessageFilters(this.messages).forEach(function(message) {
-                var messageLi = document.createElement('li');
-                messageLi.className = message.type;
-                // Use the Marked library for Markdown formatting support.
-                messageLi.innerHTML = marked(message.content[0].str);
-                uiMessages.push(messageLi);
-
-            });
-        }
-
-        return uiMessages;
-    }
-
     Plugin.prototype.isVisible = function(needle) {
         var versionHidden = document.getElementById('hideVersionNumbers').checked;
         var crcHidden = document.getElementById('hideCRCs').checked;
@@ -162,6 +154,16 @@ function Plugin(obj) {
 
         return false;
     }
+
+    Object.defineProperty(Plugin.prototype, "hasUserEdits", {
+        get: function hasUserEdits() {
+            if (this.userlist && Object.keys(this.userlist).length > 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    });
 
     Plugin.prototype.observer = function(changes) {
         changes.forEach(function(change) {
