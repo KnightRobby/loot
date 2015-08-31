@@ -180,20 +180,18 @@ function initVars() {
     }).catch(processCefError);
 }
 
-window.addEventListener('polymer-ready', function(e) {
-    /* Set the plugin list's scroll target to its parent. */
-    document.getElementById('main').lastElementChild.scrollTarget = document.getElementById('main');
+/* Set the plugin list's scroll target to its parent. */
+document.getElementById('main').lastElementChild.scrollTarget = document.getElementById('main');
 
-    /* Register object observers. */
-    Object.observe(loot, loot.observer);
-    Object.observe(loot.game, loot.gameObserver);
+/* Register object observers. */
+Object.observe(loot, loot.observer);
+Object.observe(loot.game, loot.gameObserver);
 
-    /* Make sure settings are what I want. */
-    marked.setOptions({
-        gfm: true,
-        tables: true,
-        sanitize: true
-    });
-    setupEventHandlers();
-    initVars();
-}, false);
+/* Make sure settings are what I want. */
+marked.setOptions({
+    gfm: true,
+    tables: true,
+    sanitize: true
+});
+setupEventHandlers();
+initVars();
