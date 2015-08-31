@@ -96,7 +96,7 @@ paper-item > a {
 paper-item > a:hover {
     text-decoration: none;
 }
-#cardsNav[data-editModeToggle] > loot-plugin-item {
+#cardsNav > loot-plugin-item {
     transition: transform 0.6s;
 }
 #cardsNav > loot-plugin-item {

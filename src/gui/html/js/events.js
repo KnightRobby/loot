@@ -443,8 +443,6 @@ function onEditorOpen(evt) {
     ++numEditors;
 
     if (numEditors == 1) {
-        /* Set the edit mode toggle attribute. */
-        document.getElementById('cardsNav').setAttribute('data-editModeToggle', '');
         /* Disable the toolbar elements. */
         document.getElementById('wipeUserlistButton').setAttribute('disabled', '');
         document.getElementById('copyContentButton').setAttribute('disabled', '');
@@ -516,8 +514,6 @@ function onEditorClose(evt) {
 
         if (numEditors == 0) {
             document.body.removeAttribute('data-editors');
-            /* Set the edit mode toggle attribute. */
-            document.getElementById('cardsNav').setAttribute('data-editModeToggle', '');
             /* Re-enable toolbar elements. */
             document.getElementById('wipeUserlistButton').removeAttribute('disabled');
             document.getElementById('copyContentButton').removeAttribute('disabled');
