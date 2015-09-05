@@ -161,9 +161,8 @@ loot-clear-metadata
                         <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
                         <div class="dropdown-content">
                             <paper-icon-item id="conflictsLabel">
-                                <iron-icon icon="filter-list" item-icon></iron-icon>
+                                <paper-toggle-button id="showOnlyConflicts" checked="{{data.isConflictFilterChecked}}" item-icon></paper-toggle-button>
                                 <div>Show Only Conflicts</div>
-                                <paper-toggle-button id="showOnlyConflicts" checked="{{data.isConflictFilterChecked}}"></paper-toggle-button>
                             </paper-icon-item>
                             <paper-icon-item id="editMetadata">
                                 <iron-icon icon="create" item-icon></iron-icon>

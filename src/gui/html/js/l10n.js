@@ -81,7 +81,7 @@
             pluginCard.querySelector('paper-tooltip[for=loadsBSA]').textContent = this.translate("Loads BSA").fetch();
             pluginCard.querySelector('paper-tooltip[for=hasUserEdits]').textContent = this.translate("Has User Metadata").fetch();
 
-            pluginCard.getElementById('showOnlyConflicts').previousElementSibling.textContent = this.translate("Show Only Conflicts").fetch();
+            pluginCard.getElementById('showOnlyConflicts').nextElementSibling.textContent = this.translate("Show Only Conflicts").fetch();
             pluginCard.getElementById('editMetadata').lastChild.textContent = this.translate("Edit Metadata").fetch();
             pluginCard.getElementById('copyMetadata').lastChild.textContent = this.translate("Copy Metadata").fetch();
             pluginCard.getElementById('clearMetadata').lastChild.textContent = this.translate("Clear User Metadata").fetch();
