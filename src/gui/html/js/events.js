@@ -39,7 +39,7 @@ function onChangeGame(evt) {
     }
 
     /* Send off a CEF query with the folder name of the new game. */
-    showProgress(l10n.jed.translate('Loading game data...').fetch());
+    showProgress(l10n.translate('Loading game data...').fetch());
     var request = JSON.stringify({
         name: 'changeGame',
         args: [
@@ -109,14 +109,14 @@ function updateMasterlistNoProgress() {
             /* Hack to stop cards overlapping. */
             document.getElementById('main').lastElementChild.updateSize();
 
-            toast(l10n.jed.translate('Masterlist updated to revision %s.').fetch(loot.game.masterlist.revision));
+            toast(l10n.translate('Masterlist updated to revision %s.').fetch(loot.game.masterlist.revision));
         } else {
-            toast(l10n.jed.translate('No masterlist update was necessary.').fetch());
+            toast(l10n.translate('No masterlist update was necessary.').fetch());
         }
     }).catch(processCefError);
 }
 function onUpdateMasterlist(evt) {
-    showProgress(l10n.jed.translate('Updating masterlist...').fetch());
+    showProgress(l10n.translate('Updating masterlist...').fetch());
     updateMasterlistNoProgress().then(function(result){
         closeProgressDialog();
     }).catch(processCefError);
@@ -140,7 +140,7 @@ function onSortPlugins(evt) {
         promise = promise.then(updateMasterlistNoProgress());
     }
     promise.then(function(){
-        showProgress(l10n.jed.translate('Sorting plugins...').fetch());
+        showProgress(l10n.translate('Sorting plugins...').fetch());
         loot.query('sortPlugins').then(JSON.parse).then(function(result){
             if (result) {
                 loot.game.oldLoadOrder = loot.game.plugins;
@@ -242,7 +242,7 @@ function onRedatePlugins(evt) {
         return;
     }
 
-    showMessageDialog(l10n.jed.translate('Redate Plugins?').fetch(), l10n.jed.translate('This feature is provided so that modders using the Creation Kit may set the load order it uses. A side-effect is that any subscribed Steam Workshop mods will be re-downloaded by Steam. Do you wish to continue?').fetch(), l10n.jed.translate('Redate').fetch(), function(result){
+    showMessageDialog(l10n.translate('Redate Plugins?').fetch(), l10n.translate('This feature is provided so that modders using the Creation Kit may set the load order it uses. A side-effect is that any subscribed Steam Workshop mods will be re-downloaded by Steam. Do you wish to continue?').fetch(), l10n.translate('Redate').fetch(), function(result){
         if (result) {
             loot.query('redatePlugins').then(function(response){
                 toast('Plugins were successfully redated.');
@@ -251,7 +251,7 @@ function onRedatePlugins(evt) {
     });
 }
 function onClearAllMetadata(evt) {
-    showMessageDialog('', l10n.jed.translate('Are you sure you want to clear all existing user-added metadata from all plugins?').fetch(), l10n.jed.translate('Clear').fetch(), function(result){
+    showMessageDialog('', l10n.translate('Are you sure you want to clear all existing user-added metadata from all plugins?').fetch(), l10n.translate('Clear').fetch(), function(result){
         if (result) {
             loot.query('clearAllMetadata').then(JSON.parse).then(function(result){
                 if (result) {
@@ -273,7 +273,7 @@ function onClearAllMetadata(evt) {
                         }
                     });
 
-                    toast(l10n.jed.translate('All user-added metadata has been cleared.').fetch());
+                    toast(l10n.translate('All user-added metadata has been cleared.').fetch());
                 }
             }).catch(processCefError);
         }
@@ -330,7 +330,7 @@ function onCopyContent(evt) {
     });
 
     loot.query(request).then(function(){
-        toast(l10n.jed.translate("LOOT's content has been copied to the clipboard.").fetch());
+        toast(l10n.translate("LOOT's content has been copied to the clipboard.").fetch());
     }).catch(processCefError);
 }
 function onCopyLoadOrder(evt) {
@@ -352,7 +352,7 @@ function onCopyLoadOrder(evt) {
     });
 
     loot.query(request).then(function(){
-        toast(l10n.jed.translate("The load order has been copied to the clipboard.").fetch());
+        toast(l10n.translate("The load order has been copied to the clipboard.").fetch());
     }).catch(processCefError);
 }
 function onSwitchSidebarTab(evt) {
@@ -559,11 +559,11 @@ function onCopyMetadata(evt) {
     });
 
     loot.query(request).then(function(){
-        toast(l10n.jed.translate('The metadata for "%s" has been copied to the clipboard.').fetch(evt.target.getName()));
+        toast(l10n.translate('The metadata for "%s" has been copied to the clipboard.').fetch(evt.target.getName()));
     }).catch(processCefError);
 }
 function onClearMetadata(evt) {
-    showMessageDialog('', l10n.jed.translate('Are you sure you want to clear all existing user-added metadata from "%s"?').fetch(evt.target.getName()), l10n.jed.translate('Clear').fetch(), function(result){
+    showMessageDialog('', l10n.translate('Are you sure you want to clear all existing user-added metadata from "%s"?').fetch(evt.target.getName()), l10n.translate('Clear').fetch(), function(result){
         if (result) {
             var request = JSON.stringify({
                 name: 'clearPluginMetadata',
@@ -589,7 +589,7 @@ function onClearMetadata(evt) {
                             break;
                         }
                     }
-                    toast(l10n.jed.translate('The user-added metadata for "%s" has been cleared.').fetch(evt.target.getName()));
+                    toast(l10n.translate('The user-added metadata for "%s" has been cleared.').fetch(evt.target.getName()));
                     /* Now perform search again. If there is no current search, this won't
                        do anything. */
                     document.getElementById('searchBar').search();
@@ -612,9 +612,9 @@ function onSidebarClick(evt) {
 }
 function onQuit(evt) {
     if (!document.getElementById('applySortButton').classList.contains('hidden')) {
-        handleUnappliedChangesClose(l10n.jed.translate('sorted load order').fetch());
+        handleUnappliedChangesClose(l10n.translate('sorted load order').fetch());
     } else if (document.body.hasAttribute('data-editors')) {
-        handleUnappliedChangesClose(l10n.jed.translate('metadata edits').fetch());
+        handleUnappliedChangesClose(l10n.translate('metadata edits').fetch());
     } else {
         window.close();
     }
@@ -625,7 +625,7 @@ function onJumpToGeneralInfo(evt) {
 }
 function onContentRefresh(evt) {
     /* Send a query for updated load order and plugin header info. */
-    showProgress(l10n.jed.translate('Refreshing data...').fetch());
+    showProgress(l10n.translate('Refreshing data...').fetch());
     loot.query('getGameData').then(function(result){
         /* Parse the data sent from C++. */
         try {
