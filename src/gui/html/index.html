@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
     <title>LOOT</title>
     <link rel="stylesheet" href="css/typography.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style.css" is="custom-style" />
     <link rel="stylesheet" href="css/material.css" />
     <link rel="stylesheet" href="css/overrides.css" />
 
@@ -20,6 +20,7 @@
     <link rel="import" href="elements/loot-plugin-card.html">
     <link rel="import" href="elements/loot-search-toolbar.html">
 
+    <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
     <link rel="import" href="../../../bower_components/iron-icon/iron-icon.html">
     <link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
     <link rel="import" href="../../../bower_components/iron-list/iron-list.html">
@@ -44,17 +45,56 @@
     <link rel="import" href="../../../bower_components/paper-toggle-button/paper-toggle-button.html">
     <link rel="import" href="../../../bower_components/paper-toolbar/paper-toolbar.html">
     <link rel="import" href="../../../bower_components/paper-tooltip/paper-tooltip.html">
+    <style is="custom-style">
+        div[drawer],
+        div[main] {
+            @apply(--layout-vertical);
+        }
+        #sidebarTabs {
+            @apply(--layout-self-stretch);
+        }
+        #sidebarTabs + iron-pages,
+        #cardsNav,
+        #filtersSpacer,
+        #hiddenPluginsTxt,
+        #hiddenMessagesTxt,
+        #toolbarSpacer,
+        #pluginCardList {
+            @apply(--layout-flex);
+        }
+        #filters,
+        #main {
+            @apply(--layout-vertical);
+            @apply(--layout-flex);
+        }
+        #hiddenPlugins,
+        #hiddenMessages {
+            @apply(--layout-horizontal);
+            @apply(--layout-center);
+        }
+        #settingsDialog > div {
+            @apply(--layout-horizontal);
+            @apply(--layout-center);
+            @apply(--layout-wrap);
+        }
+        #settingsDialog > div > div {
+            @apply(--layout-horizontal);
+            @apply(--layout-center);
+        }
+    </style>
 </head>
 <!-- oncontextmenu attribute disables the right-click menu. -->
-<body oncontextmenu="return false" unresolved fullbleed vertical layout>
+<body oncontextmenu="return false" unresolved>
     <paper-drawer-panel id="container" drawer-width="33%">
-        <div drawer vertical layout>
-            <paper-tabs id="sidebarTabs" selected="cardsNav" attr-for-selected="data-id" flex>
-                <paper-tab data-id="cardsNav">Plugins</paper-tab>
-                <paper-tab data-id="filters">Filters</paper-tab>
-            </paper-tabs>
-            <iron-pages selected="cardsNav" attr-for-selected="id" flex>
-                <iron-list id="cardsNav" class="tab-content" flex>
+        <div drawer>
+            <paper-toolbar>
+                <paper-tabs id="sidebarTabs" selected="cardsNav" attr-for-selected="data-id" class="bottom fit">
+                    <paper-tab data-id="cardsNav">Plugins</paper-tab>
+                    <paper-tab data-id="filters">Filters</paper-tab>
+                </paper-tabs>
+            </paper-toolbar>
+            <iron-pages selected="cardsNav" attr-for-selected="id">
+                <iron-list id="cardsNav" class="tab-content">
                     <template>
                         <loot-plugin-item data-id="[[item.id]]"
                                           data-index="[[index]]"
@@ -65,7 +105,7 @@
                     </template>
                     <!-- Generated <loot-plugin-item> elements go here. -->
                 </iron-list>
-                <div id="filters" class="tab-content" layout vertical flex>
+                <div id="filters" class="tab-content">
                     <paper-checkbox id="hideVersionNumbers" data-class="version">Hide version numbers</paper-checkbox>
                     <paper-checkbox id="hideCRCs" data-class="crc">Hide CRCs</paper-checkbox>
                     <paper-checkbox id="hideBashTags" data-class="tag">Hide Bash Tags</paper-checkbox>
@@ -76,34 +116,35 @@
                     <paper-checkbox id="hideMessagelessPlugins">Hide messageless plugins</paper-checkbox>
                     <paper-input id="contentFilter" label="Filter content"></paper-input>
                     <paper-tooltip for="contentFilter" position="bottom">Press Enter or click outside the input to set the filter.</paper-tooltip>
-                    <div flex></div>
+                    <div id="filtersSpacer"></div>
                     <div class="divider"></div>
-                    <div center horizontal layout>
-                        <div id="hiddenPluginsTxt" flex>Hidden plugins:</div>
+                    <div id="hiddenPlugins">
+                        <div id="hiddenPluginsTxt">Hidden plugins:</div>
                         <div><span id="hiddenPluginNo">0</span> / <span id="filterTotalPluginNo">0</span></div>
                     </div>
-                    <div center horizontal layout>
-                        <div id="hiddenMessagesTxt" flex>Hidden messages:</div>
+                    <div id="hiddenMessages">
+                        <div id="hiddenMessagesTxt">Hidden messages:</div>
                         <div><span id="hiddenMessageNo">0</span> / <span id="filterTotalMessageNo">0</span></div>
                     </div>
                 </div>
             </iron-pages>
         </div>
-        <div main layout vertical>
+        <div main>
             <paper-toolbar id="mainToolbar">
                 <paper-icon-button icon="menu" id="drawerToggle" paper-drawer-toggle></paper-icon-button>
                 <paper-icon-button id="jumpToGeneralInfo" icon="home"></paper-icon-button>
                 <paper-tooltip for="jumpToGeneralInfo">Jump To General Information</paper-tooltip>
-                <loot-dropdown-menu id="gameMenu" class="title dark">
+                <loot-dropdown-menu id="gameMenu" class="dark">
                     <!-- Generated game <li> elements go here. -->
                 </loot-dropdown-menu>
-                <span flex></span>
+                <!-- right-align the rest of the toolbar items. -->
+                <span id="toolbarSpacer"></span>
                 <paper-icon-button id="sortButton" icon="sort"></paper-icon-button>
                 <paper-tooltip for="sortButton">Sort Plugins</paper-tooltip>
                 <paper-icon-button id="updateMasterlistButton" icon="file-download"></paper-icon-button>
                 <paper-tooltip for="updateMasterlistButton">Update Masterlist</paper-tooltip>
-                <paper-button id="applySortButton" class="hidden">Apply</paper-button>
-                <paper-button id="cancelSortButton" class="hidden">Cancel</paper-button>
+                <paper-button id="applySortButton" hidden>Apply</paper-button>
+                <paper-button id="cancelSortButton" hidden>Cancel</paper-button>
                 <paper-icon-button id="showSearch" icon="search"></paper-icon-button>
                 <paper-tooltip for="showSearch">Search Cards</paper-tooltip>
                 <paper-menu-button horizontal-align="right">
@@ -156,7 +197,7 @@
                 </paper-menu-button>
             </paper-toolbar>
             <loot-search-toolbar id="searchBar"></loot-search-toolbar>
-            <div id="main" flex layout vertical>
+            <div id="main">
                 <paper-material id="summary">
                     <h1>General Information</h1>
                     <table>
@@ -207,7 +248,7 @@
                         <!-- Generated message <li> elements go here. -->
                     </ul>
                 </paper-material>
-                <iron-list id="pluginCardList" as="plugin" flex>
+                <iron-list id="pluginCardList" as="plugin">
                     <template>
                         <loot-plugin-card id="[[plugin.id]]" data="{{plugin}}" is-active$="[[plugin.isActive]]"
                                                           is-empty$="[[plugin.isEmpty]]"
@@ -258,7 +299,9 @@
 
             You should have received a copy of the GNU General Public License along with LOOT. If not, see &lt;http://www.gnu.org/licenses/&gt;.
         </blockquote>
-        <paper-button dialog-confirm autofocus>OK</paper-button>
+        <div class="buttons">
+            <paper-button dialog-confirm autofocus>OK</paper-button>
+        </div>
     </paper-dialog>
 
     <paper-dialog id="settingsDialog"
@@ -266,27 +309,27 @@
                   entry-animation="fade-in-animation"
                   exit-animation="fade-out-animation">
         <h2>Settings</h2>
-        <div layout horizontal center wrap>
-            <div center horizontal layout>
+        <div>
+            <div>
                 <div>Default Game</div>
                 <loot-dropdown-menu id="defaultGameSelect">
                     <paper-item value="auto">Autodetect</paper-item>
                     <!-- Game <option> elements go here. -->
                 </loot-dropdown-menu>
             </div>
-            <div center horizontal layout>
+            <div>
                 <span id="languageLabel">Language</span>
                 <paper-tooltip for="languageLabel">Language changes will be applied after LOOT is restarted.</paper-tooltip>
                 <loot-dropdown-menu id="languageSelect">
                     <!-- Language <option> elements go here. -->
                 </loot-dropdown-menu>
             </div>
-            <div center horizontal layout>
+            <div>
                 <div>Enable debug logging</div>
                 <paper-toggle-button id="enableDebugLogging"></paper-toggle-button>
                 <paper-tooltip>The output is logged to the LOOTDebugLog.txt file.</paper-tooltip>
             </div>
-            <div center horizontal layout>
+            <div>
                 <div>Update masterlist before sorting</div>
                 <paper-toggle-button id="updateMasterlist"></paper-toggle-button>
             </div>
@@ -309,8 +352,10 @@
                 <!-- Game rows go here. -->
             </tbody>
         </table>
-        <paper-button class="accept" dialog-confirm autofocus>Apply</paper-button>
-        <paper-button class="cancel" dialog-dismiss>Cancel</paper-button>
+        <div class="buttons">
+            <paper-button class="accept" dialog-confirm autofocus>Apply</paper-button>
+            <paper-button class="cancel" dialog-dismiss>Cancel</paper-button>
+        </div>
     </paper-dialog>
 
     <paper-dialog id="firstRun"
@@ -330,7 +375,9 @@
         </ul>
 
         <p>LOOT is free, but if you want to show your appreciation with some money, donations may be made to WrinklyNinja (LOOT's creator and main developer) using <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HDR3YBGGYCLBG">PayPal</a>, <a href="https://wrinklyninja.github.io/bitcoin/">Bitcoin</a> or <a href="https://flattr.com/submit/auto?user_id=OliverHamlet&url=https://wrinklyninja.github.io&title=LOOT">Flattr</a>.</p>
-        <paper-button dialog-confirm autofocus>OK</paper-button>
+        <div class="buttons">
+            <paper-button dialog-confirm autofocus>OK</paper-button>
+        </div>
     </paper-dialog>
     <script src="../../../bower_components/marked/lib/marked.js"></script>
     <script src="../../../bower_components/Jed/jed.js"></script>

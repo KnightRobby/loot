@@ -56,10 +56,10 @@ tt, code, kbd, samp {
 }
 
 /* App bar */
-core-toolbar, div[drawer] > div:first-child {
+#mainToolbar, div[drawer] > div:first-child {
     background: #3F51B5;
     color: white;
-    height: 56px;
+    height: 64px;
 }
 #mainToolbar,
 #searchBar {
@@ -71,7 +71,7 @@ core-toolbar, div[drawer] > div:first-child {
     display: none;
 }
 #gameMenu {
-    margin-top: -0.5em;
+    margin-top: -1em;
 }
 #drawerToggle, #applySortButton, #cancelSortButton {
     position: relative;
@@ -80,6 +80,12 @@ core-toolbar, div[drawer] > div:first-child {
 #applySortButton {
     color: #2196F3;
     background-color: white;
+}
+#mainToolbar > paper-menu-button > div {
+    color: black;
+}
+iron-icon {
+
 }
 
 /* Drawer / Sidebar */
@@ -111,14 +117,14 @@ paper-item > a:hover {
     overflow: hidden;
 }
 #filters > paper-checkbox,
-#filters > core-tooltip,
+#filters > paper-tooltip,
 #filters > div:not(.divider) {
     padding: 0 16px;
     height: 48px;
     line-height: 48px;
 }
 #filters > paper-checkbox,
-#filters > core-tooltip {
+#filters > paper-tooltip {
     display: block;
 }
 
@@ -129,15 +135,13 @@ paper-item > a:hover {
     position: relative;
     z-index: 0;
 }
-#main > core-list {
+#main > iron-list {
     transform-style: preserve-3d;
 }
 #summary {
     background: white;
     margin: 8px;
     padding: 16px;
-    border-radius: 2px;
-    box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
 }
 #summary > h1 {
     margin: -16px 0 0;
@@ -200,7 +204,7 @@ li.warn {
 #settingsDialog > div > :last-child {
     margin-right: 0;
 }
-#settingsDialog core-label [for]:last-child {
+#settingsDialog div [for]:last-child {
     margin-left: 16px;
 }
 #gameTable {

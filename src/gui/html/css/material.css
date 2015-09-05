@@ -2,7 +2,7 @@
    to better match the Material Design spec. */
 
 /* core-tooltip */
-html /deep/ core-tooltip::shadow .core-tooltip {
+html /deep/ paper-tooltip::shadow #tooltip {
    font-size: 0.714rem;
    font-family: Roboto, sans-serif;
    font-weight: 500;
@@ -16,10 +16,10 @@ html /deep/ paper-button {
    line-height: 36px;
    margin: 6px 4px;
 }
-html /deep/ paper-button::shadow .button-content {
+html /deep/ paper-button::shadow .content {
    padding: 0 8px;
 }
-html /deep/ paper-button::shadow .button-content ::content a {
+html /deep/ paper-button::shadow .content ::content a {
    margin: 0 -8px;
    padding: 0 8px;
    -ms-flex: 1 1 auto;
@@ -31,7 +31,7 @@ html /deep/ paper-icon-button[disabled] {
 }
 
 /* paper-item */
-html /deep/ paper-item, html /deep/ core-menu > paper-item {
+html /deep/ paper-item, html /deep/ paper-menu > paper-item {
    color: rgba(0, 0, 0, 0.87);
    height: 48px;
    line-height: 48px;
@@ -39,22 +39,19 @@ html /deep/ paper-item, html /deep/ core-menu > paper-item {
 html /deep/ paper-item[disabled]  {
     color: rgba(0, 0, 0, 0.26);
 }
-html /deep/ paper-item core-icon {
+html /deep/ paper-icon-item iron-icon {
    margin-right: 32px;
    color: rgba(0, 0, 0, 0.54);
 }
-html /deep/ paper-item[disabled] > core-icon {
+html /deep/ paper-icon-item[disabled] > iron-icon {
     color: rgba(0, 0, 0, 0.26);
 }
-html /deep/ paper-item::shadow .button-content {
-   padding: 0 16px;
-}
-html /deep/ paper-item::shadow .button-content ::content *:not(core-tooltip) {
+html /deep/ paper-item::shadow ::content *:not(paper-tooltip) {
    white-space: nowrap;
    text-overflow: ellipsis;
    overflow: hidden;
 }
-html /deep/ paper-item::shadow .button-content ::content a {
+html /deep/ paper-item::shadow ::content a {
    margin: 0 -16px;
    padding: 0 16px;
    -ms-flex: 1 1 auto;
@@ -85,26 +82,18 @@ html /deep/ input {
    text-overflow: ellipsis;
 }
 
-/* paper-dropdown */
-html /deep/ paper-dropdown > core-menu {
-   margin: 8px 0;
-}
-html /deep/ paper-dropdown .core-selected {
-   background-color: inherit;
-}
-
 /* paper-tabs */
-html /deep/ paper-tabs::shadow .scroll-button > paper-icon-button {
+html /deep/ paper-tabs::shadow paper-icon-button {
     vertical-align: middle;
     color: rgba(0, 0, 0, 0.54);
 }
 
 /* paper-tab */
-html /deep/ paper-tab::shadow .tab-content {
+html /deep/ paper-tab::shadow #tabsContent {
     line-height: 48px;
 }
 
-/* core-drawer-panel */
-core-drawer-panel::shadow .narrow-layout #drawer {
+/* paper-drawer-panel */
+paper-drawer-panel::shadow .narrow-layout #drawer {
    width: calc(100vw - 56px) !important;
 }

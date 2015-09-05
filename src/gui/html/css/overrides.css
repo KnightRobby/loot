@@ -15,7 +15,7 @@ paper-icon-button[disabled] {
     right: 0;
 }
 /* This makes checkboxes have the same padding as icons in lists. */
-html /deep/ core-menu paper-checkbox::shadow #checkboxLabel {
+html /deep/ paper-menu paper-checkbox::shadow #checkboxLabel {
     padding-left: 32px;
 }
 /* Set the sidebar checkboxes to have balanced padding on either side. 32px
@@ -41,7 +41,7 @@ html /deep/ paper-tabs::shadow .scroll-button .hidden {
     pointer-events: none;
 }
 /* Set the drawer z-index so that it doesn't appear below plugin cards. */
-core-drawer-panel::shadow #drawer {
+paper-drawer-panel::shadow #drawer {
     /* max-width disabled because the panel doesn't shift over when the max
     is reached, due to the percentage drawer width, and setting it to a
     constant 400px is too wide in many window sizes. */
@@ -52,26 +52,19 @@ core-drawer-panel::shadow #drawer {
 #settingsDialog loot-dropdown-menu::shadow paper-dropdown-menu {
     padding-top: 4px;
 }
-/* Add a transition to the core-tooltip tooltips. */
-html /deep/ core-tooltip::shadow .core-tooltip {
+/* Add a transition to the paper-tooltip tooltips. */
+html /deep/ paper-tooltip::shadow #tooltip {
     opacity: 0;
     transition: opacity 0.3s, visibility 0s 0.3s;
 }
-html /deep/ core-tooltip:hover:not([disabled])::shadow .core-tooltip {
+html /deep/ paper-tooltip:hover:not([disabled])::shadow #tooltip {
     opacity: 1;
     transition-delay: 0s;
 }
 
 /* The max-height doesn't allow for expansion into newly-created scroll space. */
-#main /deep/ paper-dropdown::shadow #scroller {
+#main /deep/ iron-dropdown {
     max-height: none !important;
-}
-
-/* Don't center the "Jump to General Information" or active plugin tooltips, as
-   they can get cut off by the sidebar. */
-#drawerToggle + core-tooltip::shadow #tooltip,
-loot-plugin-card /deep/ #activeTick::shadow #tooltip {
-    left: inherit !important;
 }
 
 /* Style the paper-checkbox background. */
