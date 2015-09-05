@@ -189,17 +189,11 @@ loot-clear-metadata
             <loot-plugin-editor id="editor">
                 <h1>[[data.name]]</h1>
                 <span class="version">[[data.version]]</span>
-                <span class="crc">[[data.computed.crc]]</span>
+                <span class="crc">[[data.crc]]</span>
             </loot-plugin-editor>
         </paper-material>
     </template>
     <script>
-    //TODO(polyup): Need to add an observer of data.tags, calling onTagsChange.
-    //Note that the semantics for observing properties and arrays has changed.
-    //TODO(polyup): Need to add an observer of data.computed.messages, calling onMessagesChange.
-    //Note that the semantics for observing properties and arrays has changed.
-    //TODO(polyup): Need to add an observer of data.isSearchResult, calling onSearchResultChange.
-    //Note that the semantics for observing properties and arrays has changed.
     Polymer({
         is: 'loot-plugin-card',
         properties: {

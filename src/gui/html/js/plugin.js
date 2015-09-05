@@ -22,76 +22,120 @@
     <http://www.gnu.org/licenses/>.
 */
 'use strict';
-/* Plugin object for managing data and UI interaction. */
-function Plugin(obj) {
-    this.name = obj.name;
-    this.crc = obj.crc;
-    this.version = obj.version;
-    this.isActive = obj.isActive;
-    this.isEmpty = obj.isEmpty;
-    this.isMaster = obj.isMaster;
-    this.loadsBSA = obj.loadsBSA;
+/* Plugin class for managing data and UI interaction. */
 
-    this.masterlist = obj.masterlist;
-    this.userlist = obj.userlist;
+class Plugin {
+    constructor(obj) {
+        /* Straightforward assignments. */
+        this.name = obj.name;
+        this.version = obj.version;
+        this.isActive = obj.isActive;
+        this.isEmpty = obj.isEmpty;
+        this.isMaster = obj.isMaster;
+        this.loadsBSA = obj.loadsBSA;
 
-    this.modPriority = obj.modPriority;
-    this.isGlobalPriority = obj.isGlobalPriority;
-    this.messages = (function(){
-        var messages = [];
-        obj.messages.forEach(function(message){
-            messages.push({
-                type: message.type,
-                content: message.content[0].str
-            });
-        });
-        return messages;
-    })();
-    this.tags = obj.tags;
-    this.isDirty = obj.isDirty;
+        this.masterlist = obj.masterlist;
+        this.userlist = obj.userlist;
 
-    this.id = this.name.replace(/\s+/g, '');
-    this.isMenuOpen = false;
-    this.isEditorOpen = false;
-    this.isConflictFilterChecked = false;
-    this.isSearchResult = false;
+        this.modPriority = obj.modPriority;
+        this.isGlobalPriority = obj.isGlobalPriority;
 
-    /* Converts between the LOOT metadata object for tags, and their
-       editor row representation. */
-    Plugin.prototype.convTagObj = function(tag) {
-        var newTag = {
-            condition: tag.condition
-        };
-        if (tag.type) {
-            /* Input is row data. */
-            if (tag.type == 'remove') {
-                newTag.name = '-' + tag.name;
-            } else {
-                newTag.name = tag.name;
-            }
-        } else {
-            /* Input is metadata object. */
-            if (tag.name[0] == '-') {
-                newTag.type = 'remove';
-                newTag.name = tag.name.substr(1);
-            } else {
-                newTag.type = 'add';
-                newTag.name = tag.name;
-            }
-        }
-        return newTag;
+        this.isDirty = obj.isDirty;
+
+        /* UI state memory. */
+        this.isMenuOpen = false;
+        this.isEditorOpen = false;
+        this.isConflictFilterChecked = false;
+        this.isSearchResult = false;
+        this.versionHidden = false;
+        this.crcHidden = false;
+        this.tagsHidden = false;
+
+        /* Strip name whitespace for ID. */
+        this.id = this.name.replace(/\s+/g, '');
+
+        /* Convert CRC to a string representation. */
+        this.crc = this._convCrc(obj.crc);
+
+        /* Use only the first message content string. */
+        this.messages = this._convMessages(obj.messages);
+
+        /* Convert tags to two strings. */
+        this.tags = this._convTags(obj.tags);
+
+        /* Observe for data changes. */
+        Object.observe(this, this._observer);
     }
 
-    Plugin.prototype.getTagStrings = function() {
+    get hasUserEdits() {
+        if (this.userlist && Object.keys(this.userlist).length > 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    get priority() {
+        if (!this.modPriority || this.modPriority == 0) {
+            return '';
+        } else {
+            return this.modPriority.toString();
+        }
+    }
+
+    isVisible(needle) {
+        if (this.name.toLowerCase().indexOf(needle) != -1
+            || !this.versionHidden && this.version.toLowerCase().indexOf(needle) != -1
+            || !this.crcHidden && this.crc.toLowerCase().indexOf(needle) != -1) {
+            return true;
+        }
+        if (!this.tagsHidden) {
+            if (this.tags.added.toLowerCase().indexOf(needle) != -1 || this.tags.removed.toLowerCase().indexOf(needle) != -1) {
+            return true;
+            }
+        }
+        for (var i = 0; i < this.messages.length; ++i) {
+            if (!this.messages[i].hidden && this.messages[i].textContent.toLowerCase().indexOf(needle) != -1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    _convCrc(crc) {
+        if (!crc || crc == 0) {
+            return '';
+        } else {
+            /* Pad CRC string to 8 characters. */
+            return ('00000000' + crc.toString(16).toUpperCase()).slice(-8);
+        }
+    }
+
+    _convMessages(messages) {
+        var result = [];
+        if (messages) {
+            messages.forEach(function(message){
+                result.push({
+                    type: message.type,
+                    content: message.content[0].str,
+                    hidden: false
+                });
+            });
+        }
+        return result;
+    }
+
+    _convTags(tags) {
         var tagsAdded = [];
         var tagsRemoved = [];
 
-        if (this.tags) {
-            for (var i = 0; i < this.tags.length; ++i) {
-                if (this.tags[i].name[0] == '-') {
-                    tagsRemoved.push(this.tags[i].name.substr(1));
+        if (tags) {
+            for (var i = 0; i < tags.length; ++i) {
+                if (tags[i].name[0] == '-') {
+                    tagsRemoved.push(tags[i].name.substr(1));
                 } else {
-                    tagsAdded.push(this.tags[i].name);
+                    tagsAdded.push(tags[i].name);
                 }
             }
         }
@@ -113,69 +157,9 @@ function Plugin(obj) {
         };
     }
 
-    Plugin.prototype.getPriorityString = function() {
-        if (this.modPriority != 0) {
-            return this.modPriority.toString();
-        } else {
-            return '';
-        }
-    }
-
-    Plugin.prototype.getCrcString = function() {
-        if (this.crc == 0) {
-            return '';
-        } else {
-            /* Pad CRC string to 8 characters. */
-            return ('00000000' + this.crc.toString(16).toUpperCase()).slice(-8);
-        }
-    }
-
-    Plugin.prototype.isVisible = function(needle) {
-        var versionHidden = document.getElementById('hideVersionNumbers').checked;
-        var crcHidden = document.getElementById('hideCRCs').checked;
-        var bashTagHidden = document.getElementById('hideBashTags').checked;
-
-        if (this.name.toLowerCase().indexOf(needle) != -1
-            || !versionHidden && this.version.toLowerCase().indexOf(needle) != -1
-            || !crcHidden && this.getCrcString().toLowerCase().indexOf(needle) != -1) {
-            return true;
-        }
-        if (!bashTagHidden) {
-            var tags = this.getTagStrings();
-            if (tags.added.toLowerCase().indexOf(needle) != -1 || tags.removed.toLowerCase().indexOf(needle) != -1) {
-            return true;
-            }
-        }
-        for (var i = 0; i < this.computed.messages.length; ++i) {
-            if (this.computed.messages[i].textContent.toLowerCase().indexOf(needle) != -1) {
-            return true;
-            }
-        }
-
-        return false;
-    }
-
-    Object.defineProperty(Plugin.prototype, "hasUserEdits", {
-        get: function hasUserEdits() {
-            if (this.userlist && Object.keys(this.userlist).length > 1) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    });
-
-    Plugin.prototype.observer = function(changes) {
+    _observer(changes) {
         changes.forEach(function(change) {
-            if (change.name == 'tags') {
-                change.object.computed.tags = change.object.getTagStrings();
-            } else if (change.name == 'modPriority') {
-                change.object.computed.priority = change.object.getPriorityString();
-            } else if (change.name == 'crc') {
-                change.object.computed.crc = change.object.getCrcString();
-            } else if (change.name == 'messages') {
-                /* Update computed list items. */
-                change.object.computed.messages = change.object.getUIMessages();
+            if (change.name == 'messages') {
 
                 /* Update the message counts. */
                 var oldTotal = 0;
@@ -222,14 +206,6 @@ function Plugin(obj) {
             }
         });
     }
-
-    this.computed = {
-        tags: this.getTagStrings(),
-        priority: this.getPriorityString(),
-        crc: this.getCrcString(),
-        messages: this.getUIMessages(),
-    };
-    Object.observe(this, this.observer);
 }
 
 function jsonToPlugin(key, value) {

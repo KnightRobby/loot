@@ -129,20 +129,11 @@ var filters = {
     },
 
     applyMessageFilters: function(messages) {
-        var filteredMessages = [];
-
         if (this.allMessageFilter()) {
             messages.forEach(function(message){
-                if (this.noteFilter(message)
-                    && this.doNotCleanFilter(message)) {
-
-                    filteredMessages.push(message);
-                    return;
-                }
+                message.hidden = !(this.noteFilter(message) && this.doNotCleanFilter(message));
             }, this);
         }
-
-        return filteredMessages;
     },
 };
 
@@ -204,7 +195,7 @@ function setFilteredUIData() {
 
         /* Also run message filters on the filtered plugins. */
         filtered.forEach(function(plugin){
-            plugin.computed.messages = plugin.getUIMessages();
+            filters.applyMessageFilters(plugin.messages);
         });
 
         /* Now perform search again. If there is no current search, this won't

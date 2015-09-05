@@ -270,6 +270,32 @@ loot-editor-close
             this.$.cancel.removeEventListener('click', this._onHideEditor, false);
         },
 
+        /* Converts between the LOOT metadata object for tags, and their
+           editor row representation. */
+        _convTagObj: function(tag) {
+            var newTag = {
+                condition: tag.condition
+            };
+            if (tag.type) {
+                /* Input is row data. */
+                if (tag.type == 'remove') {
+                    newTag.name = '-' + tag.name;
+                } else {
+                    newTag.name = tag.name;
+                }
+            } else {
+                /* Input is metadata object. */
+                if (tag.name[0] == '-') {
+                    newTag.type = 'remove';
+                    newTag.name = tag.name.substr(1);
+                } else {
+                    newTag.type = 'add';
+                    newTag.name = tag.name;
+                }
+            }
+            return newTag;
+        },
+
         readFromEditor: function(oldData) {
             /* Need to turn all the editor controls' values into data to
                process. The control values can be compared with the existing
@@ -315,7 +341,7 @@ loot-editor-close
                         plugin.userlist.msg = rowsData;
                     } else if (tables[j].parentElement.id == 'tags') {
                         rowsData.forEach(function(value, index, arr){
-                            arr[index] = oldData.convTagObj(value);
+                            arr[index] = this._convTagObj(value);
                         });
                         plugin.userlist.tag = rowsData;
                     } else if (tables[j].parentElement.id == 'dirty') {
@@ -457,14 +483,14 @@ loot-editor-close
 
                     if (newData.masterlist && newData.masterlist.tag) {
                         newData.masterlist.tag.forEach(function(tag) {
-                            var tagData = newData.convTagObj(tag);
+                            var tagData = this._convTagObj(tag);
                             var row = tables[j].addRow(tagData);
                             tables[j].setReadOnly(row);
                         }, newData);
                     }
                     if (tempData.userlist && tempData.userlist.tag) {
                         tempData.userlist.tag.forEach(function(tag) {
-                            var tagData = Plugin.prototype.convTagObj(tag);
+                            var tagData = this._convTagObj(tag);
                             tables[j].addRow(tagData);
                         }, tempData);
                     }

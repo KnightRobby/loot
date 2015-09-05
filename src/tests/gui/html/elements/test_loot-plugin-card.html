@@ -28,12 +28,12 @@
                                               is-search-result$="[[plugin.isSearchResult]]">
                 <h1>[[plugin.name]]</h1>
                 <span class="version">[[plugin.version]]</span>
-                <span class="crc">[[plugin.computed.crc]]</span>
-                <span class="tag add" hidden$="[[!plugin.computed.tags.added.length]]">[[plugin.computed.tags.added]]</span>
-                <span class="tag remove" hidden$="[[!plugin.computed.tags.removed.length]]">[[plugin.computed.tags.removed]]</span>
+                <span class="crc">[[plugin.crc]]</span>
+                <span class="tag add" hidden$="[[!plugin.tags.added.length]]">[[plugin.tags.added]]</span>
+                <span class="tag remove" hidden$="[[!plugin.tags.removed.length]]">[[plugin.tags.removed]]</span>
                 <ul hidden$="[[!plugin.messages.length]]">
                     <template is="dom-repeat" items="{{plugin.messages}}">
-                        <li class="[[item.type]]"><marked-element markdown="[[item.content]]"></marked-element></li>
+                        <li class="[[item.type]]" hidden$="[[item.hidden]]"><marked-element markdown="[[item.content]]"></marked-element></li>
                     </template>
                 </ul>
             </loot-plugin-card>
