@@ -159,12 +159,11 @@ function initVars() {
                     loot.game.masterlist = game.masterlist;
                     loot.game.globalMessages = game.globalMessages;
                     loot.game.plugins = game.plugins;
-                    document.getElementById('cardsNav').data = loot.game.plugins;
-                    document.getElementById('main').lastElementChild.data = loot.game.plugins;
+                    document.getElementById('cardsNav').items = loot.game.plugins;
+                    document.getElementById('main').lastElementChild.items = loot.game.plugins;
                     applyEnabledFilters();
 
                     setTimeout(function() {
-                        document.getElementById('cardsNav').updateSize();
                         closeProgressDialog();
                     }, 100);
 
@@ -173,7 +172,7 @@ function initVars() {
             }
         }).then(function(){
             if (!loot.settings.lastVersion || loot.settings.lastVersion != loot.version) {
-                document.getElementById('firstRun').showModal();
+                document.getElementById('firstRun').open();
             }
         }).catch(processCefError);
     }).catch(processCefError);

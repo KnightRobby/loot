@@ -24,7 +24,6 @@ function onToggleDisplayCSS(evt) {
 }
 function onToggleBashTags(evt) {
     onToggleDisplayCSS(evt);
-    document.getElementById('main').lastElementChild.updateSize();
     /* Now perform search again. If there is no current search, this won't
        do anything. */
     document.getElementById('searchBar').search();
@@ -69,8 +68,8 @@ function onChangeGame(evt) {
             loot.game.plugins = gameInfo.plugins;
 
             /* Reset virtual list positions. */
-            document.getElementById('cardsNav').scrollToItem(0);
-            document.getElementById('main').lastElementChild.scrollToItem(0);
+            document.getElementById('cardsNav').scrollToIndex(0);
+            document.getElementById('main').lastElementChild.scrollToIndex(0);
 
             /* Now update virtual lists. */
             setFilteredUIData();
@@ -106,8 +105,6 @@ function updateMasterlistNoProgress() {
                     }
                 }
             });
-            /* Hack to stop cards overlapping. */
-            document.getElementById('main').lastElementChild.updateSize();
 
             toast(l10n.translate('Masterlist updated to revision %s.').fetch(loot.game.masterlist.revision));
         } else {
@@ -361,7 +358,7 @@ function onSwitchSidebarTab(evt) {
     }
 }
 function onShowAboutDialog(evt) {
-    document.getElementById('about').showModal();
+    document.getElementById('about').open();
 }
 function areSettingsValid() {
     /* Validate inputs individually. */
@@ -415,7 +412,7 @@ function onCloseSettingsDialog(evt) {
     evt.target.parentElement.close();
 }
 function onShowSettingsDialog(evt) {
-    document.getElementById('settingsDialog').showModal();
+    document.getElementById('settingsDialog').open();
 }
 function onFocusSearch(evt) {
     if (evt.ctrlKey && evt.keyCode == 70) { //'f'
@@ -453,7 +450,6 @@ function onEditorOpen(evt) {
         document.getElementById('sortButton').setAttribute('disabled', '');
     }
     document.body.setAttribute('data-editors', numEditors);
-    document.getElementById('cardsNav').updateSize();
 
     return loot.query('editorOpened').catch(processCefError);
 }
@@ -525,7 +521,6 @@ function onEditorClose(evt) {
         } else {
             document.body.setAttribute('data-editors', numEditors);
         }
-        document.getElementById('cardsNav').updateSize();
     }).catch(processCefError);
 }
 function onConflictsFilter(evt) {
@@ -600,7 +595,7 @@ function onClearMetadata(evt) {
 }
 function onSidebarClick(evt) {
     if (evt.target.hasAttribute('data-index')) {
-        document.getElementById('main').lastElementChild.scrollToItem(evt.target.getAttribute('data-index'));
+        document.getElementById('main').lastElementChild.scrollToIndex(evt.target.getAttribute('data-index'));
 
         if (evt.type == 'dblclick') {
             var card = document.getElementById(evt.target.getAttribute('data-id'));

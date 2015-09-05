@@ -199,8 +199,8 @@ function setFilteredUIData() {
     getConflictingPluginsFromFilter().then(function(conflicts) {
         filters.conflicts = conflicts;
         var filtered = filters.applyPluginFilters(loot.game.plugins);
-        document.getElementById('cardsNav').data = filtered;
-        document.getElementById('main').lastElementChild.data = filtered;
+        document.getElementById('cardsNav').items = filtered;
+        document.getElementById('main').lastElementChild.items = filtered;
 
         /* Also run message filters on the filtered plugins. */
         filtered.forEach(function(plugin){

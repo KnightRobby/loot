@@ -36,6 +36,7 @@
     <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
     <link rel="import" href="../../../bower_components/paper-item/paper-item.html">
     <link rel="import" href="../../../bower_components/paper-item/paper-icon-item.html">
+    <link rel="import" href="../../../bower_components/paper-material/paper-material.html">
     <link rel="import" href="../../../bower_components/paper-menu-button/paper-menu-button.html">
     <link rel="import" href="../../../bower_components/paper-progress/paper-progress.html">
     <link rel="import" href="../../../bower_components/paper-tabs/paper-tabs.html">
@@ -48,12 +49,10 @@
 <body oncontextmenu="return false" unresolved fullbleed vertical layout>
     <paper-drawer-panel id="container" drawer-width="33%">
         <div drawer vertical layout>
-            <div layout horizontal end>
-                <paper-tabs id="sidebarTabs" selected="cardsNav" attr-for-selected="data-id" flex>
-                    <paper-tab data-id="cardsNav">Plugins</paper-tab>
-                    <paper-tab data-id="filters">Filters</paper-tab>
-                </paper-tabs>
-            </div>
+            <paper-tabs id="sidebarTabs" selected="cardsNav" attr-for-selected="data-id" flex>
+                <paper-tab data-id="cardsNav">Plugins</paper-tab>
+                <paper-tab data-id="filters">Filters</paper-tab>
+            </paper-tabs>
             <iron-pages selected="cardsNav" attr-for-selected="id" flex>
                 <iron-list id="cardsNav" class="tab-content" flex>
                     <template>
@@ -62,9 +61,7 @@
                                           mod-priority="10"
                                           is-global-priority
                                           is-editor-open
-                                          has-user-edits>
-                            {{item.name}}
-                        </loot-plugin-item>
+                                          has-user-edits>{{item.name}}</loot-plugin-item>
                     </template>
                     <!-- Generated <loot-plugin-item> elements go here. -->
                 </iron-list>
@@ -160,7 +157,7 @@
             </paper-toolbar>
             <loot-search-toolbar id="searchBar"></loot-search-toolbar>
             <div id="main" flex layout vertical>
-                <section id="summary">
+                <paper-material id="summary">
                     <h1>General Information</h1>
                     <table>
                         <tbody>
@@ -209,7 +206,7 @@
                     <ul>
                         <!-- Generated message <li> elements go here. -->
                     </ul>
-                </section>
+                </paper-material>
                 <iron-list id="pluginCardList" as="plugin" flex>
                     <template>
                         <loot-plugin-card id="[[plugin.id]]" data="{{plugin}}" is-active$="[[plugin.isActive]]"
