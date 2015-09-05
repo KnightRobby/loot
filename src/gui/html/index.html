@@ -18,15 +18,15 @@
     <link rel="import" href="elements/loot-message-dialog.html">
     <link rel="import" href="elements/loot-plugin-item.html">
     <link rel="import" href="elements/loot-plugin-card.html">
-    <link rel="import" href="elements/loot-search.html">
+    <link rel="import" href="elements/loot-search-toolbar.html">
 
     <link rel="import" href="../../../bower_components/iron-icon/iron-icon.html">
     <link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
     <link rel="import" href="../../../bower_components/iron-list/iron-list.html">
     <link rel="import" href="../../../bower_components/iron-pages/iron-pages.html">
 
-    <link rel="import" href="../../../../bower_components/neon-animation/animations/fade-in-animation.html">
-    <link rel="import" href="../../../../bower_components/neon-animation/animations/fade-out-animation.html">
+    <link rel="import" href="../../../bower_components/neon-animation/animations/fade-in-animation.html">
+    <link rel="import" href="../../../bower_components/neon-animation/animations/fade-out-animation.html">
 
     <link rel="import" href="../../../bower_components/paper-button/paper-button.html">
     <link rel="import" href="../../../bower_components/paper-checkbox/paper-checkbox.html">
@@ -35,6 +35,7 @@
     <link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
     <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
     <link rel="import" href="../../../bower_components/paper-item/paper-item.html">
+    <link rel="import" href="../../../bower_components/paper-item/paper-icon-item.html">
     <link rel="import" href="../../../bower_components/paper-menu-button/paper-menu-button.html">
     <link rel="import" href="../../../bower_components/paper-progress/paper-progress.html">
     <link rel="import" href="../../../bower_components/paper-tabs/paper-tabs.html">
@@ -44,36 +45,40 @@
     <link rel="import" href="../../../bower_components/paper-tooltip/paper-tooltip.html">
 </head>
 <!-- oncontextmenu attribute disables the right-click menu. -->
-<body oncontextmenu="return false" unresolved fullbleed vertical layout >
-    <paper-drawer-panel id="container" drawerWidth="33%">
+<body oncontextmenu="return false" unresolved fullbleed vertical layout>
+    <paper-drawer-panel id="container" drawer-width="33%">
         <div drawer vertical layout>
             <div layout horizontal end>
-                <paper-tabs id="sidebarTabs" selected="cardsNav" valueattr="data-id" flex>
+                <paper-tabs id="sidebarTabs" selected="cardsNav" attr-for-selected="data-id" flex>
                     <paper-tab data-id="cardsNav">Plugins</paper-tab>
                     <paper-tab data-id="filters">Filters</paper-tab>
                 </paper-tabs>
             </div>
-            <iron-pages selected="cardsNav" valueattr="id" flex>
-                <iron-list  id="cardsNav" class="tab-content" flex>
+            <iron-pages selected="cardsNav" attr-for-selected="id" flex>
+                <iron-list id="cardsNav" class="tab-content" flex>
                     <template>
-                        <loot-plugin-item data-id="{{model.id}}" data="{{model}}" data-index="{{index}}">
-                            {{model.name}}
+                        <loot-plugin-item data-id="{{item.id}}"
+                                          data-index="{{index}}"
+                                          mod-priority="10"
+                                          is-global-priority
+                                          is-editor-open
+                                          has-user-edits>
+                            {{item.name}}
                         </loot-plugin-item>
                     </template>
                     <!-- Generated <loot-plugin-item> elements go here. -->
                 </iron-list>
                 <div id="filters" class="tab-content" layout vertical flex>
-                    <paper-checkbox id="hideVersionNumbers" data-class="version" label="Hide version numbers"></paper-checkbox>
-                    <paper-checkbox id="hideCRCs" data-class="crc" label="Hide CRCs"></paper-checkbox>
-                    <paper-checkbox id="hideBashTags" data-class="tag" label="Hide Bash Tags"></paper-checkbox>
-                    <paper-checkbox id="hideNotes" label="Hide notes"></paper-checkbox>
-                    <paper-checkbox id="hideDoNotCleanMessages" label="Hide 'Do not clean' messages"></paper-checkbox>
-                    <paper-checkbox id="hideAllPluginMessages" label="Hide all plugin messages"></paper-checkbox>
-                    <paper-checkbox id="hideInactivePlugins" label="Hide inactive plugins"></paper-checkbox>
-                    <paper-checkbox id="hideMessagelessPlugins" label="Hide messageless plugins"></paper-checkbox>
-                    <paper-tooltip label="Press Enter or click outside the input to set the filter." position="bottom" noarrow>
-                        <paper-input id="contentFilter" label="Filter content"></paper-input>
-                    </paper-tootip>
+                    <paper-checkbox id="hideVersionNumbers" data-class="version">Hide version numbers</paper-checkbox>
+                    <paper-checkbox id="hideCRCs" data-class="crc">Hide CRCs</paper-checkbox>
+                    <paper-checkbox id="hideBashTags" data-class="tag">Hide Bash Tags</paper-checkbox>
+                    <paper-checkbox id="hideNotes">Hide notes</paper-checkbox>
+                    <paper-checkbox id="hideDoNotCleanMessages">Hide 'Do not clean' messages</paper-checkbox>
+                    <paper-checkbox id="hideAllPluginMessages">Hide all plugin messages</paper-checkbox>
+                    <paper-checkbox id="hideInactivePlugins">Hide inactive plugins</paper-checkbox>
+                    <paper-checkbox id="hideMessagelessPlugins">Hide messageless plugins</paper-checkbox>
+                    <paper-input id="contentFilter" label="Filter content"></paper-input>
+                    <paper-tooltip for="contentFilter" position="bottom">Press Enter or click outside the input to set the filter.</paper-tooltip>
                     <div flex></div>
                     <div class="divider"></div>
                     <div center horizontal layout>
@@ -89,77 +94,71 @@
         </div>
         <div main layout vertical>
             <paper-toolbar id="mainToolbar">
-                <paper-icon-button icon="menu" id="drawerToggle" core-drawer-toggle></paper-icon-button>
-                <paper-tooltip label="Jump To General Information" noarrow>
-                    <paper-icon-button id="jumpToGeneralInfo" icon="home"></paper-icon-button>
-                </paper-tootip>
+                <paper-icon-button icon="menu" id="drawerToggle" paper-drawer-toggle></paper-icon-button>
+                <paper-icon-button id="jumpToGeneralInfo" icon="home"></paper-icon-button>
+                <paper-tooltip for="jumpToGeneralInfo">Jump To General Information</paper-tooltip>
                 <loot-dropdown-menu id="gameMenu" class="title dark">
                     <!-- Generated game <li> elements go here. -->
                 </loot-dropdown-menu>
                 <span flex></span>
-                <paper-tooltip label="Sort Plugins" noarrow>
-                    <paper-icon-button id="sortButton" icon="sort"></paper-icon-button>
-                </paper-tootip>
-                <paper-tooltip label="Update Masterlist" noarrow>
-                    <paper-icon-button id="updateMasterlistButton" icon="file-download"></paper-icon-button>
-                </paper-tootip>
+                <paper-icon-button id="sortButton" icon="sort"></paper-icon-button>
+                <paper-tooltip for="sortButton">Sort Plugins</paper-tooltip>
+                <paper-icon-button id="updateMasterlistButton" icon="file-download"></paper-icon-button>
+                <paper-tooltip for="updateMasterlistButton">Update Masterlist</paper-tooltip>
                 <paper-button id="applySortButton" class="hidden">Apply</paper-button>
                 <paper-button id="cancelSortButton" class="hidden">Cancel</paper-button>
-                <paper-tooltip label="Search Cards" noarrow>
-                    <paper-icon-button id="showSearch" icon="search"></paper-icon-button>
-                </paper-tootip>
-                <paper-menu-button>
-                    <paper-icon-button icon="more-vert"></paper-icon-button>
-                    <paper-dropdown class="dropdown" halign="right">
-                        <paper-menu class="menu">
-                            <paper-item id="redatePluginsButton" noink>
-                                <iron-icon icon="today"></iron-icon>
-                                <span>Redate Plugins</span>
-                            </paper-item>
-                            <paper-item id="wipeUserlistButton" noink>
-                                <iron-icon icon="delete"></iron-icon>
-                                <span>Clear All User Metadata</span>
-                            </paper-item>
-                            <paper-item id="copyLoadOrderButton" noink>
-                                <iron-icon icon="receipt"></iron-icon>
-                                <span>Copy Load Order</span>
-                            </paper-item>
-                            <paper-item id="copyContentButton" noink>
-                                <iron-icon icon="content-copy"></iron-icon>
-                                <span>Copy Content</span>
-                            </paper-item>
-                            <paper-item id="refreshContentButton" noink>
-                                <iron-icon icon="refresh"></iron-icon>
-                                <span>Refresh Content</span>
-                            </paper-item>
-                            <div class="divider"></div>
-                            <paper-item id="settingsButton" noink>
-                                <iron-icon icon="settings"></iron-icon>
-                                <span>Settings</span>
-                            </paper-item>
-                            <div class="divider"></div>
-                            <paper-item id="helpButton" noink>
-                                <iron-icon icon="book"></iron-icon>
-                                <span>View Documentation</span>
-                            </paper-item>
-                            <paper-item id="openLogButton" noink>
-                                <iron-icon icon="folder"></iron-icon>
-                                <span>Open Debug Log Location</span>
-                            </paper-item>
-                            <paper-item id="aboutButton" noink>
-                                <iron-icon icon="help"></iron-icon>
-                                <span>About</span>
-                            </paper-item>
-                            <div class="divider"></div>
-                            <paper-item id="quitButton" noink>
-                                <iron-icon icon="close"></iron-icon>
-                                <span>Quit</span>
-                            </paper-item>
-                        </paper-menu>
-                    </paper-dropdown>
+                <paper-icon-button id="showSearch" icon="search"></paper-icon-button>
+                <paper-tooltip for="showSearch">Search Cards</paper-tooltip>
+                <paper-menu-button horizontal-align="right">
+                    <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
+                    <div class="dropdown-content">
+                        <paper-icon-item id="redatePluginsButton">
+                            <iron-icon icon="today" item-icon></iron-icon>
+                            Redate Plugins
+                        </paper-icon-item>
+                        <paper-icon-item id="wipeUserlistButton">
+                            <iron-icon icon="delete" item-icon></iron-icon>
+                            Clear All User Metadata
+                        </paper-icon-item>
+                        <paper-icon-item id="copyLoadOrderButton">
+                            <iron-icon icon="receipt" item-icon></iron-icon>
+                            Copy Load Order
+                        </paper-icon-item>
+                        <paper-icon-item id="copyContentButton">
+                            <iron-icon icon="content-copy" item-icon></iron-icon>
+                            Copy Content
+                        </paper-icon-item>
+                        <paper-icon-item id="refreshContentButton">
+                            <iron-icon icon="refresh" item-icon></iron-icon>
+                            Refresh Content
+                        </paper-icon-item>
+                        <div class="divider"></div>
+                        <paper-icon-item id="settingsButton">
+                            <iron-icon icon="settings" item-icon></iron-icon>
+                            Settings
+                        </paper-icon-item>
+                        <div class="divider"></div>
+                        <paper-icon-item id="helpButton">
+                            <iron-icon icon="book" item-icon></iron-icon>
+                            View Documentation
+                        </paper-icon-item>
+                        <paper-icon-item id="openLogButton">
+                            <iron-icon icon="folder" item-icon></iron-icon>
+                            Open Debug Log Location
+                        </paper-icon-item>
+                        <paper-icon-item id="aboutButton">
+                            <iron-icon icon="help" item-icon></iron-icon>
+                            About
+                        </paper-icon-item>
+                        <div class="divider"></div>
+                        <paper-icon-item id="quitButton">
+                            <iron-icon icon="close" item-icon></iron-icon>
+                            Quit
+                        </paper-icon-item>
+                    </div>
                 </paper-menu-button>
             </paper-toolbar>
-            <loot-search id="searchBar" searchTarget="pluginCardList"></loot-search>
+            <loot-search-toolbar id="searchBar"></loot-search-toolbar>
             <div id="main" flex layout vertical>
                 <section id="summary">
                     <h1>General Information</h1>
@@ -211,15 +210,24 @@
                         <!-- Generated message <li> elements go here. -->
                     </ul>
                 </section>
-                <iron-list id="pluginCardList" flex>
+                <iron-list id="pluginCardList" as="plugin" flex>
                     <template>
-                        <loot-plugin-card data="{{model}}" id="{{model.id}}" data-active="{{model.isActive}}" data-empty="{{model.isEmpty}}" data-bsa="{{model.loadsBSA}}" data-master="{{model.isMaster}}">
-                            <h1>{{model.name}}</h1>
-                            <span class="version">{{model.version}}</span>
-                            <span class="crc">{{model.computed.crc}}</span>
-                            <span class="tag add">{{model.computed.tags.added}}</span>
-                            <span class="tag remove">{{model.computed.tags.removed}}</span>
-                            <ul></ul>
+                        <loot-plugin-card id="[[plugin.id]]" data="{{plugin}}" is-active$="[[plugin.isActive]]"
+                                                          is-empty$="[[plugin.isEmpty]]"
+                                                          has-bsa$="[[plugin.loadsBSA]]"
+                                                          has-user-edits$="[[plugin.hasUserEdits]]"
+                                                          is-master$="[[plugin.isMaster]]"
+                                                          is-search-result$="[[plugin.isSearchResult]]">
+                            <h1>[[plugin.name]]</h1>
+                            <span class="version">[[plugin.version]]</span>
+                            <span class="crc">[[plugin.computed.crc]]</span>
+                            <span class="tag add" hidden$="[[!plugin.computed.tags.added.length]]">[[plugin.computed.tags.added]]</span>
+                            <span class="tag remove" hidden$="[[!plugin.computed.tags.removed.length]]">[[plugin.computed.tags.removed]]</span>
+                            <ul hidden$="[[!plugin.messages.length]]">
+                                <template is="dom-repeat" items="{{plugin.messages}}">
+                                    <li class="[[item.type]]"><marked-element markdown="[[item.content]]"></marked-element></li>
+                                </template>
+                            </ul>
                         </loot-plugin-card>
                     </template>
                     <!-- Generated <loot-plugin-card> elements go here. -->
@@ -253,7 +261,7 @@
 
             You should have received a copy of the GNU General Public License along with LOOT. If not, see &lt;http://www.gnu.org/licenses/&gt;.
         </blockquote>
-        <paper-button affirmative autofocus>OK</paper-button>
+        <paper-button dialog-confirm autofocus>OK</paper-button>
     </paper-dialog>
 
     <paper-dialog id="settingsDialog"
@@ -265,27 +273,25 @@
             <div center horizontal layout>
                 <div>Default Game</div>
                 <loot-dropdown-menu id="defaultGameSelect">
-                    <paper-item value="auto" noink>Autodetect</paper-item>
+                    <paper-item value="auto">Autodetect</paper-item>
                     <!-- Game <option> elements go here. -->
                 </loot-dropdown-menu>
             </div>
             <div center horizontal layout>
-                <paper-tooltip label="Language changes will be applied after LOOT is restarted." noarrow>
-                    Language
-                </paper-tootip>
+                <span id="languageLabel">Language</span>
+                <paper-tooltip for="languageLabel">Language changes will be applied after LOOT is restarted.</paper-tooltip>
                 <loot-dropdown-menu id="languageSelect">
                     <!-- Language <option> elements go here. -->
                 </loot-dropdown-menu>
             </div>
-            <paper-tooltip label="The output is logged to the LOOTDebugLog.txt file." noarrow>
-                <div center horizontal layout>
-                    <div>Enable debug logging</div>
-                    <paper-toggle-button id="enableDebugLogging" for></paper-toggle-button>
-                </div>
-            </paper-tootip>
+            <div center horizontal layout>
+                <div>Enable debug logging</div>
+                <paper-toggle-button id="enableDebugLogging"></paper-toggle-button>
+                <paper-tooltip>The output is logged to the LOOTDebugLog.txt file.</paper-tooltip>
+            </div>
             <div center horizontal layout>
                 <div>Update masterlist before sorting</div>
-                <paper-toggle-button id="updateMasterlist" for></paper-toggle-button>
+                <paper-toggle-button id="updateMasterlist"></paper-toggle-button>
             </div>
         </div>
         <table is="editable-table" id="gameTable" data-template="gameRow">
@@ -306,8 +312,8 @@
                 <!-- Game rows go here. -->
             </tbody>
         </table>
-        <paper-button class="accept" affirmative autofocus>Apply</paper-button>
-        <paper-button class="cancel" dismissive>Cancel</paper-button>
+        <paper-button class="accept" dialog-confirm autofocus>Apply</paper-button>
+        <paper-button class="cancel" dialog-dismiss>Cancel</paper-button>
     </paper-dialog>
 
     <paper-dialog id="firstRun"
@@ -327,7 +333,7 @@
         </ul>
 
         <p>LOOT is free, but if you want to show your appreciation with some money, donations may be made to WrinklyNinja (LOOT's creator and main developer) using <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HDR3YBGGYCLBG">PayPal</a>, <a href="https://wrinklyninja.github.io/bitcoin/">Bitcoin</a> or <a href="https://flattr.com/submit/auto?user_id=OliverHamlet&url=https://wrinklyninja.github.io&title=LOOT">Flattr</a>.</p>
-        <paper-button affirmative autofocus>OK</paper-button>
+        <paper-button dialog-confirm autofocus>OK</paper-button>
     </paper-dialog>
     <script src="../../../bower_components/marked/lib/marked.js"></script>
     <script src="../../../bower_components/Jed/jed.js"></script>

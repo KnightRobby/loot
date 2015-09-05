@@ -41,7 +41,7 @@ function showProgress(message) {
         progressDialog.getElementsByTagName('p')[0].textContent = message;
     }
     if (!progressDialog.opened) {
-        progressDialog.showModal();
+        progressDialog.open();
     }
 }
 function closeProgressDialog() {
@@ -70,4 +70,3 @@ function handleUnappliedChangesClose(change) {
         }
     });
 }
-
