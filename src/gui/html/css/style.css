@@ -56,11 +56,6 @@ tt, code, kbd, samp {
 }
 
 /* App bar */
-#mainToolbar, div[drawer] > div:first-child {
-    background: #3F51B5;
-    color: white;
-    height: 64px;
-}
 #mainToolbar,
 #searchBar {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
@@ -96,6 +91,9 @@ div[drawer] {
 div[drawer] > * {
     border-right: 1px rgba(0, 0, 0, 0.12) solid;
 }
+div[drawer] > div:first-child {
+    height: 64px;
+}
 paper-item > a {
     -webkit-user-drag: none;
     color: inherit;
@@ -118,11 +116,15 @@ paper-item > a:hover {
     overflow: hidden;
 }
 #filters > paper-checkbox,
-#filters > div:not(.divider) {
-    display: block;
+#hiddenPlugins,
+#hiddenMessages {
     padding: 0 16px;
     height: 48px;
     line-height: 48px;
+}
+#contentFilter {
+    padding: 0 16px;
+    height: 48px;
 }
 
 /* Panel */
@@ -206,6 +208,9 @@ li.warn {
 }
 #gameTable {
     margin: 32px 0 0;
+}
+#progressDialog > paper-progress {
+    width: calc(100% - 48px);
 }
 
 /* For Material Design generic dividers. */
