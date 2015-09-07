@@ -33,7 +33,7 @@ function onOpenLogLocation(evt) {
 }
 function onChangeGame(evt) {
     /* Check that the selected game isn't the current one. */
-    if (evt.target.className.indexOf('core-selected') != -1) {
+    if (evt.target.className.indexOf('iron-selected') != -1) {
         return;
     }
 
@@ -353,9 +353,7 @@ function onCopyLoadOrder(evt) {
     }).catch(processCefError);
 }
 function onSwitchSidebarTab(evt) {
-    if (evt.detail.isSelected) {
-        document.getElementById(evt.target.selected).parentElement.selected = evt.target.selected;
-    }
+    document.getElementById(evt.target.selected).parentElement.selected = evt.target.selected;
 }
 function onShowAboutDialog(evt) {
     document.getElementById('about').open();
@@ -758,7 +756,7 @@ function setupEventHandlers() {
     document.getElementById('sortButton').addEventListener('click', onSortPlugins, false);
     document.getElementById('applySortButton').addEventListener('click', onApplySort, false);
     document.getElementById('cancelSortButton').addEventListener('click', onCancelSort, false);
-    document.getElementById('sidebarTabs').addEventListener('core-select', onSwitchSidebarTab, false);
+    document.getElementById('sidebarTabs').addEventListener('iron-select', onSwitchSidebarTab, false);
     document.getElementById('jumpToGeneralInfo').addEventListener('click', onJumpToGeneralInfo, false);
 
     /* Set up search event handlers. */
