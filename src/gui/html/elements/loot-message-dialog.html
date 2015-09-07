@@ -88,18 +88,18 @@ was pressed.
             buttons.className = 'buttons';
             this.appendChild(buttons);
 
+            var cancel = document.createElement('paper-button');
+            cancel.className = 'cancel';
+            cancel.setAttribute('dialog-dismiss', true);
+            cancel.textContent = 'Cancel';
+            buttons.appendChild(cancel);
+
             var accept = document.createElement('paper-button');
             accept.className = 'accept';
             accept.setAttribute('dialog-confirm', true);
             accept.setAttribute('autofocus', true);
             accept.textContent = 'Apply';
             buttons.appendChild(accept);
-
-            var cancel = document.createElement('paper-button');
-            cancel.className = 'cancel';
-            cancel.setAttribute('dialog-dismiss', true);
-            cancel.textContent = 'Cancel';
-            buttons.appendChild(cancel);
         },
 
         attached: function() {

@@ -24,15 +24,15 @@ function toast(text) {
 }
 function showMessageDialog(title, text, positiveText, closeCallback) {
     var dialog = document.createElement('loot-message-dialog');
+    document.body.appendChild(dialog);
     dialog.setButtonText(positiveText, l10n.translate('Cancel').fetch());
     dialog.showModal(title, text, closeCallback);
-    document.body.appendChild(dialog);
 }
 function showMessageBox(title, text) {
     var dialog = document.createElement('loot-message-dialog');
+    document.body.appendChild(dialog);
     dialog.setButtonText(l10n.translate('OK').fetch());
     dialog.showModal(title, text);
-    document.body.appendChild(dialog);
 }
 
 function showProgress(message) {
