@@ -95,7 +95,7 @@ class Plugin {
             }
         }
         for (var i = 0; i < this.messages.length; ++i) {
-            if (!this.messages[i].hidden && this.messages[i].textContent.toLowerCase().indexOf(needle) != -1) {
+            if (!this.messages[i].hidden && this.messages[i].content.toLowerCase().indexOf(needle) != -1) {
                 return true;
             }
         }

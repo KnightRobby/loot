@@ -689,7 +689,35 @@ function onSearchOpen(evt) {
     document.getElementById('mainToolbar').classList.add('search');
     document.getElementById('searchBar').focusInput();
 }
-function onSearchClose(evt) {
+function onSearchBegin(evt) {
+    loot.game.plugins.forEach(function(plugin) {
+        plugin.isSearchResult = false;
+    });
+
+    if (!evt.detail.needle) {
+        return;
+    }
+
+    // Don't push to the target's results property directly, as the
+    // change observer doesn't work correctly unless special Polymer APIs
+    // are used, which I don't want to get into.
+    var results = [];
+    loot.game.plugins.forEach(function(plugin, index) {
+        if (plugin.isVisible(evt.detail.needle)) {
+            results.push(index);
+            plugin.isSearchResult = true;
+        }
+    });
+
+    evt.target.results = results;
+}
+function onSearchChangeSelection(evt) {
+    document.getElementById('pluginCardList').scrollToIndex(evt.detail.selection);
+}
+function onSearchEnd(evt) {
+    loot.game.plugins.forEach(function(plugin) {
+        plugin.isSearchResult = false;
+    });
     document.getElementById('mainToolbar').classList.remove('search');
 }
 function setupEventHandlers() {
@@ -735,7 +763,9 @@ function setupEventHandlers() {
 
     /* Set up search event handlers. */
     document.getElementById('showSearch').addEventListener('click', onSearchOpen, false);
-    document.getElementById('searchBar').addEventListener('loot-search-close', onSearchClose, false);
+    document.getElementById('searchBar').addEventListener('loot-search-begin', onSearchBegin, false);
+    document.getElementById('searchBar').addEventListener('loot-search-change-selection', onSearchChangeSelection, false);
+    document.getElementById('searchBar').addEventListener('loot-search-end', onSearchEnd, false);
     window.addEventListener('keyup', onFocusSearch, false);
 
     /* Set up event handlers for settings dialog. */
