@@ -9,12 +9,12 @@ function processCefError(err) {
 
 function showElement(element) {
     if (element != null) {
-        element.classList.toggle('hidden', false);
+        element.hidden = false;
     }
 }
 function hideElement(element) {
     if (element != null) {
-        element.classList.toggle('hidden', true);
+        element.hidden = true;
     }
 }
 function toast(text) {

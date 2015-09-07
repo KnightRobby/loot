@@ -364,7 +364,7 @@ function areSettingsValid() {
     /* Validate inputs individually. */
     var inputs = document.getElementById('settingsDialog').getElementsByTagName('paper-input');
     for (var i = 0; i < inputs.length; ++i) {
-        if (!inputs[i].checkValidity()) {
+        if (!inputs[i].validate()) {
             return false;
         }
     }
@@ -409,7 +409,7 @@ function onCloseSettingsDialog(evt) {
         /* Re-apply the existing settings to the settings dialog elements. */
         loot.updateSettingsUI();
     }
-    evt.target.parentElement.close();
+    evt.target.parentElement.parentElement.close();
 }
 function onShowSettingsDialog(evt) {
     document.getElementById('settingsDialog').open();

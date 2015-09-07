@@ -118,7 +118,7 @@ var filters = {
 
     doNotCleanFilter: function(message) {
         if (document.getElementById('hideDoNotCleanMessages').checked) {
-            return message.content[0].str.indexOf(l10n.translate("Do not clean").fetch()) == -1;
+            return message.content.indexOf(l10n.translate("Do not clean").fetch()) == -1;
         } else {
             return true;
         }
