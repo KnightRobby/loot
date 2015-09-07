@@ -133,10 +133,10 @@
                     <template>
                         <loot-plugin-item data-id="[[item.id]]"
                                           data-index="[[index]]"
-                                          mod-priority="10"
-                                          is-global-priority
-                                          is-editor-open
-                                          has-user-edits>[[item.name]]</loot-plugin-item>
+                                          mod-priority="[[item.priority]]"
+                                          is-global-priority$="[[item.isGlobalPriority]]"
+                                          is-editor-open$="[[item.isEditorOpen]]"
+                                          has-user-edits$="[[item.hasUserEdits]]">[[item.name]]</loot-plugin-item>
                     </template>
                     <!-- Generated <loot-plugin-item> elements go here. -->
                 </iron-list>
