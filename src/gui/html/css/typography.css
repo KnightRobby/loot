@@ -170,8 +170,7 @@ html /deep/ paper-item {
     /*letter-spacing: 0.01em;*/
 }
 .body2,
-html /deep/ paper-menu-button paper-item,
-html /deep/ paper-menu-button paper-checkbox {
+html /deep/ paper-menu-button paper-icon-item {
     font-weight: 500;
     font-size: 1rem;
     line-height: 1.714;

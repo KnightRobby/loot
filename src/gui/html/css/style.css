@@ -84,8 +84,9 @@ tt, code, kbd, samp {
 #mainToolbar > paper-menu-button > div {
     color: black;
 }
-iron-icon {
-
+/* Transition icon button colour over same time period that plugin cards flip. */
+paper-icon-button[disabled] {
+    transition: color 0.6s;
 }
 
 /* Drawer / Sidebar */
@@ -117,15 +118,11 @@ paper-item > a:hover {
     overflow: hidden;
 }
 #filters > paper-checkbox,
-#filters > paper-tooltip,
 #filters > div:not(.divider) {
+    display: block;
     padding: 0 16px;
     height: 48px;
     line-height: 48px;
-}
-#filters > paper-checkbox,
-#filters > paper-tooltip {
-    display: block;
 }
 
 /* Panel */
@@ -209,9 +206,6 @@ li.warn {
 }
 #gameTable {
     margin: 32px 0 0;
-}
-paper-progress {
-    width: 100%;
 }
 
 /* For Material Design generic dividers. */

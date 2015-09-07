@@ -23,30 +23,25 @@ it a <select>-like API. This means:
                 transition: opacity 0.6s;
             };
             --paper-input-container-underline: {
-                background-color: rgba(0, 0, 0, 0.12);
+                background-color: var(--divider-color);
             };
             --paper-input-container-underline-focus: {
-                background-color: #64B5F6;
+                background-color: var(--accent-color);
             };
             --paper-dropdown-menu-icon: {
-                color: rgba(0, 0, 0, 0.26);
-            };
-        }
-        paper-menu {
-            --paper-menu-selected-item: {
-                color: #2196F3;
+                color: var(--secondary-text-color);
             };
         }
         :host(.dark) paper-dropdown-menu {
             --paper-input-container-underline: {
-                background-color: rgba(255, 255, 255, 0.12);
+                background-color: var(--light-divider-color);
             };
             --paper-input-container-input-color: white;
             --paper-dropdown-menu-input: {
-                color: white;
+                color: var(--light-primary-text-color);
             };
             --paper-dropdown-menu-icon: {
-                color: rgba(255, 255, 255, 0.30);
+                color: var(--light-secondary-text-color);
             };
         }
         </style>

@@ -71,12 +71,15 @@
             /* MD spec says 14sp, but that doesn't fit, so use 12sp. */
             /*font-size: 1rem; */
             font-size: 0.857rem;
-            color: rgba(0, 0, 0, 0.54);
+            color: var(--secondary-text-color);
             height: 13px;
             overflow: visible;
         }
         #text div[secondary] iron-icon {
             height: 13px;
+        }
+        iron-icon {
+            color: var(--secondary-text-color);
         }
 
         /* When not in edit mode, hide secondary text. */

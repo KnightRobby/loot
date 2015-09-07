@@ -13,7 +13,6 @@ loot-editor-close
 <link rel="import" href="../../../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../../../bower_components/iron-pages/iron-pages.html">
 
-<link rel="import" href="../../../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../../../bower_components/paper-tabs/paper-tabs.html">
@@ -29,7 +28,7 @@ loot-editor-close
         <style>
         /* Material Design for non-button icons. */
         iron-icon {
-            color: rgba(0, 0, 0, 0.54);
+            color: var(--secondary-text-color);
             padding: 8px;
         }
 
@@ -46,7 +45,7 @@ loot-editor-close
             color: green;
         }
         #accept {
-            color: #2196F3;
+            color: var(--accent-color);
         }
         #cancel {
             color: red;
@@ -81,9 +80,6 @@ loot-editor-close
             @apply(--layout-horizontal);
             @apply(--layout-center);
         }
-        #main > paper-checkbox, #main > paper-tooltip {
-            line-height: 48px;
-        }
         #main > div > div:first-child {
             margin-right: 16px;
             @apply(--layout-flex);
@@ -94,8 +90,8 @@ loot-editor-close
 
         /* Misc Styling. */
         paper-toolbar.medium-tall {
-            background: #CFD4E9;
-            color: rgba(0, 0, 0, 0.87);
+            --paper-toolbar-background: #CFD4E9;
+            --paper-toolbar-color: var(--primary-text-color);
             height: 104px;
         }
         iron-pages > * {
@@ -118,15 +114,10 @@ loot-editor-close
             white-space: nowrap;
         }
         #tableTabs {
-            --paper-tabs-selection-bar-color: #64B5F6;
+            --paper-tabs-selection-bar-color: var(--accent-color);
         }
         paper-tab {
-            --paper-tab-ink: #64B5F6;
-        }
-        paper-toggle-button {
-            --paper-toggle-button-checked-bar-color: #3F51B5;
-            --paper-toggle-button-checked-button-color: #3F51B5;
-            --paper-toggle-button-checked-ink-color: #3F51B5;
+            --paper-tab-ink: var(--accent-color);
         }
         </style>
         <paper-toolbar class="medium-tall">

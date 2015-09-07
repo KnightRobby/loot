@@ -3,9 +3,8 @@
     <meta charset="utf-8" />
     <title>LOOT</title>
     <link rel="stylesheet" href="css/typography.css" />
-    <link rel="stylesheet" href="css/style.css" is="custom-style" />
+    <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/material.css" />
-    <link rel="stylesheet" href="css/overrides.css" />
 
     <script>
     window.Polymer = window.Polymer || {};
@@ -53,7 +52,6 @@
         #sidebarTabs {
             @apply(--layout-self-stretch);
         }
-        #sidebarTabs + iron-pages,
         #cardsNav,
         #filtersSpacer,
         #hiddenPluginsTxt,
@@ -63,6 +61,7 @@
             @apply(--layout-flex);
         }
         #filters,
+        div[drawer] > iron-pages,
         #main {
             @apply(--layout-vertical);
             @apply(--layout-flex);
@@ -80,6 +79,41 @@
         #settingsDialog > div > div {
             @apply(--layout-horizontal);
             @apply(--layout-center);
+        }
+
+        /* Paper element styling.
+           Colour variables are from Polymer's paper-styles element. */
+        :root {
+            --default-primary-color: #3F51B5;
+            --accent-color: #64B5F6;
+
+            --primary-text-color: rgba(0, 0, 0, 0.87);
+            --text-primary-color: var(--primary-text-color);
+            --secondary-text-color: rgba(0, 0, 0, 0.54);
+            --disabled-text-color: rgba(0, 0, 0, 0.26);
+            --divider-color: rgba(0, 0, 0, 0.12);
+
+            --light-primary-text-color: white;
+            --light-secondary-text-color: rgba(255, 255, 255, 0.7);
+            --light-disabled-text-color: rgba(255, 255, 255, 0.3);
+            --light-divider-color: rgba(255, 255, 255, 0.12);
+
+            --paper-tabs-selection-bar-color: var(--accent-color);
+            --paper-tab-ink: var(--accent-color);
+
+            --paper-toolbar-background: var(--default-primary-color);
+            --paper-toolbar-color: var(--light-primary-text-color);
+
+            --paper-input-container-underline: {
+                background-color: var(--divider-color);
+            };
+            --paper-input-container-underline-focus: {
+                background-color: var(--accent-color);
+            };
+
+            /*--dark-primary-color: #303f9f;
+            --light-primary-color: #c5cae9;
+            --primary-background-color: #ffffff;*/
         }
     </style>
 </head>

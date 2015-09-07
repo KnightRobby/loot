@@ -1,28 +1,9 @@
 /* This file contains the CSS overrides for Polymer elements necessary for them
    to better match the Material Design spec. */
 
-/* core-tooltip */
-html /deep/ paper-tooltip::shadow #tooltip {
-   font-size: 0.714rem;
-   font-family: Roboto, sans-serif;
-   font-weight: 500;
-   background-color: rgba(0, 0, 0, 0.9);
-}
-
-/* paper-button */
-html /deep/ paper-button {
-   min-width: 88px;
-   height: 36px;
-   line-height: 36px;
-   margin: 6px 4px;
-}
-html /deep/ paper-button::shadow .content {
-   padding: 0 8px;
-}
-html /deep/ paper-button::shadow .content ::content a {
-   margin: 0 -8px;
-   padding: 0 8px;
-   -ms-flex: 1 1 auto;
+/* iron-icon */
+iron-icon {
+    color: rgba(0, 0, 0, 0.54);
 }
 
 /* paper-icon-button */
@@ -31,19 +12,7 @@ html /deep/ paper-icon-button[disabled] {
 }
 
 /* paper-item */
-html /deep/ paper-item, html /deep/ paper-menu > paper-item {
-   color: rgba(0, 0, 0, 0.87);
-   height: 48px;
-   line-height: 48px;
-}
 html /deep/ paper-item[disabled]  {
-    color: rgba(0, 0, 0, 0.26);
-}
-html /deep/ paper-icon-item iron-icon {
-   margin-right: 32px;
-   color: rgba(0, 0, 0, 0.54);
-}
-html /deep/ paper-icon-item[disabled] > iron-icon {
     color: rgba(0, 0, 0, 0.26);
 }
 html /deep/ paper-item::shadow ::content *:not(paper-tooltip) {
@@ -51,33 +20,8 @@ html /deep/ paper-item::shadow ::content *:not(paper-tooltip) {
    text-overflow: ellipsis;
    overflow: hidden;
 }
-html /deep/ paper-item::shadow ::content a {
-   margin: 0 -16px;
-   padding: 0 16px;
-   -ms-flex: 1 1 auto;
-}
 
 /* paper-input-decorator & input */
-html /deep/ paper-input-decorator {
-   margin: 0 4px;
-}
-html /deep/ paper-input-decorator::shadow .underline .unfocused-underline {
-   background-color: rgba(0, 0, 0, 0.12);
-}
-html /deep/ paper-input-decorator[disabled]::shadow .underline {
-    border-bottom-color: rgba(0, 0, 0, 0.12);
-}
-html /deep/ paper-input-decorator::shadow .label-text,
-html /deep/ input::-webkit-input-placeholder {
-   color: rgba(0, 0, 0, 0.26);
-}
-html /deep/ ::-moz-placeholder {
-   opacity:  1 !important;
-   color: rgba(0, 0, 0, 0.26) !important;
-}
-html /deep/ :-ms-input-placeholder {
-   color: rgba(0, 0, 0, 0.26) !important;
-}
 html /deep/ input {
    text-overflow: ellipsis;
 }
@@ -86,14 +30,4 @@ html /deep/ input {
 html /deep/ paper-tabs::shadow paper-icon-button {
     vertical-align: middle;
     color: rgba(0, 0, 0, 0.54);
-}
-
-/* paper-tab */
-html /deep/ paper-tab::shadow #tabsContent {
-    line-height: 48px;
-}
-
-/* paper-drawer-panel */
-paper-drawer-panel::shadow .narrow-layout #drawer {
-   width: calc(100vw - 56px) !important;
 }
