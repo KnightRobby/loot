@@ -12,9 +12,9 @@
 
 <template id="fileRow">
     <tr>
-        <td><paper-input error-message="A filename is required." class="name" required auto-validate></paper-input></td>
-        <td><paper-input class="display"></paper-input></td>
-        <td><paper-input class="condition"></paper-input></td>
+        <td><paper-input error-message="A filename is required." class="name" required auto-validate no-label-float></paper-input></td>
+        <td><paper-input class="display" no-label-float></paper-input></td>
+        <td><paper-input class="condition" no-label-float></paper-input></td>
         <td>
             <span>
                 <paper-icon-button class="delete" icon="delete"></paper-icon-button>
@@ -33,7 +33,7 @@
             </loot-dropdown-menu>
         </td>
         <td><paper-textarea error-message="A content string is required." class="content" required auto-validate></paper-textarea></td>
-        <td><paper-input class="condition"></paper-input></td>
+        <td><paper-input class="condition" no-label-float></paper-input></td>
         <td>
             <loot-dropdown-menu class="language">
                 <!-- Language <option> elements go here. -->
@@ -55,8 +55,8 @@
                 <paper-item value="remove">Remove</paper-item>
             </loot-dropdown-menu>
         </td>
-        <td><paper-input error-message="A name is required." class="name" required auto-validate></paper-input></td>
-        <td><paper-input class="condition"></paper-input></td>
+        <td><paper-input error-message="A name is required." class="name" required auto-validate no-label-float></paper-input></td>
+        <td><paper-input class="condition" no-label-float></paper-input></td>
         <td>
             <span>
                 <paper-icon-button class="delete" icon="delete"></paper-icon-button>
@@ -67,11 +67,11 @@
 </template>
 <template id="dirtyInfoRow">
     <tr>
-        <td><paper-input error-message="A CRC is required." class="crc" maxlength="8" minlength="8" pattern="[0-9A-Fa-f]{8}" required auto-validate></paper-input></td>
-        <td><paper-input error-message="Values must be integers." class="itm" type="number" min="0" step="1" value="0" auto-validate></paper-input></td>
-        <td><paper-input error-message="Values must be integers." class="udr" type="number" min="0" step="1" value="0" auto-validate></paper-input></td>
-        <td><paper-input error-message="Values must be integers." class="nav" type="number" min="0" step="1" value="0" auto-validate></paper-input></td>
-        <td><paper-input error-message="A utility name is required." class="util" required auto-validate></paper-input></td>
+        <td><paper-input error-message="A CRC is required." class="crc" maxlength="8" minlength="8" pattern="[0-9A-Fa-f]{8}" required auto-validate no-label-float></paper-input></td>
+        <td><paper-input error-message="Values must be integers." class="itm" type="number" min="0" step="1" value="0" auto-validate no-label-float></paper-input></td>
+        <td><paper-input error-message="Values must be integers." class="udr" type="number" min="0" step="1" value="0" auto-validate no-label-float></paper-input></td>
+        <td><paper-input error-message="Values must be integers." class="nav" type="number" min="0" step="1" value="0" auto-validate no-label-float></paper-input></td>
+        <td><paper-input error-message="A utility name is required." class="util" required auto-validate no-label-float></paper-input></td>
         <td>
             <span>
                 <paper-icon-button class="delete" icon="delete"></paper-icon-button>
@@ -82,8 +82,8 @@
 </template>
 <template id="locationRow">
     <tr>
-        <td><paper-input error-message="A link is required." class="link" required auto-validate></paper-input></td>
-        <td><paper-input class="name"></paper-input></td>
+        <td><paper-input error-message="A link is required." class="link" required auto-validate no-label-float></paper-input></td>
+        <td><paper-input class="name" no-label-float></paper-input></td>
         <td>
             <span>
                 <paper-icon-button class="delete" icon="delete"></paper-icon-button>
@@ -94,18 +94,18 @@
 </template>
 <template id="gameRow">
     <tr>
-        <td><paper-input error-message="A name is required." class="name" required auto-validate></paper-input></td>
+        <td><paper-input error-message="A name is required." class="name" required auto-validate no-label-float></paper-input></td>
         <td>
             <loot-dropdown-menu class="type">
                 <!-- Game <option> elements go here. -->
             </loot-dropdown-menu>
         </td>
-        <td><paper-input error-message="A folder is required." class="folder" required auto-validate></paper-input></td>
-        <td><paper-input class="master"></paper-input></td>
-        <td><paper-input class="repo"></paper-input></td>
-        <td><paper-input class="branch"></paper-input></td>
-        <td><paper-input class="path"></paper-input></td>
-        <td><paper-input class="registry"></paper-input></td>
+        <td><paper-input error-message="A folder is required." class="folder" required auto-validate no-label-float></paper-input></td>
+        <td><paper-input class="master" no-label-float></paper-input></td>
+        <td><paper-input class="repo" no-label-float></paper-input></td>
+        <td><paper-input class="branch" no-label-float></paper-input></td>
+        <td><paper-input class="path" no-label-float></paper-input></td>
+        <td><paper-input class="registry" no-label-float></paper-input></td>
         <td>
             <span>
                 <paper-icon-button class="delete" icon="delete"></paper-icon-button>
@@ -137,6 +137,9 @@ html /deep/ table[is=editable-table] td {
 }
 html /deep/ table[is=editable-table] th {
     padding: 0 4px;
+}
+html /deep/ table[is=editable-table] paper-input {
+    padding-top: 8px;
 }
 html /deep/ table[is=editable-table] paper-icon-button {
     color: rgba(0, 0, 0, 0.54);
