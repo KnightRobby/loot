@@ -29,6 +29,7 @@ function onToggleBashTags(evt) {
     document.getElementById('searchBar').search();
 }
 function onOpenLogLocation(evt) {
+    evt.target.parentElement.parentElement.close();
     loot.query('openLogLocation').catch(processCefError);
 }
 function onChangeGame(evt) {
@@ -82,6 +83,7 @@ function onChangeGame(evt) {
     }).catch(processCefError);
 }
 function onOpenReadme(evt) {
+    evt.target.parentElement.parentElement.close();
     loot.query('openReadme').catch(processCefError);
 }
 /* Masterlist update process, minus progress dialog. */
@@ -235,9 +237,7 @@ function onCancelSort(evt) {
     }).catch(processCefError);
 }
 function onRedatePlugins(evt) {
-    if (evt.target.hasAttribute('disabled')) {
-        return;
-    }
+    evt.target.parentElement.parentElement.close();
 
     showMessageDialog(l10n.translate('Redate Plugins?').fetch(), l10n.translate('This feature is provided so that modders using the Creation Kit may set the load order it uses. A side-effect is that any subscribed Steam Workshop mods will be re-downloaded by Steam. Do you wish to continue?').fetch(), l10n.translate('Redate').fetch(), function(result){
         if (result) {
@@ -248,6 +248,8 @@ function onRedatePlugins(evt) {
     });
 }
 function onClearAllMetadata(evt) {
+    evt.target.parentElement.parentElement.close();
+
     showMessageDialog('', l10n.translate('Are you sure you want to clear all existing user-added metadata from all plugins?').fetch(), l10n.translate('Clear').fetch(), function(result){
         if (result) {
             loot.query('clearAllMetadata').then(JSON.parse).then(function(result){
@@ -279,6 +281,8 @@ function onClearAllMetadata(evt) {
 function onCopyContent(evt) {
     var messages = [];
     var plugins = [];
+
+    evt.target.parentElement.parentElement.close();
 
     if (loot.game) {
         if (loot.game.globalMessages) {
@@ -333,6 +337,8 @@ function onCopyContent(evt) {
 function onCopyLoadOrder(evt) {
     var plugins = [];
 
+    evt.target.parentElement.parentElement.close();
+
     if (loot.game) {
         if (loot.game.plugins) {
             loot.game.plugins.forEach(function(plugin){
@@ -356,6 +362,7 @@ function onSwitchSidebarTab(evt) {
     document.getElementById(evt.target.selected).parentElement.selected = evt.target.selected;
 }
 function onShowAboutDialog(evt) {
+    evt.target.parentElement.parentElement.close();
     document.getElementById('about').open();
 }
 function areSettingsValid() {
@@ -410,6 +417,7 @@ function onCloseSettingsDialog(evt) {
     evt.target.parentElement.parentElement.close();
 }
 function onShowSettingsDialog(evt) {
+    evt.target.parentElement.parentElement.close();
     document.getElementById('settingsDialog').open();
 }
 function onFocusSearch(evt) {
@@ -604,6 +612,8 @@ function onSidebarClick(evt) {
     }
 }
 function onQuit(evt) {
+    evt.target.parentElement.parentElement.close();
+
     if (!document.getElementById('applySortButton').classList.contains('hidden')) {
         handleUnappliedChangesClose(l10n.translate('sorted load order').fetch());
     } else if (document.body.hasAttribute('data-editors')) {
@@ -617,6 +627,8 @@ function onJumpToGeneralInfo(evt) {
     document.getElementById('main').scrollTop = 0;
 }
 function onContentRefresh(evt) {
+    evt.target.parentElement.parentElement.close();
+
     /* Send a query for updated load order and plugin header info. */
     showProgress(l10n.translate('Refreshing data...').fetch());
     loot.query('getGameData').then(function(result){
@@ -752,6 +764,7 @@ function setupEventHandlers() {
     document.getElementById('helpButton').addEventListener('click', onOpenReadme, false);
     document.getElementById('aboutButton').addEventListener('click', onShowAboutDialog, false);
     document.getElementById('quitButton').addEventListener('click', onQuit, false);
+
     document.getElementById('updateMasterlistButton').addEventListener('click', onUpdateMasterlist, false);
     document.getElementById('sortButton').addEventListener('click', onSortPlugins, false);
     document.getElementById('applySortButton').addEventListener('click', onApplySort, false);

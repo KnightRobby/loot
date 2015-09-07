@@ -20,6 +20,15 @@ html /deep/ paper-item::shadow ::content *:not(paper-tooltip) {
    text-overflow: ellipsis;
    overflow: hidden;
 }
+html /deep/ paper-menu-button paper-icon-item {
+    cursor: pointer;
+}
+html /deep/ paper-icon[disabled],
+html /deep/ paper-icon-item[disabled] {
+    cursor: default;
+    color: rgba(0, 0, 0, 0.26);
+    pointer-events: none;
+}
 
 /* paper-input-decorator & input */
 html /deep/ input {
