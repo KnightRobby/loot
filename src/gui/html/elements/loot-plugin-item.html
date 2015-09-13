@@ -37,45 +37,30 @@
 
         /* paper-item (two-line) */
         paper-item {
-            /* Two-line items should be 72px high according to Material Design.
-               Squeeze the height to fit more items in. */
-            /*height: 72px;*/
             min-height: 32px;
             line-height: 32px;
             font-size: 1rem;
+            margin: 8px
         }
-        :host-context(body[data-editors]) paper-item-body[two-line] {
+        :host-context(body[data-editors]) paper-item-body {
             min-height: 40px;
         }
-        #text :first-child,
-        #text div[secondary],
-        #text div[secondary] iron-icon,
-        paper-item-body[two-line]::shadow .button-content {
+        #primary,
+        #secondary,
+        #secondary iron-icon {
             transition: 0.6s;
         }
-        paper-item-body[two-line]::shadow .button-content {
-            padding: 0px 16px;
-        }
-        :host-context(body[data-editors]) paper-item-body[two-line]::shadow .button-content {
-            padding: 4.5px 16px;
-        }
-        #text {
-            /* Padding is disabled as otherwise text won't fit in correctly. */
-            /*padding: 4px 0;*/
-            overflow: visible;
-        }
-        :host-context(body[data-editors]) #text {
+        :host-context(body[data-editors]) #primary {
             line-height: normal;
         }
-        #text div[secondary] {
+        #priority {
             /* MD spec says 14sp, but that doesn't fit, so use 12sp. */
             /*font-size: 1rem; */
             font-size: 0.857rem;
             color: var(--secondary-text-color);
             height: 13px;
-            overflow: visible;
         }
-        #text div[secondary] iron-icon {
+        #globalPriorityIcon {
             height: 13px;
         }
         iron-icon {
@@ -83,24 +68,18 @@
         }
 
         /* When not in edit mode, hide secondary text. */
-        #text div[secondary][hidden],
-        :host-context(body:not([data-editors])) #text div[secondary] {
+        #secondary[hidden],
+        :host-context(body:not([data-editors])) #secondary {
             height: 0;
-            overflow: hidden;
-        }
-
-        paper-tooltip.hidden {
-            opacity: 0;
-            pointer-events: none;
             overflow: hidden;
         }
         </style>
         <paper-item>
             <paper-item-body two-line$="[[isEditorOpen]]">
-                <div>
+                <div id="primary">
                     <content></content>
                 </div>
-                <div secondary hidden$="[[!isEditorOpen]]">
+                <div id="secondary" secondary hidden$="[[!isEditorOpen]]">
                     <iron-icon id="globalPriorityIcon" icon="star" hidden$="[[!isGlobalPriority]]"></iron-icon>
                     <paper-tooltip for="globalPriorityIcon" position="right">Global Priority</paper-tooltip>
                     <span id="priority">[[computePriority(modPriority)]]</span>
