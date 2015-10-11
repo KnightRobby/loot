@@ -85,12 +85,12 @@
                     <span id="priority">[[computePriority(modPriority)]]</span>
                 </div>
             </paper-item-body>
+            <paper-tooltip for="editorIsOpen" position="left">Editor Is Open</paper-tooltip>
+            <paper-tooltip for="hasUserEdits" position="left">Has User Metadata</paper-tooltip>
             <div id="flipper" class="[[computeFlipperClass(isEditorOpen)]]">
                 <iron-icon id="editorIsOpen" icon="create"></iron-icon>
                 <iron-icon id="hasUserEdits" icon="account-circle" hidden$="[[!hasUserEdits]]"></iron-icon>
             </div>
-            <paper-tooltip for="editorIsOpen" position="left">Editor Is Open</paper-tooltip>
-            <paper-tooltip for="hasUserEdits" position="left">Has User Metadata</paper-tooltip>
         </paper-item>
     </template>
     <script>
