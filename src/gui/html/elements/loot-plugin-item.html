@@ -81,7 +81,7 @@
                 <div id="secondary" secondary hidden$="[[!isEditorOpen]]">
                     <iron-icon id="globalPriorityIcon" icon="star" hidden$="[[!isGlobalPriority]]"></iron-icon>
                     <paper-tooltip for="globalPriorityIcon" position="right">Global Priority</paper-tooltip>
-                    <span id="priority">[[computePriority(modPriority)]]</span>
+                    <span id="priority">[[priority]]</span>
                 </div>
             </paper-item-body>
             <paper-tooltip for="editorIsOpen" position="left">Editor Is Open</paper-tooltip>
@@ -96,8 +96,8 @@
     Polymer({
         is: 'loot-plugin-item',
         properties: {
-            modPriority: {
-                type: Number,
+            priority: {
+                type: String,
                 reflectToAttribute: true,
             },
             isGlobalPriority: {
@@ -112,14 +112,6 @@
                 type: Boolean,
                 reflectToAttribute: true,
             },
-        },
-
-        computePriority: function(modPriority) {
-            if (modPriority) {
-                return modPriority;
-            } else {
-                return '';
-            }
         },
 
         computeFlipperClass: function(isEditorOpen) {
