@@ -129,7 +129,7 @@
                 </paper-tabs>
             </paper-toolbar>
             <iron-pages selected="cardsNav" attr-for-selected="id">
-                <iron-list id="cardsNav" class="tab-content">
+                <iron-list id="cardsNav">
                     <template>
                         <loot-plugin-item data-id="[[item.id]]"
                                           data-index="[[index]]"
@@ -140,7 +140,7 @@
                     </template>
                     <!-- Generated <loot-plugin-item> elements go here. -->
                 </iron-list>
-                <div id="filters" class="tab-content">
+                <div id="filters">
                     <paper-checkbox id="hideVersionNumbers" data-class="version">Hide version numbers</paper-checkbox>
                     <paper-checkbox id="hideCRCs" data-class="crc">Hide CRCs</paper-checkbox>
                     <paper-checkbox id="hideBashTags" data-class="tag">Hide Bash Tags</paper-checkbox>
