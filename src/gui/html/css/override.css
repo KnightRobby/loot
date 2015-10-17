@@ -1,0 +1,4 @@
+/* Styling that goes against the Material Design guidelines. */
+paper-toolbar::shadow .toolbar-tools {
+    height: 56px;
+}

@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="css/typography.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/material.css" />
+    <link rel="stylesheet" href="css/override.css" />
 
     <script>
     window.Polymer = window.Polymer || {};
@@ -80,6 +81,11 @@
         #settingsDialog > paper-dialog-scrollable > div > div {
             @apply(--layout-horizontal);
             @apply(--layout-center);
+        }
+        paper-toolbar {
+            --paper-toolbar: {
+              height: 56px;
+            };
         }
 
         /* Paper element styling.
