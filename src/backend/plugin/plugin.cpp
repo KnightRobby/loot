@@ -107,7 +107,6 @@ namespace loot {
             if (!headerOnly) {
                 BOOST_LOG_TRIVIAL(trace) << name << ": Caching CRC value.";
                 crc = loader.Crc();
-                game.CacheCrc(name, crc);
             }
 
             BOOST_LOG_TRIVIAL(trace) << name << ": Counting override FormIDs.";
