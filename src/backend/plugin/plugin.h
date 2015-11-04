@@ -53,7 +53,7 @@ namespace loot {
         size_t NumOverrideFormIDs() const;
 
         bool LoadsBSA(const Game& game) const;
-        bool IsActive(const Game& game) const;
+        bool IsActive() const;
 
         //Compare name strings.
         bool operator == (const Plugin& rhs) const;
@@ -68,6 +68,7 @@ namespace loot {
         static bool IsValid(const std::string& filename, const Game& game);
     private:
         bool _isEmpty;  // Does the plugin contain any records other than the TES4 header?
+        bool _isActive;
         std::vector<std::string> masters;
         std::set<FormID> formIDs;
         std::string version;  //Obtained from description field.

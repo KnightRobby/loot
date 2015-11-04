@@ -354,7 +354,7 @@ namespace loot {
                 }
                 size_t i = 0;
                 for (const auto& plugin : plugins) {
-                    if (Plugin(plugin).IsActive(_lootState.CurrentGame())) {
+                    if (Plugin(plugin).IsActive()) {
                         ss << setw(decLength) << i << " " << hex << setw(2) << i << dec << " ";
                         ++i;
                     }
@@ -640,9 +640,6 @@ namespace loot {
             // First clear CRC and condition caches, otherwise they could lead to incorrect evaluations.
             _lootState.CurrentGame().ClearCache();
 
-            // Also refresh active plugins list.
-            _lootState.CurrentGame().RefreshActivePluginsList();
-
             bool isFirstLoad = _lootState.CurrentGame().plugins.empty();
             _lootState.CurrentGame().LoadPlugins(true);
 
@@ -739,7 +736,7 @@ namespace loot {
 
                 pluginNode["__type"] = "Plugin";  // For conversion back into a JS typed object.
                 pluginNode["name"] = plugin.Name();
-                pluginNode["isActive"] = plugin.IsActive(_lootState.CurrentGame());
+                pluginNode["isActive"] = plugin.IsActive();
                 pluginNode["isEmpty"] = plugin.IsEmpty();
                 pluginNode["isMaster"] = plugin.IsMaster();
                 pluginNode["loadsBSA"] = plugin.LoadsBSA(_lootState.CurrentGame());
