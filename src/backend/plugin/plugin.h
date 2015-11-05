@@ -42,7 +42,7 @@ namespace loot {
     public:
         Plugin();
         Plugin(const std::string& name);
-        Plugin(Game& game, const std::string& name, const bool headerOnly);
+        Plugin(const Game& game, const std::string& name, const bool headerOnly);
 
         const std::set<FormID>& FormIDs() const;
         std::vector<std::string> Masters() const;

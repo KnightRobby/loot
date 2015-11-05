@@ -94,7 +94,7 @@ namespace loot {
 
     Plugin::Plugin(const std::string& n) : PluginMetadata(n), _isEmpty(true), _isActive(false), isMaster(false), crc(0), numOverrideRecords(0) {}
 
-    Plugin::Plugin(loot::Game& game, const std::string& n, const bool headerOnly)
+    Plugin::Plugin(const Game& game, const std::string& n, const bool headerOnly)
         : PluginMetadata(n), _isEmpty(true), _isActive(false), isMaster(false), crc(0), numOverrideRecords(0) {
         try {
             PluginLoader loader;
