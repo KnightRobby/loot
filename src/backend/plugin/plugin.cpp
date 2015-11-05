@@ -216,18 +216,26 @@ namespace loot {
 
     bool Plugin::IsValid(const std::string& filename, const Game& game) {
         BOOST_LOG_TRIVIAL(trace) << "Checking to see if \"" << filename << "\" is a valid plugin.";
+
+        //If the filename passed ends in '.ghost', that should be trimmed.
+        std::string name;
+        if (boost::iends_with(filename, ".ghost"))
+            name = filename.substr(0, filename.length() - 6);
+        else
+            name = filename;
+
         // Rather than just checking the extension, try also parsing the file header, and see if it fails.
-        if (!boost::iends_with(filename, ".esm") && !boost::iends_with(filename, ".esp")) {
+        if (!boost::iends_with(name, ".esm") && !boost::iends_with(name, ".esp")) {
             return false;
         }
 
         try {
             PluginLoader loader;
-            loader.Load(game, filename, true, true);
+            loader.Load(game, name, true, true);
             return true;
         }
         catch (std::exception& /*e*/) {
-            BOOST_LOG_TRIVIAL(warning) << "The .es(p|m) file \"" << filename << "\" is not a valid plugin.";
+            BOOST_LOG_TRIVIAL(warning) << "The .es(p|m) file \"" << name << "\" is not a valid plugin.";
             return false;
         }
         return true;
