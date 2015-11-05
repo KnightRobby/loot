@@ -104,14 +104,17 @@ TEST_F(Plugin, LoadsBSA) {
     game.SetGamePath(dataPath.parent_path());
     ASSERT_NO_THROW(game.Init(false, localPath));
 
-    loot::Plugin plugin("Blank - Different.esm");
-    EXPECT_FALSE(plugin.LoadsBSA(game));
+    loot::Plugin plugin("Blank.esm");
+    EXPECT_FALSE(plugin.LoadsBSA());
 
-    plugin = loot::Plugin("Blank\\.esm");
-    EXPECT_FALSE(plugin.LoadsBSA(game));
+    plugin = loot::Plugin(game, "Blank.esm", true);
+    EXPECT_TRUE(plugin.LoadsBSA());
 
-    plugin = loot::Plugin("Blank.esm");
-    EXPECT_TRUE(plugin.LoadsBSA(game));
+    plugin = loot::Plugin(game, "Blank - Different.esm", true);
+    EXPECT_FALSE(plugin.LoadsBSA());
+
+    plugin = loot::Plugin(game, "Blank\\.esm", true);
+    EXPECT_FALSE(plugin.LoadsBSA());
 }
 
 TEST_F(Plugin, IsValid) {
