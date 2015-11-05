@@ -129,10 +129,10 @@ TEST_F(Plugin, IsActive) {
     game.SetGamePath(dataPath.parent_path());
     ASSERT_NO_THROW(game.Init(false, localPath));
 
-    loot::Plugin plugin("Blank.esm");
+    loot::Plugin plugin(game, "Blank.esm", true);
     EXPECT_TRUE(plugin.IsActive());
 
-    plugin = loot::Plugin("Blank.esp");
+    plugin = loot::Plugin(game, "Blank.esp", true);
     EXPECT_FALSE(plugin.IsActive());
 }
 

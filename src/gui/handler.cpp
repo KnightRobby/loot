@@ -354,7 +354,7 @@ namespace loot {
                 }
                 size_t i = 0;
                 for (const auto& plugin : plugins) {
-                    if (Plugin(plugin).IsActive()) {
+                    if (Plugin(_lootState.CurrentGame(), plugin, true).IsActive()) {
                         ss << setw(decLength) << i << " " << hex << setw(2) << i << dec << " ";
                         ++i;
                     }

@@ -269,7 +269,7 @@ namespace loot {
                         BOOST_LOG_TRIVIAL(error) << "\"" << name << "\" requires \"" << master << "\", but it is missing.";
                         messages.push_back(Message(Message::error, (boost::format(boost::locale::translate("This plugin requires \"%1%\" to be installed, but it is missing.")) % master).str()));
                     }
-                    else if (!Plugin(master).IsActive()) {
+                    else if (!Plugin(game, master, true).IsActive()) {
                         BOOST_LOG_TRIVIAL(error) << "\"" << name << "\" requires \"" << master << "\", but it is inactive.";
                         messages.push_back(Message(Message::error, (boost::format(boost::locale::translate("This plugin requires \"%1%\" to be active, but it is inactive.")) % master).str()));
                     }
@@ -283,7 +283,7 @@ namespace loot {
                 }
             }
             for (const auto &inc : incompatibilities) {
-                if (pluginExists(game, inc.Name()) && Plugin(inc.Name()).IsActive()) {
+                if (pluginExists(game, inc.Name()) && Plugin(game, inc.Name(), true).IsActive()) {
                     BOOST_LOG_TRIVIAL(error) << "\"" << name << "\" is incompatible with \"" << inc.Name() << "\", but both are present.";
                     messages.push_back(loot::Message(Message::error, (boost::format(boost::locale::translate("This plugin is incompatible with \"%1%\", but both are present.")) % inc.Name()).str()));
                 }
