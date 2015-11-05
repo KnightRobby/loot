@@ -90,12 +90,12 @@ namespace loot {
         regex(regex7, regex::ECMAScript | regex::icase)
     });
 
-    Plugin::Plugin() : PluginMetadata(), _isEmpty(true), _isActive(false), isMaster(false), crc(0), numOverrideRecords(0) {}
+    Plugin::Plugin() : PluginMetadata(), _isEmpty(true), _isActive(false), _loadsBsa(false), isMaster(false), crc(0), numOverrideRecords(0) {}
 
-    Plugin::Plugin(const std::string& n) : PluginMetadata(n), _isEmpty(true), _isActive(false), isMaster(false), crc(0), numOverrideRecords(0) {}
+    Plugin::Plugin(const std::string& n) : PluginMetadata(n), _isEmpty(true), _isActive(false), _loadsBsa(false), isMaster(false), crc(0), numOverrideRecords(0) {}
 
     Plugin::Plugin(const Game& game, const std::string& n, const bool headerOnly)
-        : PluginMetadata(n), _isEmpty(true), _isActive(false), isMaster(false), crc(0), numOverrideRecords(0) {
+        : PluginMetadata(n), _isEmpty(true), _isActive(false), _loadsBsa(false), isMaster(false), crc(0), numOverrideRecords(0) {
         try {
             PluginLoader loader;
             loader.Load(game, name, headerOnly, false);
@@ -150,6 +150,22 @@ namespace loot {
 
             // Get whether the plugin is active or not.
             _isActive = game.IsPluginActive(name);
+
+            // Get whether the plugin loads a BSA or not.
+            if (game.Id() == Game::tes5) {
+                // Skyrim plugins only load BSAs that exactly match their basename.
+                _loadsBsa = boost::filesystem::exists(game.DataPath() / (name.substr(0, name.length() - 3) + "bsa"));
+            }
+            else if (game.Id() != Game::tes4 || boost::iends_with(name, ".esp")) {
+                //Oblivion .esp files and FO3, FNV plugins can load BSAs which begin with the plugin basename.
+                string basename = name.substr(0, name.length() - 4);
+                for (boost::filesystem::directory_iterator it(game.DataPath()); it != boost::filesystem::directory_iterator(); ++it) {
+                    if (it->path().extension().string() == ".bsa" && boost::istarts_with(it->path().filename().string(), basename)) {
+                        _loadsBsa = true;
+                        break;
+                    }
+                }
+            }
         }
         catch (std::exception& e) {
             BOOST_LOG_TRIVIAL(error) << "Cannot read plugin file \"" << name << "\". Details: " << e.what();
@@ -298,23 +314,7 @@ namespace loot {
         return !_dirtyInfo.empty();
     }
 
-    bool Plugin::LoadsBSA(const Game& game) const {
-        if (IsRegexPlugin())
-            return false;
-        if (game.Id() == Game::tes5) {
-            // Skyrim plugins only load BSAs that exactly match their basename.
-            return boost::filesystem::exists(game.DataPath() / (name.substr(0, name.length() - 3) + "bsa"));
-        }
-        else {
-            //Oblivion .esp files and FO3, FNV plugins can load BSAs which begin with the plugin basename.
-            if (game.Id() != Game::tes4 || boost::iends_with(name, ".esp")) {
-                string basename = name.substr(0, name.length() - 4);
-                for (boost::filesystem::directory_iterator it(game.DataPath()); it != boost::filesystem::directory_iterator(); ++it) {
-                    if (it->path().extension().string() == ".bsa" && boost::istarts_with(it->path().filename().string(), basename))
-                        return true;
-                }
-            }
-            return false;
-        }
+    bool Plugin::LoadsBSA() const {
+        return _loadsBsa;
     }
 }
