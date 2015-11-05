@@ -214,20 +214,20 @@ namespace loot {
         return _isEmpty;
     }
 
-    bool Plugin::IsValid(const Game& game) const {
-        BOOST_LOG_TRIVIAL(trace) << "Checking to see if \"" << name << "\" is a valid plugin.";
+    bool Plugin::IsValid(const std::string& filename, const Game& game) {
+        BOOST_LOG_TRIVIAL(trace) << "Checking to see if \"" << filename << "\" is a valid plugin.";
         // Rather than just checking the extension, try also parsing the file header, and see if it fails.
-        if (!boost::iends_with(name, ".esm") && !boost::iends_with(name, ".esp")) {
+        if (!boost::iends_with(filename, ".esm") && !boost::iends_with(filename, ".esp")) {
             return false;
         }
 
         try {
             PluginLoader loader;
-            loader.Load(game, name, true, true);
+            loader.Load(game, filename, true, true);
             return true;
         }
         catch (std::exception& /*e*/) {
-            BOOST_LOG_TRIVIAL(warning) << "The .es(p|m) file \"" << name << "\" is not a valid plugin.";
+            BOOST_LOG_TRIVIAL(warning) << "The .es(p|m) file \"" << filename << "\" is not a valid plugin.";
             return false;
         }
         return true;
