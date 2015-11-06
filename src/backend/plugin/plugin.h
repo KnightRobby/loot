@@ -41,7 +41,6 @@ namespace loot {
     class Plugin : public PluginMetadata {
     public:
         Plugin();
-        Plugin(const std::string& name);
         Plugin(const Game& game, const std::string& name, const bool headerOnly);
 
         const std::set<FormID>& FormIDs() const;

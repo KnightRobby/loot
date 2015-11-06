@@ -28,7 +28,18 @@ along with LOOT.  If not, see
 #include "backend/plugin/plugin.h"
 #include "tests/fixtures.h"
 
-class Plugin : public SkyrimTest {};
+class Plugin : public SkyrimTest {
+protected:
+    inline virtual void SetUp() {
+        SkyrimTest::SetUp();
+
+        game = loot::Game(loot::Game::tes5);
+        game.SetGamePath(dataPath.parent_path());
+        ASSERT_NO_THROW(game.Init(false, localPath));
+    }
+
+    loot::Game game;
+};
 
 TEST_F(Plugin, ConstructorsAndDataAccess) {
     loot::Plugin plugin;
@@ -39,19 +50,6 @@ TEST_F(Plugin, ConstructorsAndDataAccess) {
     EXPECT_TRUE(plugin.IsEmpty());
     EXPECT_EQ("", plugin.Version());
     EXPECT_EQ(0, plugin.Crc());
-
-    plugin = loot::Plugin("Blank.esm");
-    EXPECT_EQ("Blank.esm", plugin.Name());
-    EXPECT_TRUE(plugin.FormIDs().empty());
-    EXPECT_TRUE(plugin.Masters().empty());
-    EXPECT_FALSE(plugin.IsMaster());
-    EXPECT_TRUE(plugin.IsEmpty());
-    EXPECT_EQ("", plugin.Version());
-    EXPECT_EQ(0, plugin.Crc());
-
-    loot::Game game(loot::Game::tes5);
-    game.SetGamePath(dataPath.parent_path());
-    ASSERT_NO_THROW(game.Init(false, localPath));
 
     plugin = loot::Plugin(game, "Blank.esm", true);
     EXPECT_EQ("Blank.esm", plugin.Name());
@@ -100,11 +98,7 @@ TEST_F(Plugin, ConstructorsAndDataAccess) {
 }
 
 TEST_F(Plugin, LoadsBSA) {
-    loot::Game game(loot::Game::tes5);
-    game.SetGamePath(dataPath.parent_path());
-    ASSERT_NO_THROW(game.Init(false, localPath));
-
-    loot::Plugin plugin("Blank.esm");
+    loot::Plugin plugin;
     EXPECT_FALSE(plugin.LoadsBSA());
 
     plugin = loot::Plugin(game, "Blank.esm", true);
@@ -118,20 +112,12 @@ TEST_F(Plugin, LoadsBSA) {
 }
 
 TEST_F(Plugin, IsValid) {
-    loot::Game game(loot::Game::tes5);
-    game.SetGamePath(dataPath.parent_path());
-    ASSERT_NO_THROW(game.Init(false, localPath));
-
     EXPECT_TRUE(loot::Plugin::IsValid("Blank.esm", game));
     EXPECT_FALSE(loot::Plugin::IsValid("NotAPlugin.esm", game));
     EXPECT_FALSE(loot::Plugin::IsValid("EmptyFile.esm", game));
 }
 
 TEST_F(Plugin, IsActive) {
-    loot::Game game(loot::Game::tes5);
-    game.SetGamePath(dataPath.parent_path());
-    ASSERT_NO_THROW(game.Init(false, localPath));
-
     loot::Plugin plugin(game, "Blank.esm", true);
     EXPECT_TRUE(plugin.IsActive());
 
@@ -144,33 +130,28 @@ TEST_F(Plugin, EqualityOperator) {
     EXPECT_TRUE(plugin1 == plugin2);
     EXPECT_TRUE(plugin2 == plugin1);
 
-    plugin1 = loot::Plugin("Blank.esm");
-    plugin2 = loot::Plugin("blank.esm");
+    plugin1 = loot::Plugin(game, "Blank.esm", true);
+    plugin2 = loot::Plugin(game, "blank.esm", true);
     EXPECT_TRUE(plugin1 == plugin2);
     EXPECT_TRUE(plugin2 == plugin1);
 
-    plugin1 = loot::Plugin("Blank.esm");
-    plugin2 = loot::Plugin("Blank.esp");
+    plugin2 = loot::Plugin(game, "Blank.esp", true);
     EXPECT_FALSE(plugin1 == plugin2);
     EXPECT_FALSE(plugin2 == plugin1);
 
-    plugin1 = loot::Plugin("Blank.esm");
-    plugin2 = loot::Plugin("Blan.\\.esm");
+    plugin2 = loot::Plugin(game, "Blan.\\.esm", true);
     EXPECT_TRUE(plugin1 == plugin2);
     EXPECT_TRUE(plugin2 == plugin1);
 
-    plugin1 = loot::Plugin("Blan.esm");
-    plugin2 = loot::Plugin("Blan.\\.esm");
+    plugin1 = loot::Plugin(game, "Blan.esm", true);
     EXPECT_FALSE(plugin1 == plugin2);
     EXPECT_FALSE(plugin2 == plugin1);
 
-    plugin1 = loot::Plugin("Blan.\\.esm");
-    plugin2 = loot::Plugin("Blan.\\.esm");
+    plugin1 = loot::Plugin(game, "Blan.\\.esm", true);
     EXPECT_TRUE(plugin1 == plugin2);
     EXPECT_TRUE(plugin2 == plugin1);
 
-    plugin1 = loot::Plugin("Blan(k|p).esm");
-    plugin2 = loot::Plugin("Blan.\\.esm");
+    plugin1 = loot::Plugin(game, "Blan(k|p).esm", true);
     EXPECT_FALSE(plugin1 == plugin2);
     EXPECT_FALSE(plugin2 == plugin1);
 }
@@ -180,42 +161,33 @@ TEST_F(Plugin, InequalityOperator) {
     EXPECT_FALSE(plugin1 != plugin2);
     EXPECT_FALSE(plugin2 != plugin1);
 
-    plugin1 = loot::Plugin("Blank.esm");
-    plugin2 = loot::Plugin("blank.esm");
+    plugin1 = loot::Plugin(game, "Blank.esm", true);
+    plugin2 = loot::Plugin(game, "blank.esm", true);
     EXPECT_FALSE(plugin1 != plugin2);
     EXPECT_FALSE(plugin2 != plugin1);
 
-    plugin1 = loot::Plugin("Blank.esm");
-    plugin2 = loot::Plugin("Blank.esp");
+    plugin2 = loot::Plugin(game, "Blank.esp", true);
     EXPECT_TRUE(plugin1 != plugin2);
     EXPECT_TRUE(plugin2 != plugin1);
 
-    plugin1 = loot::Plugin("Blank.esm");
-    plugin2 = loot::Plugin("Blan.\\.esm");
+    plugin2 = loot::Plugin(game, "Blan.\\.esm", true);
     EXPECT_FALSE(plugin1 != plugin2);
     EXPECT_FALSE(plugin2 != plugin1);
 
-    plugin1 = loot::Plugin("Blan.esm");
-    plugin2 = loot::Plugin("Blan.\\.esm");
+    plugin1 = loot::Plugin(game, "Blan.esm", true);
     EXPECT_TRUE(plugin1 != plugin2);
     EXPECT_TRUE(plugin2 != plugin1);
 
-    plugin1 = loot::Plugin("Blan.\\.esm");
-    plugin2 = loot::Plugin("Blan.\\.esm");
+    plugin1 = loot::Plugin(game, "Blan.\\.esm", true);
     EXPECT_FALSE(plugin1 != plugin2);
     EXPECT_FALSE(plugin2 != plugin1);
 
-    plugin1 = loot::Plugin("Blan(k|p).esm");
-    plugin2 = loot::Plugin("Blan.\\.esm");
+    plugin1 = loot::Plugin(game, "Blan(k|p).esm", true);
     EXPECT_TRUE(plugin1 != plugin2);
     EXPECT_TRUE(plugin2 != plugin1);
 }
 
 TEST_F(Plugin, DoFormIDsOverlap) {
-    loot::Game game(loot::Game::tes5);
-    game.SetGamePath(dataPath.parent_path());
-    ASSERT_NO_THROW(game.Init(false, localPath));
-
     loot::Plugin plugin1, plugin2;
     EXPECT_FALSE(plugin1.DoFormIDsOverlap(plugin2));
     EXPECT_FALSE(plugin2.DoFormIDsOverlap(plugin1));
@@ -237,10 +209,6 @@ TEST_F(Plugin, DoFormIDsOverlap) {
 }
 
 TEST_F(Plugin, OverlapFormIDs) {
-    loot::Game game(loot::Game::tes5);
-    game.SetGamePath(dataPath.parent_path());
-    ASSERT_NO_THROW(game.Init(false, localPath));
-
     loot::Plugin plugin1, plugin2;
     EXPECT_TRUE(plugin1.OverlapFormIDs(plugin2).empty());
     EXPECT_TRUE(plugin2.OverlapFormIDs(plugin1).empty());
@@ -272,10 +240,6 @@ TEST_F(Plugin, OverlapFormIDs) {
 }
 
 TEST_F(Plugin, CheckInstallValidity) {
-    loot::Game game(loot::Game::tes5);
-    game.SetGamePath(dataPath.parent_path());
-    ASSERT_NO_THROW(game.Init(false, localPath));
-
     loot::Plugin plugin;
     EXPECT_FALSE(plugin.CheckInstallValidity(game));
     EXPECT_TRUE(plugin.Messages().empty());
@@ -308,7 +272,7 @@ TEST_F(Plugin, CheckInstallValidity) {
         loot::Message(loot::Message::error, "This plugin requires \"Blank - Different.esm\" to be active, but it is inactive."),
     }), plugin.Messages());
 
-    plugin = loot::Plugin("Blank - Different Master Dependent.esp");
+    plugin = loot::Plugin(game, "Blank - Different Master Dependent.esp", false);
     plugin.Tags({loot::Tag("Filter")});
     EXPECT_FALSE(plugin.CheckInstallValidity(game));
     EXPECT_TRUE(plugin.Messages().empty());

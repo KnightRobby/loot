@@ -114,21 +114,25 @@ namespace loot {
     void Game::LoadPlugins(bool headersOnly) {
         uintmax_t meanFileSize = 0;
         multimap<uintmax_t, string> sizeMap;
+        unordered_map<string, string> nameMap;
 
         // First find out how many plugins there are, and their sizes.
         BOOST_LOG_TRIVIAL(trace) << "Scanning for plugins in " << this->DataPath();
         for (fs::directory_iterator it(this->DataPath()); it != fs::directory_iterator(); ++it) {
             if (fs::is_regular_file(it->status()) && Plugin::IsValid(it->path().filename().string(), *this)) {
-                Plugin temp(it->path().filename().string());
-                BOOST_LOG_TRIVIAL(info) << "Found plugin: " << temp.Name();
+                string name = it->path().filename().string();
+                BOOST_LOG_TRIVIAL(info) << "Found plugin: " << name;
 
                 uintmax_t fileSize = fs::file_size(it->path());
                 meanFileSize += fileSize;
 
                 //Insert the lowercased name as a key for case-insensitive matching.
-                string name = boost::locale::to_lower(temp.Name());
-                plugins.insert(pair<string, Plugin>(name, temp));
-                sizeMap.insert(pair<uintmax_t, string>(fileSize, name));
+                string lowercasedName = boost::locale::to_lower(name);
+                plugins.emplace(lowercasedName, Plugin());
+                sizeMap.emplace(fileSize, name);
+
+                // Map the lowercased name to the original name for when the plugin is loaded.
+                nameMap.emplace(lowercasedName, name);
             }
         }
         meanFileSize /= sizeMap.size();  //Rounding error, but not important.
@@ -159,18 +163,11 @@ namespace loot {
         vector<thread> threads;
         while (threads.size() < threadsToUse) {
             vector<unordered_map<string, Plugin>::iterator>& pluginGroup = pluginGroups[threads.size()];
-            threads.push_back(thread([this, &pluginGroup, headersOnly]() {
+            threads.push_back(thread([&]() {
                 for (auto it : pluginGroup) {
-                    BOOST_LOG_TRIVIAL(trace) << "Loading " << it->second.Name();
-                    try {
-                        it->second = Plugin(*this, it->second.Name(), headersOnly);
-                    }
-                    catch (exception &e) {
-                        BOOST_LOG_TRIVIAL(error) << it->second.Name() << ": Exception occurred: " << e.what();
-                        Plugin p(it->second.Name());
-                        p.Messages(list<Message>(1, Message(Message::error, lc::translate("An exception occurred while loading this plugin. Details:").str() + " " + e.what())));
-                        it->second = p;
-                    }
+                    string name = nameMap.find(it->first)->second;
+                    BOOST_LOG_TRIVIAL(trace) << "Loading " << name;
+                    it->second = Plugin(*this, name, headersOnly);
                 }
             }));
         }
